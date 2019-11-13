@@ -72,8 +72,8 @@ rule get_url:
         rules.split_intervals.output
     params:
         pid=PID,
-        tumor=lambda wildcards: df.loc[df["pid"] == wildcards.pid, "tumor"],
-        normal=lambda wildcards: df.loc[df["pid"] == wildcards.pid, "normal"],
+        tumor=lambda wildcards: df.loc[df["pid"] == wildcards.pid, ["tumor"]],
+        normal=lambda wildcards: df.loc[df["pid"] == wildcards.pid, ["normal"]],
         credential = config["credential"]
     output:
         expand("{{pid}}/{type}_url.txt", type=TYPES)
