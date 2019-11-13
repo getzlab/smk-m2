@@ -63,7 +63,7 @@ rule split_intervals:
         gatk SplitIntervals \
             -R {params.ref} -L {params.wes} \
             --scatter-count {params.pieces} \
-            -O {output[0]}
+            -O {output[0]} &> {log}
         """
 
 # get signed url from nci-data-commons
@@ -101,15 +101,15 @@ rule localize_with_name:
         "{wildcards.pid} - {wildcards.type} is being localized and annotated with file name"
     shell:
         """
-        cat {input.url}
+        cat {input.url} &> {log}
 	echo --------------
-        wget "$(cat {input.url})" -O {output.bam}
-        gatk BuildBamIndex -I {output.bam} -O {output.bai}
+        wget "$(cat {input.url})" -O {output.bam} &>> {log}
+        gatk BuildBamIndex -I {output.bam} -O {output.bai} &>> {log}
         
-        [ gsutil -q stat gs://{params.bucket}/{output.gs_bai} ] && gsutil cp {output.bai} gs://{params.bucket}/{output.gs_bai}
+        [ gsutil -q stat gs://{params.bucket}/{output.gs_bai} ] && gsutil cp {output.bai} gs://{params.bucket}/{output.gs_bai} &>> {log}
         
-        gatk GetSampleName -R {params.ref} -I {output.bam} -O {output.sample_name}
-        cat {output.sample_name}
+        gatk GetSampleName -R {params.ref} -I {output.bam} -O {output.sample_name} &>> {log}
+        cat {output.sample_name} &>> {log}
         """
 
 # run M2 on tumor-normal pairs for 
@@ -130,7 +130,7 @@ rule scatter_m2:
         out_npile="{pid}/npile_dir/{chr}-npile.table",
         out_f1r2="{pid}/f1r2/{chr}-f1r2.tar.gz",
         out_vcf="{pid}/subvcfs/{chr}.vcf",
-        out_stats="{pid}/subvcfs/{chr}.stats"
+        out_stats="{pid}/subvcfs/{chr}.vcf.stats"
         
     shell:
         """
@@ -153,7 +153,7 @@ rule scatter_m2:
             -pon {params.default_pon} \
             -L  $interval_file \
             -O {output.out_vcf} \
-            --f1r2-tar-gz {output.out_f1r2}
+            --f1r2-tar-gz {output.out_f1r2} &> {log}
         
         echo finish Mutect2 --------------------
 
@@ -163,7 +163,7 @@ rule scatter_m2:
             -L $interval_file \
             -V {params.vfc} \
             -L {params.vfc} \
-            -O {output.out_tpile}
+            -O {output.out_tpile} &>> {log}
         echo Getpiles tumor --------------------
 
         $gatkm GetPileupSummaries \
@@ -172,7 +172,7 @@ rule scatter_m2:
             -L $interval_file \
             -V {params.vfc} \
             -L {params.vfc} \
-            -O {output.out_npile}
+            -O {output.out_npile} &>> {log}
         echo Getpiles normal ------------------
 
         """
@@ -184,11 +184,9 @@ rule check_all_intervals:
         expand("{{pid}}/npile_dir/{chr}-npile.table", chr=SUBINTS),
         expand("{{pid}}/f1r2/{chr}-f1r2.tar.gz", chr=SUBINTS),
         expand("{{pid}}/subvcfs/{chr}.vcf", chr=SUBINTS),
-        expand("{{pid}}/subvcfs/{chr}.stats", chr=SUBINTS)
+        expand("{{pid}}/subvcfs/{chr}.vcf.stats", chr=SUBINTS)
     output:
         touch("{pid}/flag")
-    log:
-        "logs/check_all_chrs/{pid}.log"
     shell:
         """
         echo "scatter finished" > {output}
@@ -223,29 +221,30 @@ rule calculate_contamination:
         $gatkm GatherPileupSummaries \
             -I {params.all_normal_piles_input} \
             --sequence-dictionary {params.ref_dict} \
-            -O {output.normal_pile_table}
+            -O {output.normal_pile_table} &> {log}
 
         echo "-----------------------gather tumor piles-----------------------"
         $gatkm GatherPileupSummaries \
             -I {params.all_tumor_piles_input} \
             --sequence-dictionary {params.ref_dict} \
-            -O {output.tumor_pile_table}
+            -O {output.tumor_pile_table} &>> {log}
 
         echo "-----------------------calc contamination-----------------------"
         $gatkm CalculateContamination \
             -I {input.tumor_pile_table} \
             -O {output.contamination_table} \
             --tumor-segmentation {output.segments_table} \
-            -matched {output.normal_pile_table}
+            -matched {output.normal_pile_table} &>> {log}
         """
 
 
 
 rule merge_m2:
+    priority: 10
     input:
         vcf=expand("{{pid}}/subvcfs/{chr}.vcf", chr=SUBINTS),
         f1r2=expand("{{pid}}/f1r2/{chr}-f1r2.tar.gz", chr=SUBINTS),
-        stats=expand("{{pid}}/subvcfs/{chr}.stats", chr=SUBINTS),
+        stats=expand("{{pid}}/subvcfs/{chr}.vcf.stats", chr=SUBINTS),
         contamination_table="{pid}/contamination.table",
         segments_table="{pid}/segments.table"
     params:
@@ -272,17 +271,17 @@ rule merge_m2:
         echo "-----------------------learn read orientation model-----------------------"
         $gatkm LearnReadOrientationModel \
             -I {params.all_f1r2_input} \
-            -O {output.artifact_prior}
+            -O {output.artifact_prior} &> {log}
 
         echo "----------------------- merge vcfs----------------------------"
         $gatkm MergeVcfs \
             {params.all_vcfs_input} \
-            -O {output.merged_unfiltered_vcf}
+            -O {output.merged_unfiltered_vcf} &>> {log}
 
         echo "------------------------merge mutect stats-------------------------------"
         $gatkm MergeMutectStats \
             -stats {params.all_stats_input} \
-            -O {output.merged_stats}
+            -O {output.merged_stats} &>> {log}
 
         echo --------------filter mutect stats ----------------
         $gatkm FilterMutectCalls \
@@ -293,7 +292,7 @@ rule merge_m2:
             --ob-priors {output.artifact_prior} \
             -stats {output.merged_stats} \
             --filtering-stats {output.filtering_stats} \
-            -O {output.merged_filtered_vcf}
+            -O {output.merged_filtered_vcf} &>> {log}
         """
 
 
@@ -312,7 +311,7 @@ rule funcotate:
     message:
         "{wildcards.pid} is being annotated ...."
     log:
-        "logs/funcotate/{pid}"
+        "logs/funcotate/{pid}.log"
     group: "merge"
     shell:
         """
@@ -326,6 +325,6 @@ rule funcotate:
             -V {input.aligned_merged_filtered_vcf} \
             -O {output.annot_merged_filtered_maf} \
             -L {params.interval_list} \
-            --remove-filtered-variants true
+            --remove-filtered-variants true &> {log}
         touch {wildcards.pid}/funco_flag
         """
