@@ -1,2 +1,3 @@
 res/
 .snakemake/
+credentials/*
