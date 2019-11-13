@@ -1,5 +1,5 @@
 import pandas as pd
-
+localrules: all
 
 
 shell.prefix("set -eo pipefail; echo BEGIN at $(date);  ")
@@ -51,7 +51,7 @@ rule split_intervals:
         pieces=config["pieces"],
         wes=config["wes_interval_list"]
     output:
-        config["subint_dir"]
+        directory(config["subint_dir"])
     log:
         "logs/split_interval/log"
     shell:
@@ -71,21 +71,22 @@ rule get_url:
         rules.fs_setup.output,
         rules.split_intervals.output
     params:
-        pid=PID,
-        tumor=lambda wildcards: df.loc[df["pid"] == wildcards.pid, ["tumor"]],
-        normal=lambda wildcards: df.loc[df["pid"] == wildcards.pid, ["normal"]],
+
+        pid=lambda wildcards: wildcards.pid,
+        tumor=lambda wildcards: df.loc[df["pid"] == wildcards.pid, "tumor"].item(),
+        normal=lambda wildcards: df.loc[df["pid"] == wildcards.pid,"normal"].item(),
         credential = config["credential"]
     output:
         expand("{{pid}}/{type}_url.txt", type=TYPES)
     log:
         "logs/get_url/{pid}.log"
     script:
-        "script/localize_from_nci.py"
+        "scripts/localize_from_nci.py"
 
 # localize the signed urls, annotate with sample name
 rule localize_with_name:
     input:
-        url=expand("{{pid}}/{type}_url.txt", type=TYPES),
+        url="{pid}/{type}_url.txt"
     params:
         ref=config["ref"],
         bucket=config["index_bucket"]
@@ -100,7 +101,8 @@ rule localize_with_name:
     shell:
         """
         cat {input.url}
-        wget `cat {input.url}` -O {output.bam}
+	echo --------------
+        wget "$(cat {input.url})" -O {output.bam}
         gatk BuildBamIndex -I {output.bam} -O {output.bai}
         
         [ gsutil -q stat gs://{params.bucket}/{output.bai} ] && gsutil cp {output.bai} gs://{params.bucket}/{wildcards.pid}_{wildcards.type}.bai
@@ -114,8 +116,8 @@ rule scatter:
     input:
         expand("{{pid}}/{type}.bam", type=TYPES)
     params:
+	#pid=lambda wildcards: wildcards.pid ,
         subint_dir=config["subint_dir"],
-        heap_mem=config["scatter_heap_mem"],
         ref=config["ref"],
         vfc=config["vfc"],
         gnomad=config["gnomad"],
@@ -126,12 +128,12 @@ rule scatter:
         out_tpile="{pid}/tpile_dir/{chr}-tpile.table",
         out_npile="{pid}/npile_dir/{chr}-npile.table",
         out_f1r2="{pid}/f1r2/{chr}-f1r2.tar.gz",
-        out_vcfs="{pid}/subvcfs/{chr}.vcf",
+        out_vcf="{pid}/subvcfs/{chr}.vcf",
         out_stats="{pid}/subvcfs/{chr}.stats"
         
-    script:
+    shell:
         """
-        gatkm="gatk --java-options -Xmx{params.heap_mem}g"
+        gatkm="gatk --java-options -Xmx2g"
 
         tumor="{wildcards.pid}/tumor.bam"
         normal="{wildcards.pid}/normal.bam"
