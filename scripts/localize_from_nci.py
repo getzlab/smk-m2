@@ -1,11 +1,7 @@
 import requests
 import json
-<<<<<<< HEAD
-with open("../" + snakemake.params.credential) as json_file: 
-=======
 
 with open("../"+snakemake.params.credential) as json_file: 
->>>>>>> 3f542677d3d9207c610508b69e4de365d4a149a6
          credential = json.load(json_file)
 
 token = requests.post('https://nci-crdc.datacommons.io/user/credentials/api/access_token', 

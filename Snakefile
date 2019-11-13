@@ -1,23 +1,24 @@
 import pandas as pd
-localrules: all
 
+
+####################### shell setup #################
 
 shell.prefix("set -eo pipefail; echo BEGIN at $(date);  ")
 shell.suffix("; exitstat=$?; echo END at $(date); echo exit status was $exitstat; exit $exitstat")
 
-
+####################### external configs ############
 configfile: "config.yaml"
 workdir: "res/"
+# for a local test, will be deleted for cloud mode
+localrules: all
 
+
+####################### global parameters ###########
 # input is paired uuid table from GDC api.
 df = pd.read_csv(config["samples"], sep = "\t")
 PID = (df.cohort + "_" + df.patient).tolist()
 df["pid"] = PID
-
-
 TYPES=["tumor", "normal"]
-
-
 # the subintervals to scatter on
 SUBINTS = ['{:0>4}'.format(i) for i in range(config["pieces"])]
 INTERVALS = ["{}/{}-scattered.interval_list".format(config["subint_dir"],int1) for int1 in SUBINTS]
@@ -26,8 +27,9 @@ INTERVALS = ["{}/{}-scattered.interval_list".format(config["subint_dir"],int1) f
 # all the target files
 rule all:
     input: 
-        expand("{pid}/aligned_merged_filtered.vcf",pid=PID),
-        expand("{pid}/annot_merged_filtered.vcf",pid=PID)
+        expand("{pid}/funco_flag", pid=PID),
+        annot_merged_filtered_maf=expand("{pid}/annot_merged_filtered.vcf", pid=PID),
+        aligned_merged_filtered_vcf=expand("{pid}/aligned_merged_filtered.vcf", pid=PID)
 
 
 # set uo the file structure
@@ -44,7 +46,9 @@ rule fs_setup:
         mkdir -p {params.pid}/f1r2
         touch {params.pid}/fs_flag
         """
+######################## preparation #######################
 
+# split intervals for scattering jobs
 rule split_intervals:
     params:
         ref=config["ref"],
@@ -60,10 +64,7 @@ rule split_intervals:
             -R {params.ref} -L {params.wes} \
             --scatter-count {params.pieces} \
             -O {output[0]}
-
         """
-
-
 
 # get signed url from nci-data-commons
 rule get_url:
@@ -71,8 +72,6 @@ rule get_url:
         rules.fs_setup.output,
         rules.split_intervals.output
     params:
-
-        pid=lambda wildcards: wildcards.pid,
         tumor=lambda wildcards: df.loc[df["pid"] == wildcards.pid, "tumor"].item(),
         normal=lambda wildcards: df.loc[df["pid"] == wildcards.pid,"normal"].item(),
         credential = config["credential"]
@@ -82,6 +81,7 @@ rule get_url:
         "logs/get_url/{pid}.log"
     script:
         "scripts/localize_from_nci.py"
+
 
 # localize the signed urls, annotate with sample name
 rule localize_with_name:
@@ -93,6 +93,7 @@ rule localize_with_name:
     output:
         bam=temp("{pid}/{type}.bam"),
         bai="{pid}/{type}.bai",
+        gs_bai="{pid}_{type}.bai",
         sample_name="{pid}/{type}_name.txt"
     log:
         "logs/localize/{pid}_{type}.log"
@@ -105,14 +106,14 @@ rule localize_with_name:
         wget "$(cat {input.url})" -O {output.bam}
         gatk BuildBamIndex -I {output.bam} -O {output.bai}
         
-        [ gsutil -q stat gs://{params.bucket}/{output.bai} ] && gsutil cp {output.bai} gs://{params.bucket}/{wildcards.pid}_{wildcards.type}.bai
+        [ gsutil -q stat gs://{params.bucket}/{output.gs_bai} ] && gsutil cp {output.bai} gs://{params.bucket}/{output.gs_bai}
         
-        gatk GetSampleName -R {params.ref} -I {output.bam} -O {wildcards.pid}/{wildcards.type}_name.txt
+        gatk GetSampleName -R {params.ref} -I {output.bam} -O {output.sample_name}
         cat {output.sample_name}
         """
 
 # run M2 on tumor-normal pairs for 
-rule scatter:
+rule scatter_m2:
     input:
         expand("{{pid}}/{type}.bam", type=TYPES)
     params:
@@ -154,7 +155,7 @@ rule scatter:
             -O {output.out_vcf} \
             --f1r2-tar-gz {output.out_f1r2}
         
-        echo finish Mutect2 ----------
+        echo finish Mutect2 --------------------
 
         $gatkm GetPileupSummaries \
             -R {params.ref} -I $tumor \
@@ -163,7 +164,7 @@ rule scatter:
             -V {params.vfc} \
             -L {params.vfc} \
             -O {output.out_tpile}
-        echo Getpiles tumor ---------
+        echo Getpiles tumor --------------------
 
         $gatkm GetPileupSummaries \
             -R {params.ref} -I $normal \
@@ -172,17 +173,18 @@ rule scatter:
             -V {params.vfc} \
             -L {params.vfc} \
             -O {output.out_npile}
-        echo Getpiles normal --------
+        echo Getpiles normal ------------------
 
         """
 
+# a checkpoint
 rule check_all_intervals:
     input:
-        #rules.scatter.output
         expand("{{pid}}/tpile_dir/{chr}-tpile.table", chr=SUBINTS),
         expand("{{pid}}/npile_dir/{chr}-npile.table", chr=SUBINTS),
         expand("{{pid}}/f1r2/{chr}-f1r2.tar.gz", chr=SUBINTS),
-        expand("{{pid}}/subvcfs/{chr}.vcf", chr=SUBINTS)
+        expand("{{pid}}/subvcfs/{chr}.vcf", chr=SUBINTS),
+        expand("{{pid}}/subvcfs/{chr}.stats", chr=SUBINTS)
     output:
         touch("{pid}/flag")
     log:
@@ -192,62 +194,31 @@ rule check_all_intervals:
         echo "scatter finished" > {output}
         """
 
-
-rule merge:
+############### merge interval results ###############
+rule calculate_contamination:
     input:
         flag="{pid}/flag",
         tumor_pile_table=expand("{{pid}}/tpile_dir/{chr}-tpile.table", chr=SUBINTS),
-        normal_pile_table=expand("{{pid}}/npile_dir/{chr}-npile.table", chr=SUBINTS),
-        f1r2=expand("{{pid}}/f1r2/{chr}-f1r2.tar.gz", chr=SUBINTS),
-        vcf=expand("{{pid}}/subvcfs/{chr}.vcf", chr=SUBINTS),
-        stats=expand("{{pid}}/subvcfs/{chr}.stats", chr=SUBINTS)
-
+        normal_pile_table=expand("{{pid}}/npile_dir/{chr}-npile.table", chr=SUBINTS)
     params:
-        all_tumor_piles_input= lambda wildcards, input: " -I ".join(input.tumor_pile_table),
-        all_normal_piles_input=lambda wildcards, input: " -I ".join(input.normal_pile_table),
-        all_f1r2_input = lambda wildcards, input: " -I ".join(input.f1r2),
-        
-        all_vcfs_input= lambda wildcards, input: " -I ".join(input.vcf),
-        all_stats_input= lambda wildcards, input: " -stats ".join(input.stats),
-        interval_list=config["wes_interval_list"],
-        heap_mem=config["heapmem"],
-        ref=config["ref"],
+        heap_mem=4,
         ref_dict=config["ref_dict"],
-        data_source_folder=config["onco_folder"]
+        all_tumor_piles_input = lambda wildcards, input: " -I ".join(input.tumor_pile_table),
+        all_normal_piles_input = lambda wildcards, input: " -I ".join(input.normal_pile_table),
     log:
-        "logs/merge/{pid}.log"
+        "logs/contam/{pid}.log"
+    message:
+        "{wildcards.pid} is being estimated for contamination level"
+    group: "merge"
     output:
-        merged_unfiltered_vcf="{pid}/merged_unfiltered.vcf",
-        merged_stats="{pid}/merged_unfiltered.stats",
-        artifact_prior="{pid}/artifact_prior.tar.gz",
         normal_pile_table="{pid}/normal_pile.tsv",
         tumor_pile_table="{pid}/tumor_pile.tsv",
         contamination_table="{pid}/contamination.table",
         segments_table="{pid}/segments.table",
-        filtering_stats="{pid}/filtering.stats",
-        merged_filtered_vcf="{pid}/merged_filtered.vcf",
-        aligned_merged_filtered_vcf="{pid}/aligned_merged_filtered.vcf",
-        annot_merged_filtered_maf="{pid}/annot_merged_filtered.vcf"
-
-
+        artifact_prior="{pid}/artifact_prior.tar.gz"
     shell:
         """
         gatkm="gatk --java-options -Xmx{params.heap_mem}g"
-        echo "----------------------- merge vcfs----------------------------"
-        $gatkm MergeVcfs \
-            {params.all_vcfs_input} \
-            -O {output.merged_unfiltered_vcf}
-
-        echo "------------------------merge mutect stats-------------------------------"
-        $gatkm MergeMutectStats \
-            -stats {params.all_stats_input} \
-            -O {output.merged_stats}
-
-        echo "-----------------------learn read orientation model-----------------------"
-        $gatkm LearnReadOrientationModel \
-            -I {params.all_f1r2_input} \
-            -O {output.artifact_prior}
-
         echo "-----------------------gather pile up summaries-----------------------"
         $gatkm GatherPileupSummaries \
             -I {params.all_normal_piles_input} \
@@ -266,17 +237,95 @@ rule merge:
             -O {output.contamination_table} \
             --tumor-segmentation {output.segments_table} \
             -matched {output.normal_pile_table}
+        """
 
+
+
+rule merge_m2:
+    input:
+        vcf=expand("{{pid}}/subvcfs/{chr}.vcf", chr=SUBINTS),
+        f1r2=expand("{{pid}}/f1r2/{chr}-f1r2.tar.gz", chr=SUBINTS),
+        stats=expand("{{pid}}/subvcfs/{chr}.stats", chr=SUBINTS),
+        contamination_table="{pid}/contamination.table",
+        segments_table="{pid}/segments.table"
+    params:
+        all_vcfs_input= lambda wildcards, input: " -I ".join(input.vcf),
+        all_stats_input= lambda wildcards, input: " -stats ".join(input.stats),
+        all_f1r2_input = lambda wildcards, input: " -I ".join(input.f1r2),
+        ref = config["ref"],
+        heap_mem=4
+    group: "merge"
+    message: 
+        "{wildcards.pid} calls are being merged and filtered"
+    log:
+        "logs/merge_calls/{pid}.log"
+    output:
+        merged_unfiltered_vcf="{pid}/merged_unfiltered.vcf",
+        filtering_stats="{pid}/filtering.stats",
+         merged_stats="{pid}/merged_unfiltered.stats",
+        artifact_prior="{pid}/artifact_prior.tar.gz",
+        merged_filtered_vcf="{pid}/merged_filtered.vcf",
+        aligned_merged_filtered_vcf="{pid}/aligned_merged_filtered.vcf"
+    shell:
+        """
+        gatkm="gatk --java-options -Xmx{params.heap_mem}g"
+        echo "-----------------------learn read orientation model-----------------------"
+        $gatkm LearnReadOrientationModel \
+            -I {params.all_f1r2_input} \
+            -O {output.artifact_prior}
+
+        echo "----------------------- merge vcfs----------------------------"
+        $gatkm MergeVcfs \
+            {params.all_vcfs_input} \
+            -O {output.merged_unfiltered_vcf}
+
+        echo "------------------------merge mutect stats-------------------------------"
+        $gatkm MergeMutectStats \
+            -stats {params.all_stats_input} \
+            -O {output.merged_stats}
+
+        echo --------------filter mutect stats ----------------
+        $gatkm FilterMutectCalls \
+            -V {output.merged_unfiltered_vcf} \
+            -R {params.ref} \
+            --contamination-table {input.contamination_table} \
+            --tumor-segmentation {input.segments_table} \
+            --ob-priors {output.artifact_prior} \
+            -stats {output.merged_stats} \
+            --filtering-stats {output.filtering_stats} \
+            -O {output.merged_filtered_vcf}
+        """
+
+
+
+rule funcotate:
+    input:
+        aligned_merged_filtered_vcf="{pid}/aligned_merged_filtered.vcf"
+    params:
+        data_source_folder=config["onco_folder"],
+        ref=config["ref"],
+        interval_list=config["wes_interval_list"],
+        heap_mem=10
+    output:
+        touch("{pid}/funco_flag"),
+        annot_merged_filtered_maf="{pid}/annot_merged_filtered.vcf"
+    message:
+        "{wildcards.pid} is being annotated ...."
+    log:
+        "logs/funcotate/{pid}"
+    group: "merge"
+    shell:
+        """
+        gatkm="gatk --java-options -Xmx{params.heap_mem}g"
         echo "-----------------------annotate-----------------------"
         $gatkm Funcotator \
             --data-sources-path {params.data_source_folder} \
             --ref-version hg19 \
             --output-file-format MAF \
             -R {params.ref} \
-            -V {output.aligned_merged_filtered_vcf} \
+            -V {input.aligned_merged_filtered_vcf} \
             -O {output.annot_merged_filtered_maf} \
             -L {params.interval_list} \
             --remove-filtered-variants true
-
-
+        touch {wildcards.pid}/funco_flag
         """
