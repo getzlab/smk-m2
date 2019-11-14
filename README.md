@@ -5,8 +5,8 @@ Use snakemake to reproduce gatk-best-practice paired SNV calling [v2.4](https://
 *it is working now*
 
 ## Directory structure
-``
 
+```
 ├── cluster.json
 ├── config.yaml
 ├── credentials
@@ -97,6 +97,7 @@ Use snakemake to reproduce gatk-best-practice paired SNV calling [v2.4](https://
 ├── Snakefile
 └── test_samples.txt
 ```
+
 Please change the NCI credential path. To download, please login to https://nci-crdc.datacommons.io/ with your NIH login. Click on the "Profile" section in the upper right corner, then click "Create API key", in the window with your key click "Download json" to save your key.
 
 The redundant files generated in intermediate steps will be tagged `temp` in soon.
