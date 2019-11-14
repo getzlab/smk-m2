@@ -21,10 +21,10 @@ def get_signed_url_from_uuid(pid, uuid = "736a8e90-85ec-4007-b34a-1bf823eec6fc",
     file1.close() 
     return(url)
 
-normal_url = get_signed_url_from_uuid(snakemake.params.pid, 
+normal_url = get_signed_url_from_uuid(snakemake.wildcards.pid, 
                                       snakemake.params.normal, 
                                       id = "normal")
-tumor_url= get_signed_url_from_uuid(snakemake.params.pid, 
+tumor_url= get_signed_url_from_uuid(snakemake.wildcards.pid, 
                                     snakemake.params.tumor,
                                     id = "tumor")
 
