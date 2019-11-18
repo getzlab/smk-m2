@@ -16,8 +16,10 @@ localrules: all
 ####################### global parameters ###########
 # input is paired uuid table from GDC api.
 df = pd.read_csv(config["samples"], sep = "\t")
-PID = (df.cohort + "_" + df.patient).tolist()
-df["pid"] = PID
+jid = config["JobIndex"]
+
+
+PID = (df.cohort + "_" + df.patient).tolist()[jid]
 TYPES=["tumor", "normal"]
 # the subintervals to scatter on
 SUBINTS = ['{:0>4}'.format(i) for i in range(config["pieces"])]

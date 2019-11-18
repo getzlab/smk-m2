@@ -1,6 +1,8 @@
 # NCI data commons credentials (path)
 credential: "credentials/credentials.json"
 
+# the job index
+JobIndex: 0
 
 # path or URL to sample sheet (TSV format, columns: sample, condition, ...)
 samples: "../test_samples.txt"
@@ -21,9 +23,9 @@ vfc: "gs://gatk-best-practices/somatic-b37/small_exac_common_3.vcf"
 wes_interval_list: "gs://gatk-best-practices/somatic-b37/whole_exome_agilent_1.1_refseq_plus_3_boosters.Homo_sapiens_assembly19.baits.interval_list"
 
 # where I stored the data files for funcotator
-onco_folder: "/demo-mount/refs/funco_slim"
+onco_folder: "/home/qing/funcotator_dataSources.v1.6.20190124s"
 index_bucket: "legacy_indices"
 
 # will be in [CLUSTER soon]
-scatter_heap_mem: 6
+scatter_heap_mem: 4
 heapmem: 2

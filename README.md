@@ -4,6 +4,13 @@ Use snakemake to reproduce gatk-best-practice paired SNV calling [v2.4](https://
 
 *it is working now*
 
+## Run with `canine`
+
+```
+pip3 install canine
+canine canine-config.yaml
+```
+
 ## Directory structure
 
 ```
@@ -12,7 +19,6 @@ Use snakemake to reproduce gatk-best-practice paired SNV calling [v2.4](https://
 ├── credentials
 │   └── credentials.json
 ├── dag.svg
-├── nohup.out
 ├── README.md
 ├── res
 │   ├── logs
