@@ -2,3 +2,4 @@ res/
 .snakemake/
 credentials/*
 nohup.out
+paired_uuid.tsv

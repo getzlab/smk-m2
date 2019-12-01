@@ -3,23 +3,23 @@ import pandas as pd
 
 ####################### shell setup #################
 
-shell.prefix("set -eo pipefail; echo BEGIN at $(date);  ")
+shell.prefix("set -eo pipefail; echo BEGIN at $(date); ")
 shell.suffix("; exitstat=$?; echo END at $(date); echo exit status was $exitstat; exit $exitstat")
 
 ####################### external configs ############
 configfile: "config.yaml"
-workdir: "res/"
+workdir: "/demo-mount/smk-m2/res/"
 # for a local test, will be deleted for cloud mode
-localrules: all
+# localrules: all
 
 
 ####################### global parameters ###########
 # input is paired uuid table from GDC api.
 df = pd.read_csv(config["samples"], sep = "\t")
-jid = config["JobIndex"]
 
 
-PID = (df.cohort + "_" + df.patient).tolist()[jid]
+PID = (df.cohort + "_" + df.patient).tolist()
+df["pid"] = PID
 TYPES=["tumor", "normal"]
 # the subintervals to scatter on
 SUBINTS = ['{:0>4}'.format(i) for i in range(config["pieces"])]
@@ -36,18 +36,17 @@ rule all:
 
 # set uo the file structure
 rule fs_setup:
-    params:
-        pid=PID
+    input: "{pid}/tumor.bam", "{pid}/normal.bam"
     output:
-        touch("{pid}/fs_flag")
+        "{pid}/fs_flag"
     shell:
         """
-        mkdir -p {params.pid}/subvcfs
-        mkdir -p {params.pid}/tpile_dir
-        mkdir -p {params.pid}/npile_dir
-        mkdir -p {params.pid}/f1r2
-        touch {params.pid}/fs_flag
-        """
+        mkdir -p {wildcards.pid}/subvcfs
+        mkdir -p {wildcards.pid}/tpile_dir
+        mkdir -p {wildcards.pid}/npile_dir
+        mkdir -p {wildcards.pid}/f1r2
+        touch {wildcards.pid}/fs_flag
+	"""
 ######################## preparation #######################
 
 # split intervals for scattering jobs
@@ -71,7 +70,6 @@ rule split_intervals:
 # get signed url from nci-data-commons
 rule get_url:
     input:
-        rules.fs_setup.output,
         rules.split_intervals.output
     params:
         tumor=lambda wildcards: df.loc[df["pid"] == wildcards.pid, "tumor"].item(),
@@ -89,7 +87,7 @@ rule get_url:
 rule localize_with_name:
     input:
         url="{pid}/{type}_url.txt"
-    priority: 5
+    priority: 50
     params:
         ref=config["ref"],
         gs_bai="{pid}_{type}.bai",
@@ -109,7 +107,7 @@ rule localize_with_name:
         wget "$(cat {input.url})" -O {output.bam} &>> {log}
         gatk BuildBamIndex -I {output.bam} -O {output.bai} &>> {log}
         
-        [ gsutil -q stat gs://{params.bucket}/{params.gs_bai} ] && gsutil cp {params.gs_bai} gs://{params.bucket}/{params.gs_bai} &>> {log}
+        # [ gsutil -q stat gs://{params.bucket}/{params.gs_bai} ] || gsutil cp {output.bai} gs://{params.bucket}/{params.gs_bai} &>> {log}
         
         gatk GetSampleName -R {params.ref} -I {output.bam} -O {output.sample_name} &>> {log}
         cat {output.sample_name} &>> {log}

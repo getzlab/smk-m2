@@ -8,7 +8,7 @@ JobIndex: 0
 samples: "../test_samples.txt"
 
 # split intervals into {pieces} and stored at {subintervals}
-pieces: 3
+pieces: 5
 subint_dir: "subintervals"
 
 # reference genome
@@ -23,7 +23,7 @@ vfc: "gs://gatk-best-practices/somatic-b37/small_exac_common_3.vcf"
 wes_interval_list: "gs://gatk-best-practices/somatic-b37/whole_exome_agilent_1.1_refseq_plus_3_boosters.Homo_sapiens_assembly19.baits.interval_list"
 
 # where I stored the data files for funcotator
-onco_folder: "/home/qing/funcotator_dataSources.v1.6.20190124s"
+onco_folder: "/demo-mount/refs/funco_slim"
 index_bucket: "legacy_indices"
 
 # will be in [CLUSTER soon]
