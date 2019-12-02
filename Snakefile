@@ -117,6 +117,7 @@ rule localize_with_name:
 rule scatter_m2:
     input:
         expand("{{pid}}/{type}.bam", type=TYPES)
+    priority: 100
     params:
 	#pid=lambda wildcards: wildcards.pid ,
         subint_dir=config["subint_dir"],
@@ -187,10 +188,10 @@ rule check_all_intervals:
         expand("{{pid}}/subvcfs/{chr}.vcf", chr=SUBINTS),
         expand("{{pid}}/subvcfs/{chr}.vcf.stats", chr=SUBINTS)
     output:
-        touch("{pid}/flag")
+        "{pid}/flag"
     shell:
         """
-        echo "scatter finished" > {output}
+        echo finished  > {output}
         """
 
 ############### merge interval results ###############
@@ -234,7 +235,8 @@ rule calculate_contamination:
             -O {output.contamination_table} \
             --tumor-segmentation {output.segments_table} \
             -matched {output.normal_pile_table} &>> {log}
-        """
+        
+	"""
 
 
 
@@ -291,7 +293,8 @@ rule merge_m2:
             -stats {output.merged_stats} \
             --filtering-stats {output.filtering_stats} \
             -O {output.merged_filtered_vcf} &>> {log}
-        """
+        
+	"""
 
 
 
@@ -324,5 +327,4 @@ rule funcotate:
             -O {output.annot_merged_filtered_maf} \
             -L {params.interval_list} \
             --remove-filtered-variants true &> {log}
-        touch {wildcards.pid}/funco_flag
         """

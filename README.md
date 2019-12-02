@@ -4,11 +4,8 @@ Use snakemake to reproduce gatk-best-practice paired SNV calling [v2.4](https://
 
 *it is working now*
 
-## Run with `canine`
-
 ```
-pip3 install canine
-canine canine-config.yaml
+nohup snakemake -j 100 --cluster "sbatch --cpus-per-task 3" --latency-wait 100```
 ```
 
 ## Directory structure
@@ -104,9 +101,12 @@ canine canine-config.yaml
 └── test_samples.txt
 ```
 
-Please change the NCI credential path. To download, please login to https://nci-crdc.datacommons.io/ with your NIH login. Click on the "Profile" section in the upper right corner, then click "Create API key", in the window with your key click "Download json" to save your key.
+## Pre-reqs
 
-The redundant files generated in intermediate steps will be tagged `temp` in soon.
+- Store your NCI credential in `credentials/credentials.json` from https://nci-crdc.datacommons.io/ with your NIH login. Click on the "Profile" section in the upper right corner, then click "Create API key", in the window with your key click "Download json" to save your key.
+- Please add `localrules: all` to Snakefile for a local test.
+- I am using a slurm cluster assembled from GCE to run all data, the startup script for compute node can be found in `scripts/start-up.sh`
+
 
 ## DAG
 

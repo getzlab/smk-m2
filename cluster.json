@@ -2,24 +2,18 @@
     "__default__" :
     {
         "nodes": 1,
-        "account": "slurm",
         "tasks_per_node": 1,
         "mem": "4G",
-        "time": "0:1:0",
         "cpus_per_task": 1
     },
 
     "scatter" :
     {
-        "time" : "0:5:0"
-    },
-    "merge":
-    {
-        "time" : "0:1:0",
-        "cpus_per_task" : 6
+        "time" : "0:5:0",
+	"cpus_per_task": 2
     },
     "localize_with_name":
     {
-        "time" : "0:4:0"
+        "mem": "5G"
     }
 }
