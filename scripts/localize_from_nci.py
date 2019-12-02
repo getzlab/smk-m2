@@ -1,7 +1,20 @@
 import requests
 import json
 
-with open("../"+snakemake.params.credential) as json_file: 
+import argparse
+
+parser = argparse.ArgumentParser(description= 'localize {json} {uuid} {pid} {type}')
+
+parser.add_argument('crediential_json', action="store")
+parser.add_argument('uuid', action="store")
+parser.add_argument('pid', action="store")
+parser.add_argument('type', action="store")
+result = parser.parse_args()
+
+
+
+
+with open("../"+result.credential_json) as json_file: 
          credential = json.load(json_file)
 
 token = requests.post('https://nci-crdc.datacommons.io/user/credentials/api/access_token', 
@@ -21,10 +34,5 @@ def get_signed_url_from_uuid(pid, uuid = "736a8e90-85ec-4007-b34a-1bf823eec6fc",
     file1.close() 
     return(url)
 
-normal_url = get_signed_url_from_uuid(snakemake.wildcards.pid, 
-                                      snakemake.params.normal, 
-                                      id = "normal")
-tumor_url= get_signed_url_from_uuid(snakemake.wildcards.pid, 
-                                    snakemake.params.tumor,
-                                    id = "tumor")
+url = get_signed_url_from_uuid(results.pid, results.uuid, results.type)
 

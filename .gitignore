@@ -1,5 +1,7 @@
 res/
 .snakemake/
 credentials/*
-nohup.out
+*.out
 paired_uuid.tsv
+test_samples.txt
+remove*

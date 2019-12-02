@@ -21,6 +21,9 @@ df = pd.read_csv(config["samples"], sep = "\t")
 PID = (df.cohort + "_" + df.patient).tolist()
 df["pid"] = PID
 TYPES=["tumor", "normal"]
+melted_df = pd.melt(df, id_vars=['pid'], value_vars=["tumor","normal"])
+
+
 # the subintervals to scatter on
 SUBINTS = ['{:0>4}'.format(i) for i in range(config["pieces"])]
 INTERVALS = ["{}/{}-scattered.interval_list".format(config["subint_dir"],int1) for int1 in SUBINTS]
@@ -38,14 +41,13 @@ rule all:
 rule fs_setup:
     input: "{pid}/tumor.bam", "{pid}/normal.bam"
     output:
-        "{pid}/fs_flag"
+        touch("{pid}/fs_flag")
     shell:
         """
         mkdir -p {wildcards.pid}/subvcfs
         mkdir -p {wildcards.pid}/tpile_dir
         mkdir -p {wildcards.pid}/npile_dir
         mkdir -p {wildcards.pid}/f1r2
-        touch {wildcards.pid}/fs_flag
 	"""
 ######################## preparation #######################
 
@@ -67,48 +69,27 @@ rule split_intervals:
             -O {output[0]} &> {log}
         """
 
+
 # get signed url from nci-data-commons
-rule get_url:
-    input:
-        rules.split_intervals.output
+rule localize:
     params:
-        tumor=lambda wildcards: df.loc[df["pid"] == wildcards.pid, "tumor"].item(),
-        normal=lambda wildcards: df.loc[df["pid"] == wildcards.pid,"normal"].item(),
-        credential = config["credential"]
+        uuid=lambda wildcards: melted_df.loc[(melted_df["pid"] == wildcards.pid) & (melted_df["variable"] == wildcards.type), "value"].item(),
+        type=lambda wildcards: melted_df.loc[(melted_df["pid"] == wildcards.pid) & (melted_df["variable"] == wildcards.type), "variable"].item(),
+        credential = config["credential"],
+        ref=config["ref"]
     output:
-        expand("{{pid}}/{type}_url.txt", type=TYPES)
-    log:
-        "logs/get_url/{pid}.log"
-    script:
-        "scripts/localize_from_nci.py"
-
-
-# localize the signed urls, annotate with sample name
-rule localize_with_name:
-    input:
-        url="{pid}/{type}_url.txt"
-    priority: 50
-    params:
-        ref=config["ref"],
-        gs_bai="{pid}_{type}.bai",
-        bucket=config["index_bucket"]
-    output:
-        bam=temp("{pid}/{type}.bam"),
+        url="{pid}/{type}_url.txt",
+    	bam=temp("{pid}/{type}.bam"),
         bai="{pid}/{type}.bai",
         sample_name="{pid}/{type}_name.txt"
     log:
         "logs/localize/{pid}_{type}.log"
-    message:
-        "{wildcards.pid} - {wildcards.type} is being localized and annotated with file name"
     shell:
         """
-        cat {input.url} &> {log}
-	echo --------------
-        wget "$(cat {input.url})" -O {output.bam} &>> {log}
+        python3 scripts/localize_from_nci.py {params.credential} {params.uuid} {wildcards.pid} {params.type}
+        cat {output.url} &>> {log}
+        wget "$(cat {output.url})" -O {output.bam} &>> {log}
         gatk BuildBamIndex -I {output.bam} -O {output.bai} &>> {log}
-        
-        # [ gsutil -q stat gs://{params.bucket}/{params.gs_bai} ] || gsutil cp {output.bai} gs://{params.bucket}/{params.gs_bai} &>> {log}
-        
         gatk GetSampleName -R {params.ref} -I {output.bam} -O {output.sample_name} &>> {log}
         cat {output.sample_name} &>> {log}
         """
@@ -117,7 +98,6 @@ rule localize_with_name:
 rule scatter_m2:
     input:
         expand("{{pid}}/{type}.bam", type=TYPES)
-    priority: 100
     params:
 	#pid=lambda wildcards: wildcards.pid ,
         subint_dir=config["subint_dir"],
@@ -188,11 +168,7 @@ rule check_all_intervals:
         expand("{{pid}}/subvcfs/{chr}.vcf", chr=SUBINTS),
         expand("{{pid}}/subvcfs/{chr}.vcf.stats", chr=SUBINTS)
     output:
-        "{pid}/flag"
-    shell:
-        """
-        echo finished  > {output}
-        """
+        touch("{pid}/flag")
 
 ############### merge interval results ###############
 rule calculate_contamination:
