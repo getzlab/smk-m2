@@ -34,5 +34,5 @@ def get_signed_url_from_uuid(pid, uuid = "736a8e90-85ec-4007-b34a-1bf823eec6fc",
     file1.close() 
     return(url)
 
-url = get_signed_url_from_uuid(results.pid, results.uuid, results.type)
+url = get_signed_url_from_uuid(result.pid, result.uuid, result.type)
 
