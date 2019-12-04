@@ -5,7 +5,7 @@ Use snakemake to reproduce gatk-best-practice paired SNV calling [v2.4](https://
 *it is working now*
 
 ```
-nohup snakemake -j 100 --cluster "sbatch --cpus-per-task 3" --latency-wait 100```
+nohup snakemake -j 10 --cluster "sbatch --cpus-per-task 3" --latency-wait 100
 ```
 
 ## Directory structure

@@ -5,7 +5,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description= 'localize {json} {uuid} {pid} {type}')
 
-parser.add_argument('crediential_json', action="store")
+parser.add_argument('credential_json', action="store")
 parser.add_argument('uuid', action="store")
 parser.add_argument('pid', action="store")
 parser.add_argument('type', action="store")

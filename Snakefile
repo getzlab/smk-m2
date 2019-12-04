@@ -53,6 +53,7 @@ rule fs_setup:
 
 # split intervals for scattering jobs
 rule split_intervals:
+    priority: 200
     params:
         ref=config["ref"],
         pieces=config["pieces"],
@@ -73,31 +74,38 @@ rule split_intervals:
 # get signed url from nci-data-commons
 rule localize:
     params:
-        uuid=lambda wildcards: melted_df.loc[(melted_df["pid"] == wildcards.pid) & (melted_df["variable"] == wildcards.type), "value"].item(),
-        type=lambda wildcards: melted_df.loc[(melted_df["pid"] == wildcards.pid) & (melted_df["variable"] == wildcards.type), "variable"].item(),
+        uuid_tumor=lambda wildcards: melted_df.loc[(melted_df["pid"] == wildcards.pid) & (melted_df["variable"] == "tumor"), "value"].item(),
+        uuid_normal=lambda wildcards: melted_df.loc[(melted_df["pid"] == wildcards.pid) & (melted_df["variable"] == "normal"), "value"].item(),
         credential = config["credential"],
         ref=config["ref"]
     output:
-        url="{pid}/{type}_url.txt",
-    	bam=temp("{pid}/{type}.bam"),
-        bai="{pid}/{type}.bai",
-        sample_name="{pid}/{type}_name.txt"
+        tumor_url="{pid}/tumor_url.txt",
+        normal_url="{pid}/normal_url.txt",
+    	bam=temp(expand("{{pid}}/{type}.bam", type=TYPES)),
+        bai=expand("{{pid}}/{type}.bai",type=TYPES),
+        sample_name=expand("{{pid}}/{type}_name.txt",type=TYPES)
     log:
-        "logs/localize/{pid}_{type}.log"
+        "logs/localize/{pid}.log"
     shell:
         """
-        python3 scripts/localize_from_nci.py {params.credential} {params.uuid} {wildcards.pid} {params.type}
-        cat {output.url} &>> {log}
-        wget "$(cat {output.url})" -O {output.bam} &>> {log}
-        gatk BuildBamIndex -I {output.bam} -O {output.bai} &>> {log}
-        gatk GetSampleName -R {params.ref} -I {output.bam} -O {output.sample_name} &>> {log}
-        cat {output.sample_name} &>> {log}
+        /usr/local/bin/python3 ../scripts/localize_from_nci.py {params.credential} {params.uuid_normal} {wildcards.pid} normal
+        wget "$(cat {output.normal_url})" -O {wildcards.pid}/normal.bam &>> {log}
+        /usr/local/bin/python3 ../scripts/localize_from_nci.py {params.credential} {params.uuid_tumor} {wildcards.pid} tumor
+        wget "$(cat {output.tumor_url})" -O {wildcards.pid}/tumor.bam &>> {log}
+        echo "------ build index -------"
+        gatk BuildBamIndex -I {wildcards.pid}/normal.bam -O {wildcards.pid}/normal.bai &>> {log}
+        gatk BuildBamIndex -I {wildcards.pid}/tumor.bam -O {wildcards.pid}/tumor.bai &>> {log}
+        echo "---- get sample name -----"
+        gatk GetSampleName -R {params.ref} -I {wildcards.pid}/tumor.bam -O {wildcards.pid}/tumor_name.txt &>> {log}
+        gatk GetSampleName -R {params.ref} -I {wildcards.pid}/normal.bam -O {wildcards.pid}/normal_name.txt &>> {log}
         """
 
 # run M2 on tumor-normal pairs for 
 rule scatter_m2:
     input:
-        expand("{{pid}}/{type}.bam", type=TYPES)
+        expand("{{pid}}/{type}.bam", type=TYPES),
+        directory(config["subint_dir"])
+    priority: 100
     params:
 	#pid=lambda wildcards: wildcards.pid ,
         subint_dir=config["subint_dir"],
@@ -108,11 +116,11 @@ rule scatter_m2:
     log:
         "logs/scatter/{pid}_{chr}.log"
     output:
-        out_tpile="{pid}/tpile_dir/{chr}-tpile.table",
-        out_npile="{pid}/npile_dir/{chr}-npile.table",
-        out_f1r2="{pid}/f1r2/{chr}-f1r2.tar.gz",
-        out_vcf="{pid}/subvcfs/{chr}.vcf",
-        out_stats="{pid}/subvcfs/{chr}.vcf.stats"
+        out_tpile=temp("{pid}/tpile_dir/{chr}-tpile.table"),
+        out_npile=temp("{pid}/npile_dir/{chr}-npile.table"),
+        out_f1r2=temp("{pid}/f1r2/{chr}-f1r2.tar.gz"),
+        out_vcf=temp("{pid}/subvcfs/{chr}.vcf"),
+        out_stats=temp("{pid}/subvcfs/{chr}.vcf.stats")
         
     shell:
         """
