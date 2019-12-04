@@ -53,7 +53,7 @@ rule fs_setup:
 
 # split intervals for scattering jobs
 rule split_intervals:
-    priority: 200
+    priority: 3000
     params:
         ref=config["ref"],
         pieces=config["pieces"],
@@ -184,6 +184,7 @@ rule calculate_contamination:
         flag="{pid}/flag",
         tumor_pile_table=expand("{{pid}}/tpile_dir/{chr}-tpile.table", chr=SUBINTS),
         normal_pile_table=expand("{{pid}}/npile_dir/{chr}-npile.table", chr=SUBINTS)
+    priority: 1000
     params:
         heap_mem=4,
         all_tumor_piles_input = lambda wildcards, input: " -I ".join(input.tumor_pile_table),
@@ -194,10 +195,10 @@ rule calculate_contamination:
         "{wildcards.pid} is being estimated for contamination level"
     group: "merge"
     output:
-        normal_pile_table="{pid}/normal_pile.tsv",
-        tumor_pile_table="{pid}/tumor_pile.tsv",
-        contamination_table="{pid}/contamination.table",
-        segments_table="{pid}/segments.table"
+        normal_pile_table=temp("{pid}/normal_pile.tsv"),
+        tumor_pile_table=temp("{pid}/tumor_pile.tsv"),
+        contamination_table=temp("{pid}/contamination.table"),
+        segments_table=temp("{pid}/segments.table")
     shell:
         """
         gatkm="gatk --java-options -Xmx{params.heap_mem}g"
@@ -225,7 +226,7 @@ rule calculate_contamination:
 
 
 rule merge_m2:
-    priority: 10
+    priority: 1000
     input:
         vcf=expand("{{pid}}/subvcfs/{chr}.vcf", chr=SUBINTS),
         f1r2=expand("{{pid}}/f1r2/{chr}-f1r2.tar.gz", chr=SUBINTS),
