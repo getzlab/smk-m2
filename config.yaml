@@ -24,7 +24,7 @@ wes_interval_list: "gs://gatk-best-practices/somatic-b37/whole_exome_agilent_1.1
 
 # where I stored the data files for funcotator
 onco_folder: "/demo-mount/refs/funco_slim"
-index_bucket: "legacy_indices"
+
 
 # will be in [CLUSTER soon]
 scatter_heap_mem: 4

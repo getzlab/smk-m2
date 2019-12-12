@@ -1,12 +1,11 @@
 # smk-m2
 
-Use snakemake to reproduce gatk-best-practice paired SNV calling [v2.4](https://github.com/gatk-workflows/gatk4-somatic-snvs-indels/tree/2.4.0). Due to TCGA legacy accession issue, we will first localize bams with signed URL.
+Use snakemake to reproduce gatk-best-practice paired SNV calling [v2.6](https://github.com/gatk-workflows/gatk4-somatic-snvs-indels/tree/2.4.0). Due to TCGA legacy accession issue, we will first localize bams with signed URL from NCI Data Commons. The UUID are queryed from GDC api.
 
-*it is working now*
+Before using this, please 
+* change the NCI credential path. To download, please login to https://nci-crdc.datacommons.io/ with your NIH login. Click on the "Profile" section in the upper right corner, then click "Create API key", in the window with your key click "Download json" to save your key.
+* please change your config and adapt any local file paths.
 
-```
-nohup snakemake -j 10 --cluster "sbatch --cpus-per-task 3" --latency-wait 100
-```
 
 ## Directory structure
 
@@ -14,7 +13,7 @@ nohup snakemake -j 10 --cluster "sbatch --cpus-per-task 3" --latency-wait 100
 ├── cluster.json
 ├── config.yaml
 ├── credentials
-│   └── credentials.json
+│   └── credentials.json # please do put your credential here!
 ├── dag.svg
 ├── README.md
 ├── res
@@ -101,11 +100,7 @@ nohup snakemake -j 10 --cluster "sbatch --cpus-per-task 3" --latency-wait 100
 └── test_samples.txt
 ```
 
-## Pre-reqs
 
-- Store your NCI credential in `credentials/credentials.json` from https://nci-crdc.datacommons.io/ with your NIH login. Click on the "Profile" section in the upper right corner, then click "Create API key", in the window with your key click "Download json" to save your key.
-- Please add `localrules: all` to Snakefile for a local test.
-- I am using a slurm cluster assembled from GCE to run all data, the startup script for compute node can be found in `scripts/start-up.sh`
 
 
 ## DAG

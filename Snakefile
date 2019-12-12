@@ -16,7 +16,7 @@ workdir: "/demo-mount/smk-m2/res/"
 ####################### global parameters ###########
 # input is paired uuid table from GDC api.
 df = pd.read_csv(config["samples"], sep = "\t")
-
+df = df.dropna() # remove all possible NAs
 
 PID = (df.cohort + "_" + df.patient).tolist()
 df["pid"] = PID
@@ -88,13 +88,15 @@ rule localize:
         "logs/localize/{pid}.log"
     shell:
         """
+        echo "----------localize normal-------------"
         /usr/local/bin/python3 ../scripts/localize_from_nci.py {params.credential} {params.uuid_normal} {wildcards.pid} normal
         wget "$(cat {output.normal_url})" -O {wildcards.pid}/normal.bam &>> {log}
+        wget "$(cat {wildcards.pid}/normal_index_url.txt)" -O {wildcards.pid}/normal.bai &>> {log}
+
+        echo "----------localize tumor -------------"
         /usr/local/bin/python3 ../scripts/localize_from_nci.py {params.credential} {params.uuid_tumor} {wildcards.pid} tumor
         wget "$(cat {output.tumor_url})" -O {wildcards.pid}/tumor.bam &>> {log}
-        echo "------ build index -------"
-        gatk BuildBamIndex -I {wildcards.pid}/normal.bam -O {wildcards.pid}/normal.bai &>> {log}
-        gatk BuildBamIndex -I {wildcards.pid}/tumor.bam -O {wildcards.pid}/tumor.bai &>> {log}
+        wget "$(cat {wildcards.pid}/tumor_index_url.txt)" -O {wildcards.pid}/tumor.bai &>> {log}
         echo "---- get sample name -----"
         gatk GetSampleName -R {params.ref} -I {wildcards.pid}/tumor.bam -O {wildcards.pid}/tumor_name.txt &>> {log}
         gatk GetSampleName -R {params.ref} -I {wildcards.pid}/normal.bam -O {wildcards.pid}/normal_name.txt &>> {log}
@@ -104,7 +106,7 @@ rule localize:
 rule scatter_m2:
     input:
         expand("{{pid}}/{type}.bam", type=TYPES),
-        directory(config["subint_dir"])
+        config["subint_dir"]
     priority: 100
     params:
 	#pid=lambda wildcards: wildcards.pid ,
