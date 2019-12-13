@@ -3,6 +3,8 @@ import json
 
 import argparse
 
+
+# run once for normal, another time for matched tumor
 parser = argparse.ArgumentParser(description= 'localize {json} {uuid} {pid} {type}')
 
 parser.add_argument('credential_json', action="store")
@@ -11,9 +13,20 @@ parser.add_argument('pid', action="store")
 parser.add_argument('type', action="store")
 result = parser.parse_args()
 
+# get the uuid for indices
+def get_bai_uuid(uuid="736a8e90-85ec-4007-b34a-1bf823eec6fc", id="normal"):
+    file_endpt = 'https://api.gdc.cancer.gov/files/'
+    file_uuid = 'd853e541-f16a-4345-9f00-88e03c2dc0bc'
+    file_with_indice = '?expand=index_files'
+    response = requests.get(file_endpt + file_uuid + file_with_indice)
+    res = response.json()
+    #return(res)
+    bai_uuid = res['data']['index_files'][0]['file_id']
+    return(bai_uuid)
 
+get_bai_uuid()
 
-
+# start with NCI data commons
 with open("../"+result.credential_json) as json_file: 
          credential = json.load(json_file)
 
@@ -34,5 +47,7 @@ def get_signed_url_from_uuid(pid, uuid = "736a8e90-85ec-4007-b34a-1bf823eec6fc",
     file1.close() 
     return(url)
 
-url = get_signed_url_from_uuid(result.pid, result.uuid, result.type)
 
+index_uuid = get_bai_uuid(result.uuid, result.type)
+url = get_signed_url_from_uuid(result.pid, result.uuid, result.type)
+url = get_signed_url_from_uuid(result.pid, index_uuid, result.type + "_index")
