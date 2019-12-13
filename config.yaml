@@ -6,6 +6,7 @@ JobIndex: 0
 
 # path or URL to sample sheet (TSV format, columns: sample, condition, ...)
 samples: "../test_samples.txt"
+all_pairs: "../paired_uuid.tsv"
 
 # split intervals into {pieces} and stored at {subintervals}
 pieces: 5

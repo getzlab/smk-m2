@@ -1,0 +1,2693 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cluster nodes: 10
+Job counts:
+	count	jobs
+	1	all
+	19	calculate_contamination
+	19	check_all_intervals
+	19	fs_setup
+	19	funcotate
+	19	get_url
+	38	localize_with_name
+	19	merge_m2
+	95	scatter_m2
+	1	split_intervals
+	249
+
+[Sun Dec  1 03:33:07 2019]
+rule fs_setup:
+    output: THCA_EM-A1CW/fs_flag
+    jobid: 247
+    wildcards: pid=THCA_EM-A1CW
+
+Submitted job 247 with external jobid 'Submitted batch job 66406'.
+
+[Sun Dec  1 03:33:07 2019]
+rule split_intervals:
+    output: subintervals
+    log: logs/split_interval/log
+    jobid: 230
+
+Submitted job 230 with external jobid 'Submitted batch job 66407'.
+
+[Sun Dec  1 03:33:07 2019]
+rule fs_setup:
+    output: THCA_EM-A2P1/fs_flag
+    jobid: 234
+    wildcards: pid=THCA_EM-A2P1
+
+Submitted job 234 with external jobid 'Submitted batch job 66408'.
+
+[Sun Dec  1 03:33:07 2019]
+rule fs_setup:
+    output: THCA_BJ-A45H/fs_flag
+    jobid: 241
+    wildcards: pid=THCA_BJ-A45H
+
+Submitted job 241 with external jobid 'Submitted batch job 66409'.
+
+[Sun Dec  1 03:33:07 2019]
+rule fs_setup:
+    output: THCA_BJ-A45D/fs_flag
+    jobid: 237
+    wildcards: pid=THCA_BJ-A45D
+
+Submitted job 237 with external jobid 'Submitted batch job 66410'.
+
+[Sun Dec  1 03:33:07 2019]
+rule fs_setup:
+    output: THCA_BJ-A45F/fs_flag
+    jobid: 235
+    wildcards: pid=THCA_BJ-A45F
+
+Submitted job 235 with external jobid 'Submitted batch job 66411'.
+
+[Sun Dec  1 03:33:07 2019]
+rule fs_setup:
+    output: THCA_BJ-A45K/fs_flag
+    jobid: 240
+    wildcards: pid=THCA_BJ-A45K
+
+Submitted job 240 with external jobid 'Submitted batch job 66412'.
+
+[Sun Dec  1 03:33:07 2019]
+rule fs_setup:
+    output: THCA_EM-A4FH/fs_flag
+    jobid: 244
+    wildcards: pid=THCA_EM-A4FH
+
+Submitted job 244 with external jobid 'Submitted batch job 66413'.
+
+[Sun Dec  1 03:33:07 2019]
+rule fs_setup:
+    output: THCA_BJ-A45G/fs_flag
+    jobid: 236
+    wildcards: pid=THCA_BJ-A45G
+
+Submitted job 236 with external jobid 'Submitted batch job 66414'.
+
+[Sun Dec  1 03:33:07 2019]
+rule fs_setup:
+    output: THCA_BJ-A2N9/fs_flag
+    jobid: 229
+    wildcards: pid=THCA_BJ-A2N9
+
+Submitted job 229 with external jobid 'Submitted batch job 66415'.
+Waiting at most 20 seconds for missing files.
+MissingOutputException in line 38 of /demo-mount/smk-m2/Snakefile:
+Missing files after 20 seconds:
+THCA_EM-A1CW/fs_flag
+This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait.
+Building DAG of jobs...
+Error: Directory cannot be locked. Please make sure that no other Snakemake process is trying to create the same files in the following directory:
+/demo-mount/smk-m2/res
+If you are sure that no other instances of snakemake are running on this directory, the remaining lock was likely caused by a kill signal or a power loss. It can be removed with the --unlock argument.
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cluster nodes: 10
+Job counts:
+	count	jobs
+	1	all
+	19	calculate_contamination
+	19	check_all_intervals
+	19	funcotate
+	14	get_url
+	28	localize_with_name
+	19	merge_m2
+	92	scatter_m2
+	211
+
+[Sun Dec  1 16:50:09 2019]
+rule scatter_m2:
+    input: THCA_EM-A1CW/tumor.bam, THCA_EM-A1CW/normal.bam
+    output: THCA_EM-A1CW/tpile_dir/0001-tpile.table, THCA_EM-A1CW/npile_dir/0001-npile.table, THCA_EM-A1CW/f1r2/0001-f1r2.tar.gz, THCA_EM-A1CW/subvcfs/0001.vcf, THCA_EM-A1CW/subvcfs/0001.vcf.stats
+    log: logs/scatter/THCA_EM-A1CW_0001.log
+    jobid: 142
+    wildcards: pid=THCA_EM-A1CW, chr=0001
+
+Submitted job 142 with external jobid 'Submitted batch job 66538'.
+
+[Sun Dec  1 16:50:09 2019]
+rule scatter_m2:
+    input: THCA_EM-A1CW/tumor.bam, THCA_EM-A1CW/normal.bam
+    output: THCA_EM-A1CW/tpile_dir/0004-tpile.table, THCA_EM-A1CW/npile_dir/0004-npile.table, THCA_EM-A1CW/f1r2/0004-f1r2.tar.gz, THCA_EM-A1CW/subvcfs/0004.vcf, THCA_EM-A1CW/subvcfs/0004.vcf.stats
+    log: logs/scatter/THCA_EM-A1CW_0004.log
+    jobid: 145
+    wildcards: pid=THCA_EM-A1CW, chr=0004
+
+Submitted job 145 with external jobid 'Submitted batch job 66539'.
+
+[Sun Dec  1 16:50:09 2019]
+rule scatter_m2:
+    input: THCA_EM-A1CW/tumor.bam, THCA_EM-A1CW/normal.bam
+    output: THCA_EM-A1CW/tpile_dir/0000-tpile.table, THCA_EM-A1CW/npile_dir/0000-npile.table, THCA_EM-A1CW/f1r2/0000-f1r2.tar.gz, THCA_EM-A1CW/subvcfs/0000.vcf, THCA_EM-A1CW/subvcfs/0000.vcf.stats
+    log: logs/scatter/THCA_EM-A1CW_0000.log
+    jobid: 141
+    wildcards: pid=THCA_EM-A1CW, chr=0000
+
+Submitted job 141 with external jobid 'Submitted batch job 66540'.
+
+[Sun Dec  1 16:50:09 2019]
+rule scatter_m2:
+    input: THCA_EM-A1CW/tumor.bam, THCA_EM-A1CW/normal.bam
+    output: THCA_EM-A1CW/tpile_dir/0002-tpile.table, THCA_EM-A1CW/npile_dir/0002-npile.table, THCA_EM-A1CW/f1r2/0002-f1r2.tar.gz, THCA_EM-A1CW/subvcfs/0002.vcf, THCA_EM-A1CW/subvcfs/0002.vcf.stats
+    log: logs/scatter/THCA_EM-A1CW_0002.log
+    jobid: 143
+    wildcards: pid=THCA_EM-A1CW, chr=0002
+
+Submitted job 143 with external jobid 'Submitted batch job 66541'.
+
+[Sun Dec  1 16:50:09 2019]
+rule scatter_m2:
+    input: THCA_EM-A1CW/tumor.bam, THCA_EM-A1CW/normal.bam
+    output: THCA_EM-A1CW/tpile_dir/0003-tpile.table, THCA_EM-A1CW/npile_dir/0003-npile.table, THCA_EM-A1CW/f1r2/0003-f1r2.tar.gz, THCA_EM-A1CW/subvcfs/0003.vcf, THCA_EM-A1CW/subvcfs/0003.vcf.stats
+    log: logs/scatter/THCA_EM-A1CW_0003.log
+    jobid: 144
+    wildcards: pid=THCA_EM-A1CW, chr=0003
+
+Submitted job 144 with external jobid 'Submitted batch job 66542'.
+
+[Sun Dec  1 16:50:09 2019]
+rule scatter_m2:
+    input: THCA_BJ-A45I/tumor.bam, THCA_BJ-A45I/normal.bam
+    output: THCA_BJ-A45I/tpile_dir/0001-tpile.table, THCA_BJ-A45I/npile_dir/0001-npile.table, THCA_BJ-A45I/f1r2/0001-f1r2.tar.gz, THCA_BJ-A45I/subvcfs/0001.vcf, THCA_BJ-A45I/subvcfs/0001.vcf.stats
+    log: logs/scatter/THCA_BJ-A45I_0001.log
+    jobid: 112
+    wildcards: pid=THCA_BJ-A45I, chr=0001
+
+Submitted job 112 with external jobid 'Submitted batch job 66543'.
+
+[Sun Dec  1 16:50:09 2019]
+rule scatter_m2:
+    input: THCA_BJ-A2NA/tumor.bam, THCA_BJ-A2NA/normal.bam
+    output: THCA_BJ-A2NA/tpile_dir/0001-tpile.table, THCA_BJ-A2NA/npile_dir/0001-npile.table, THCA_BJ-A2NA/f1r2/0001-f1r2.tar.gz, THCA_BJ-A2NA/subvcfs/0001.vcf, THCA_BJ-A2NA/subvcfs/0001.vcf.stats
+    log: logs/scatter/THCA_BJ-A2NA_0001.log
+    jobid: 58
+    wildcards: pid=THCA_BJ-A2NA, chr=0001
+
+Submitted job 58 with external jobid 'Submitted batch job 66544'.
+
+[Sun Dec  1 16:50:09 2019]
+rule scatter_m2:
+    input: THCA_BJ-A2NA/tumor.bam, THCA_BJ-A2NA/normal.bam
+    output: THCA_BJ-A2NA/tpile_dir/0000-tpile.table, THCA_BJ-A2NA/npile_dir/0000-npile.table, THCA_BJ-A2NA/f1r2/0000-f1r2.tar.gz, THCA_BJ-A2NA/subvcfs/0000.vcf, THCA_BJ-A2NA/subvcfs/0000.vcf.stats
+    log: logs/scatter/THCA_BJ-A2NA_0000.log
+    jobid: 57
+    wildcards: pid=THCA_BJ-A2NA, chr=0000
+
+Submitted job 57 with external jobid 'Submitted batch job 66545'.
+
+[Sun Dec  1 16:50:09 2019]
+rule scatter_m2:
+    input: THCA_BJ-A2NA/tumor.bam, THCA_BJ-A2NA/normal.bam
+    output: THCA_BJ-A2NA/tpile_dir/0002-tpile.table, THCA_BJ-A2NA/npile_dir/0002-npile.table, THCA_BJ-A2NA/f1r2/0002-f1r2.tar.gz, THCA_BJ-A2NA/subvcfs/0002.vcf, THCA_BJ-A2NA/subvcfs/0002.vcf.stats
+    log: logs/scatter/THCA_BJ-A2NA_0002.log
+    jobid: 59
+    wildcards: pid=THCA_BJ-A2NA, chr=0002
+
+Submitted job 59 with external jobid 'Submitted batch job 66546'.
+
+[Sun Dec  1 16:50:09 2019]
+rule scatter_m2:
+    input: THCA_BJ-A2NA/tumor.bam, THCA_BJ-A2NA/normal.bam
+    output: THCA_BJ-A2NA/tpile_dir/0003-tpile.table, THCA_BJ-A2NA/npile_dir/0003-npile.table, THCA_BJ-A2NA/f1r2/0003-f1r2.tar.gz, THCA_BJ-A2NA/subvcfs/0003.vcf, THCA_BJ-A2NA/subvcfs/0003.vcf.stats
+    log: logs/scatter/THCA_BJ-A2NA_0003.log
+    jobid: 60
+    wildcards: pid=THCA_BJ-A2NA, chr=0003
+
+Submitted job 60 with external jobid 'Submitted batch job 66547'.
+[Sun Dec  1 17:21:30 2019]
+Finished job 145.
+1 of 211 steps (0.47%) done
+
+[Sun Dec  1 17:21:31 2019]
+rule scatter_m2:
+    input: THCA_BJ-A45I/tumor.bam, THCA_BJ-A45I/normal.bam
+    output: THCA_BJ-A45I/tpile_dir/0000-tpile.table, THCA_BJ-A45I/npile_dir/0000-npile.table, THCA_BJ-A45I/f1r2/0000-f1r2.tar.gz, THCA_BJ-A45I/subvcfs/0000.vcf, THCA_BJ-A45I/subvcfs/0000.vcf.stats
+    log: logs/scatter/THCA_BJ-A45I_0000.log
+    jobid: 111
+    wildcards: pid=THCA_BJ-A45I, chr=0000
+
+Submitted job 111 with external jobid 'Submitted batch job 66548'.
+[Sun Dec  1 17:24:16 2019]
+Finished job 144.
+2 of 211 steps (0.95%) done
+
+[Sun Dec  1 17:24:16 2019]
+rule scatter_m2:
+    input: THCA_BJ-A45I/tumor.bam, THCA_BJ-A45I/normal.bam
+    output: THCA_BJ-A45I/tpile_dir/0003-tpile.table, THCA_BJ-A45I/npile_dir/0003-npile.table, THCA_BJ-A45I/f1r2/0003-f1r2.tar.gz, THCA_BJ-A45I/subvcfs/0003.vcf, THCA_BJ-A45I/subvcfs/0003.vcf.stats
+    log: logs/scatter/THCA_BJ-A45I_0003.log
+    jobid: 114
+    wildcards: pid=THCA_BJ-A45I, chr=0003
+
+Submitted job 114 with external jobid 'Submitted batch job 66549'.
+[Sun Dec  1 17:27:01 2019]
+Finished job 141.
+3 of 211 steps (1%) done
+
+[Sun Dec  1 17:27:01 2019]
+rule scatter_m2:
+    input: THCA_BJ-A45I/tumor.bam, THCA_BJ-A45I/normal.bam
+    output: THCA_BJ-A45I/tpile_dir/0002-tpile.table, THCA_BJ-A45I/npile_dir/0002-npile.table, THCA_BJ-A45I/f1r2/0002-f1r2.tar.gz, THCA_BJ-A45I/subvcfs/0002.vcf, THCA_BJ-A45I/subvcfs/0002.vcf.stats
+    log: logs/scatter/THCA_BJ-A45I_0002.log
+    jobid: 113
+    wildcards: pid=THCA_BJ-A45I, chr=0002
+
+Submitted job 113 with external jobid 'Submitted batch job 66550'.
+[Sun Dec  1 17:29:46 2019]
+Finished job 143.
+4 of 211 steps (2%) done
+
+[Sun Dec  1 17:29:46 2019]
+rule scatter_m2:
+    input: THCA_EM-A4FH/tumor.bam, THCA_EM-A4FH/normal.bam
+    output: THCA_EM-A4FH/tpile_dir/0001-tpile.table, THCA_EM-A4FH/npile_dir/0001-npile.table, THCA_EM-A4FH/f1r2/0001-f1r2.tar.gz, THCA_EM-A4FH/subvcfs/0001.vcf, THCA_EM-A4FH/subvcfs/0001.vcf.stats
+    log: logs/scatter/THCA_EM-A4FH_0001.log
+    jobid: 124
+    wildcards: pid=THCA_EM-A4FH, chr=0001
+
+Submitted job 124 with external jobid 'Submitted batch job 66551'.
+Removing temporary output file THCA_EM-A1CW/tumor.bam.
+Removing temporary output file THCA_EM-A1CW/normal.bam.
+[Sun Dec  1 17:33:38 2019]
+Finished job 142.
+5 of 211 steps (2%) done
+
+[Sun Dec  1 17:33:38 2019]
+rule scatter_m2:
+    input: THCA_EM-A4FH/tumor.bam, THCA_EM-A4FH/normal.bam
+    output: THCA_EM-A4FH/tpile_dir/0003-tpile.table, THCA_EM-A4FH/npile_dir/0003-npile.table, THCA_EM-A4FH/f1r2/0003-f1r2.tar.gz, THCA_EM-A4FH/subvcfs/0003.vcf, THCA_EM-A4FH/subvcfs/0003.vcf.stats
+    log: logs/scatter/THCA_EM-A4FH_0003.log
+    jobid: 126
+    wildcards: pid=THCA_EM-A4FH, chr=0003
+
+Submitted job 126 with external jobid 'Submitted batch job 66552'.
+[Sun Dec  1 17:52:55 2019]
+Finished job 112.
+6 of 211 steps (3%) done
+
+[Sun Dec  1 17:52:55 2019]
+rule scatter_m2:
+    input: THCA_EM-A4FH/tumor.bam, THCA_EM-A4FH/normal.bam
+    output: THCA_EM-A4FH/tpile_dir/0002-tpile.table, THCA_EM-A4FH/npile_dir/0002-npile.table, THCA_EM-A4FH/f1r2/0002-f1r2.tar.gz, THCA_EM-A4FH/subvcfs/0002.vcf, THCA_EM-A4FH/subvcfs/0002.vcf.stats
+    log: logs/scatter/THCA_EM-A4FH_0002.log
+    jobid: 125
+    wildcards: pid=THCA_EM-A4FH, chr=0002
+
+[Sun Dec  1 17:52:55 2019]
+Finished job 57.
+7 of 211 steps (3%) done
+Submitted job 125 with external jobid 'Submitted batch job 66553'.
+
+[Sun Dec  1 17:52:55 2019]
+rule scatter_m2:
+    input: THCA_EM-A4FH/tumor.bam, THCA_EM-A4FH/normal.bam
+    output: THCA_EM-A4FH/tpile_dir/0000-tpile.table, THCA_EM-A4FH/npile_dir/0000-npile.table, THCA_EM-A4FH/f1r2/0000-f1r2.tar.gz, THCA_EM-A4FH/subvcfs/0000.vcf, THCA_EM-A4FH/subvcfs/0000.vcf.stats
+    log: logs/scatter/THCA_EM-A4FH_0000.log
+    jobid: 123
+    wildcards: pid=THCA_EM-A4FH, chr=0000
+
+Submitted job 123 with external jobid 'Submitted batch job 66554'.
+[Sun Dec  1 17:56:46 2019]
+Finished job 58.
+8 of 211 steps (4%) done
+
+[Sun Dec  1 17:56:46 2019]
+rule scatter_m2:
+    input: THCA_BJ-A45D/tumor.bam, THCA_BJ-A45D/normal.bam
+    output: THCA_BJ-A45D/tpile_dir/0004-tpile.table, THCA_BJ-A45D/npile_dir/0004-npile.table, THCA_BJ-A45D/f1r2/0004-f1r2.tar.gz, THCA_BJ-A45D/subvcfs/0004.vcf, THCA_BJ-A45D/subvcfs/0004.vcf.stats
+    log: logs/scatter/THCA_BJ-A45D_0004.log
+    jobid: 85
+    wildcards: pid=THCA_BJ-A45D, chr=0004
+
+Submitted job 85 with external jobid 'Submitted batch job 66555'.
+[Sun Dec  1 17:58:25 2019]
+Finished job 59.
+9 of 211 steps (4%) done
+
+[Sun Dec  1 17:58:25 2019]
+rule scatter_m2:
+    input: THCA_BJ-A45D/tumor.bam, THCA_BJ-A45D/normal.bam
+    output: THCA_BJ-A45D/tpile_dir/0001-tpile.table, THCA_BJ-A45D/npile_dir/0001-npile.table, THCA_BJ-A45D/f1r2/0001-f1r2.tar.gz, THCA_BJ-A45D/subvcfs/0001.vcf, THCA_BJ-A45D/subvcfs/0001.vcf.stats
+    log: logs/scatter/THCA_BJ-A45D_0001.log
+    jobid: 82
+    wildcards: pid=THCA_BJ-A45D, chr=0001
+
+Submitted job 82 with external jobid 'Submitted batch job 66556'.
+Removing temporary output file THCA_BJ-A2NA/tumor.bam.
+Removing temporary output file THCA_BJ-A2NA/normal.bam.
+[Sun Dec  1 17:58:26 2019]
+Finished job 60.
+10 of 211 steps (5%) done
+
+[Sun Dec  1 17:58:26 2019]
+rule scatter_m2:
+    input: THCA_BJ-A45D/tumor.bam, THCA_BJ-A45D/normal.bam
+    output: THCA_BJ-A45D/tpile_dir/0000-tpile.table, THCA_BJ-A45D/npile_dir/0000-npile.table, THCA_BJ-A45D/f1r2/0000-f1r2.tar.gz, THCA_BJ-A45D/subvcfs/0000.vcf, THCA_BJ-A45D/subvcfs/0000.vcf.stats
+    log: logs/scatter/THCA_BJ-A45D_0000.log
+    jobid: 81
+    wildcards: pid=THCA_BJ-A45D, chr=0000
+
+Submitted job 81 with external jobid 'Submitted batch job 66557'.
+[Sun Dec  1 18:16:35 2019]
+Finished job 114.
+11 of 211 steps (5%) done
+
+[Sun Dec  1 18:16:35 2019]
+rule scatter_m2:
+    input: THCA_BJ-A45D/tumor.bam, THCA_BJ-A45D/normal.bam
+    output: THCA_BJ-A45D/tpile_dir/0002-tpile.table, THCA_BJ-A45D/npile_dir/0002-npile.table, THCA_BJ-A45D/f1r2/0002-f1r2.tar.gz, THCA_BJ-A45D/subvcfs/0002.vcf, THCA_BJ-A45D/subvcfs/0002.vcf.stats
+    log: logs/scatter/THCA_BJ-A45D_0002.log
+    jobid: 83
+    wildcards: pid=THCA_BJ-A45D, chr=0002
+
+Submitted job 83 with external jobid 'Submitted batch job 66558'.
+[Sun Dec  1 18:19:21 2019]
+Finished job 111.
+12 of 211 steps (6%) done
+
+[Sun Dec  1 18:19:21 2019]
+rule scatter_m2:
+    input: THCA_BJ-A45D/tumor.bam, THCA_BJ-A45D/normal.bam
+    output: THCA_BJ-A45D/tpile_dir/0003-tpile.table, THCA_BJ-A45D/npile_dir/0003-npile.table, THCA_BJ-A45D/f1r2/0003-f1r2.tar.gz, THCA_BJ-A45D/subvcfs/0003.vcf, THCA_BJ-A45D/subvcfs/0003.vcf.stats
+    log: logs/scatter/THCA_BJ-A45D_0003.log
+    jobid: 84
+    wildcards: pid=THCA_BJ-A45D, chr=0003
+
+Submitted job 84 with external jobid 'Submitted batch job 66559'.
+[Sun Dec  1 18:23:12 2019]
+Finished job 126.
+13 of 211 steps (6%) done
+
+[Sun Dec  1 18:23:12 2019]
+rule check_all_intervals:
+    input: THCA_EM-A1CW/tpile_dir/0000-tpile.table, THCA_EM-A1CW/tpile_dir/0001-tpile.table, THCA_EM-A1CW/tpile_dir/0002-tpile.table, THCA_EM-A1CW/tpile_dir/0003-tpile.table, THCA_EM-A1CW/tpile_dir/0004-tpile.table, THCA_EM-A1CW/npile_dir/0000-npile.table, THCA_EM-A1CW/npile_dir/0001-npile.table, THCA_EM-A1CW/npile_dir/0002-npile.table, THCA_EM-A1CW/npile_dir/0003-npile.table, THCA_EM-A1CW/npile_dir/0004-npile.table, THCA_EM-A1CW/f1r2/0000-f1r2.tar.gz, THCA_EM-A1CW/f1r2/0001-f1r2.tar.gz, THCA_EM-A1CW/f1r2/0002-f1r2.tar.gz, THCA_EM-A1CW/f1r2/0003-f1r2.tar.gz, THCA_EM-A1CW/f1r2/0004-f1r2.tar.gz, THCA_EM-A1CW/subvcfs/0000.vcf, THCA_EM-A1CW/subvcfs/0001.vcf, THCA_EM-A1CW/subvcfs/0002.vcf, THCA_EM-A1CW/subvcfs/0003.vcf, THCA_EM-A1CW/subvcfs/0004.vcf, THCA_EM-A1CW/subvcfs/0000.vcf.stats, THCA_EM-A1CW/subvcfs/0001.vcf.stats, THCA_EM-A1CW/subvcfs/0002.vcf.stats, THCA_EM-A1CW/subvcfs/0003.vcf.stats, THCA_EM-A1CW/subvcfs/0004.vcf.stats
+    output: THCA_EM-A1CW/flag
+    jobid: 206
+    wildcards: pid=THCA_EM-A1CW
+
+Submitted job 206 with external jobid 'Submitted batch job 66560'.
+Removing temporary output file THCA_BJ-A45I/tumor.bam.
+Removing temporary output file THCA_BJ-A45I/normal.bam.
+[Sun Dec  1 18:24:52 2019]
+Finished job 113.
+14 of 211 steps (7%) done
+
+[Sun Dec  1 18:24:52 2019]
+rule check_all_intervals:
+    input: THCA_BJ-A2NA/tpile_dir/0000-tpile.table, THCA_BJ-A2NA/tpile_dir/0001-tpile.table, THCA_BJ-A2NA/tpile_dir/0002-tpile.table, THCA_BJ-A2NA/tpile_dir/0003-tpile.table, THCA_BJ-A2NA/tpile_dir/0004-tpile.table, THCA_BJ-A2NA/npile_dir/0000-npile.table, THCA_BJ-A2NA/npile_dir/0001-npile.table, THCA_BJ-A2NA/npile_dir/0002-npile.table, THCA_BJ-A2NA/npile_dir/0003-npile.table, THCA_BJ-A2NA/npile_dir/0004-npile.table, THCA_BJ-A2NA/f1r2/0000-f1r2.tar.gz, THCA_BJ-A2NA/f1r2/0001-f1r2.tar.gz, THCA_BJ-A2NA/f1r2/0002-f1r2.tar.gz, THCA_BJ-A2NA/f1r2/0003-f1r2.tar.gz, THCA_BJ-A2NA/f1r2/0004-f1r2.tar.gz, THCA_BJ-A2NA/subvcfs/0000.vcf, THCA_BJ-A2NA/subvcfs/0001.vcf, THCA_BJ-A2NA/subvcfs/0002.vcf, THCA_BJ-A2NA/subvcfs/0003.vcf, THCA_BJ-A2NA/subvcfs/0004.vcf, THCA_BJ-A2NA/subvcfs/0000.vcf.stats, THCA_BJ-A2NA/subvcfs/0001.vcf.stats, THCA_BJ-A2NA/subvcfs/0002.vcf.stats, THCA_BJ-A2NA/subvcfs/0003.vcf.stats, THCA_BJ-A2NA/subvcfs/0004.vcf.stats
+    output: THCA_BJ-A2NA/flag
+    jobid: 164
+    wildcards: pid=THCA_BJ-A2NA
+
+Submitted job 164 with external jobid 'Submitted batch job 66561'.
+[Sun Dec  1 18:29:48 2019]
+Finished job 124.
+15 of 211 steps (7%) done
+
+[Sun Dec  1 18:29:48 2019]
+rule check_all_intervals:
+    input: THCA_BJ-A45I/tpile_dir/0000-tpile.table, THCA_BJ-A45I/tpile_dir/0001-tpile.table, THCA_BJ-A45I/tpile_dir/0002-tpile.table, THCA_BJ-A45I/tpile_dir/0003-tpile.table, THCA_BJ-A45I/tpile_dir/0004-tpile.table, THCA_BJ-A45I/npile_dir/0000-npile.table, THCA_BJ-A45I/npile_dir/0001-npile.table, THCA_BJ-A45I/npile_dir/0002-npile.table, THCA_BJ-A45I/npile_dir/0003-npile.table, THCA_BJ-A45I/npile_dir/0004-npile.table, THCA_BJ-A45I/f1r2/0000-f1r2.tar.gz, THCA_BJ-A45I/f1r2/0001-f1r2.tar.gz, THCA_BJ-A45I/f1r2/0002-f1r2.tar.gz, THCA_BJ-A45I/f1r2/0003-f1r2.tar.gz, THCA_BJ-A45I/f1r2/0004-f1r2.tar.gz, THCA_BJ-A45I/subvcfs/0000.vcf, THCA_BJ-A45I/subvcfs/0001.vcf, THCA_BJ-A45I/subvcfs/0002.vcf, THCA_BJ-A45I/subvcfs/0003.vcf, THCA_BJ-A45I/subvcfs/0004.vcf, THCA_BJ-A45I/subvcfs/0000.vcf.stats, THCA_BJ-A45I/subvcfs/0001.vcf.stats, THCA_BJ-A45I/subvcfs/0002.vcf.stats, THCA_BJ-A45I/subvcfs/0003.vcf.stats, THCA_BJ-A45I/subvcfs/0004.vcf.stats
+    output: THCA_BJ-A45I/flag
+    jobid: 191
+    wildcards: pid=THCA_BJ-A45I
+
+Submitted job 191 with external jobid 'Submitted batch job 66562'.
+[Sun Dec  1 18:32:33 2019]
+Error in rule scatter_m2:
+    jobid: 83
+    output: THCA_BJ-A45D/tpile_dir/0002-tpile.table, THCA_BJ-A45D/npile_dir/0002-npile.table, THCA_BJ-A45D/f1r2/0002-f1r2.tar.gz, THCA_BJ-A45D/subvcfs/0002.vcf, THCA_BJ-A45D/subvcfs/0002.vcf.stats
+    log: logs/scatter/THCA_BJ-A45D_0002.log (check log file(s) for error message)
+    shell:
+        
+        gatkm="gatk --java-options -Xmx2g"
+
+        tumor="THCA_BJ-A45D/tumor.bam"
+        normal="THCA_BJ-A45D/normal.bam"
+        tumor_name="THCA_BJ-A45D/tumor_name.txt"
+        normal_name="THCA_BJ-A45D/normal_name.txt"
+        interval_file="subintervals/0002-scattered.interval_list"
+
+        normal_command_line="-I ${normal} -normal `cat ${normal_name}`"
+        tumor_command_line="-I ${tumor} -tumor `cat ${tumor_name}`"
+
+        $gatkm Mutect2             -R gs://gatk-best-practices/somatic-b37/Homo_sapiens_assembly19.fasta             $tumor_command_line             $normal_command_line             --germline-resource gs://gatk-best-practices/somatic-b37/af-only-gnomad.raw.sites.vcf             -pon gs://gatk-best-practices/somatic-b37/Mutect2-exome-panel.vcf             -L  $interval_file             -O THCA_BJ-A45D/subvcfs/0002.vcf             --f1r2-tar-gz THCA_BJ-A45D/f1r2/0002-f1r2.tar.gz
+        
+        echo finish Mutect2 --------------------
+
+        $gatkm GetPileupSummaries             -R gs://gatk-best-practices/somatic-b37/Homo_sapiens_assembly19.fasta -I $tumor             --interval-set-rule INTERSECTION             -L $interval_file             -V gs://gatk-best-practices/somatic-b37/small_exac_common_3.vcf             -L gs://gatk-best-practices/somatic-b37/small_exac_common_3.vcf             -O THCA_BJ-A45D/tpile_dir/0002-tpile.table
+        echo Getpiles tumor --------------------
+
+        $gatkm GetPileupSummaries             -R gs://gatk-best-practices/somatic-b37/Homo_sapiens_assembly19.fasta -I $normal             --interval-set-rule INTERSECTION             -L $interval_file             -V gs://gatk-best-practices/somatic-b37/small_exac_common_3.vcf             -L gs://gatk-best-practices/somatic-b37/small_exac_common_3.vcf             -O THCA_BJ-A45D/npile_dir/0002-npile.table 
+        echo Getpiles normal ------------------
+
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+    cluster_jobid: Submitted batch job 66558
+
+Error executing rule scatter_m2 on cluster (jobid: 83, external: Submitted batch job 66558, jobscript: /demo-mount/smk-m2/res/.snakemake/tmp.qn0h679r/snakejob.scatter_m2.83.sh). For error details see the cluster log and the log files of the involved rule(s).
+[Sun Dec  1 18:32:33 2019]
+Error in rule scatter_m2:
+    jobid: 84
+    output: THCA_BJ-A45D/tpile_dir/0003-tpile.table, THCA_BJ-A45D/npile_dir/0003-npile.table, THCA_BJ-A45D/f1r2/0003-f1r2.tar.gz, THCA_BJ-A45D/subvcfs/0003.vcf, THCA_BJ-A45D/subvcfs/0003.vcf.stats
+    log: logs/scatter/THCA_BJ-A45D_0003.log (check log file(s) for error message)
+    shell:
+        
+        gatkm="gatk --java-options -Xmx2g"
+
+        tumor="THCA_BJ-A45D/tumor.bam"
+        normal="THCA_BJ-A45D/normal.bam"
+        tumor_name="THCA_BJ-A45D/tumor_name.txt"
+        normal_name="THCA_BJ-A45D/normal_name.txt"
+        interval_file="subintervals/0003-scattered.interval_list"
+
+        normal_command_line="-I ${normal} -normal `cat ${normal_name}`"
+        tumor_command_line="-I ${tumor} -tumor `cat ${tumor_name}`"
+
+        $gatkm Mutect2             -R gs://gatk-best-practices/somatic-b37/Homo_sapiens_assembly19.fasta             $tumor_command_line             $normal_command_line             --germline-resource gs://gatk-best-practices/somatic-b37/af-only-gnomad.raw.sites.vcf             -pon gs://gatk-best-practices/somatic-b37/Mutect2-exome-panel.vcf             -L  $interval_file             -O THCA_BJ-A45D/subvcfs/0003.vcf             --f1r2-tar-gz THCA_BJ-A45D/f1r2/0003-f1r2.tar.gz
+        
+        echo finish Mutect2 --------------------
+
+        $gatkm GetPileupSummaries             -R gs://gatk-best-practices/somatic-b37/Homo_sapiens_assembly19.fasta -I $tumor             --interval-set-rule INTERSECTION             -L $interval_file             -V gs://gatk-best-practices/somatic-b37/small_exac_common_3.vcf             -L gs://gatk-best-practices/somatic-b37/small_exac_common_3.vcf             -O THCA_BJ-A45D/tpile_dir/0003-tpile.table
+        echo Getpiles tumor --------------------
+
+        $gatkm GetPileupSummaries             -R gs://gatk-best-practices/somatic-b37/Homo_sapiens_assembly19.fasta -I $normal             --interval-set-rule INTERSECTION             -L $interval_file             -V gs://gatk-best-practices/somatic-b37/small_exac_common_3.vcf             -L gs://gatk-best-practices/somatic-b37/small_exac_common_3.vcf             -O THCA_BJ-A45D/npile_dir/0003-npile.table 
+        echo Getpiles normal ------------------
+
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+    cluster_jobid: Submitted batch job 66559
+
+Error executing rule scatter_m2 on cluster (jobid: 84, external: Submitted batch job 66559, jobscript: /demo-mount/smk-m2/res/.snakemake/tmp.qn0h679r/snakejob.scatter_m2.84.sh). For error details see the cluster log and the log files of the involved rule(s).
+[Sun Dec  1 18:32:33 2019]
+Error in rule check_all_intervals:
+    jobid: 206
+    output: THCA_EM-A1CW/flag
+    shell:
+        
+        echo "scatter finished" > THCA_EM-A1CW/flag
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+    cluster_jobid: Submitted batch job 66560
+
+Error executing rule check_all_intervals on cluster (jobid: 206, external: Submitted batch job 66560, jobscript: /demo-mount/smk-m2/res/.snakemake/tmp.qn0h679r/snakejob.check_all_intervals.206.sh). For error details see the cluster log and the log files of the involved rule(s).
+[Sun Dec  1 18:32:33 2019]
+Error in rule check_all_intervals:
+    jobid: 164
+    output: THCA_BJ-A2NA/flag
+    shell:
+        
+        echo "scatter finished" > THCA_BJ-A2NA/flag
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+    cluster_jobid: Submitted batch job 66561
+
+Error executing rule check_all_intervals on cluster (jobid: 164, external: Submitted batch job 66561, jobscript: /demo-mount/smk-m2/res/.snakemake/tmp.qn0h679r/snakejob.check_all_intervals.164.sh). For error details see the cluster log and the log files of the involved rule(s).
+[Sun Dec  1 18:32:33 2019]
+Error in rule check_all_intervals:
+    jobid: 191
+    output: THCA_BJ-A45I/flag
+    shell:
+        
+        echo "scatter finished" > THCA_BJ-A45I/flag
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+    cluster_jobid: Submitted batch job 66562
+
+Error executing rule check_all_intervals on cluster (jobid: 191, external: Submitted batch job 66562, jobscript: /demo-mount/smk-m2/res/.snakemake/tmp.qn0h679r/snakejob.check_all_intervals.191.sh). For error details see the cluster log and the log files of the involved rule(s).
+[Sun Dec  1 18:44:15 2019]
+Finished job 125.
+16 of 211 steps (8%) done
+Removing temporary output file THCA_EM-A4FH/tumor.bam.
+Removing temporary output file THCA_EM-A4FH/normal.bam.
+[Sun Dec  1 18:44:56 2019]
+Finished job 123.
+17 of 211 steps (8%) done
+[Sun Dec  1 18:45:06 2019]
+Finished job 85.
+18 of 211 steps (9%) done
+[Sun Dec  1 18:54:47 2019]
+Finished job 81.
+19 of 211 steps (9%) done
+[Sun Dec  1 18:56:27 2019]
+Finished job 82.
+20 of 211 steps (9%) done
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /demo-mount/smk-m2/.snakemake/log/2019-12-01T165008.227433.snakemake.log
+Building DAG of jobs...
+MissingRuleException:
+No rule to produce sbatch --cpus-per-task 3 (if you use input functions make sure that they don't raise unexpected exceptions).
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cluster nodes: 100
+Job counts:
+	count	jobs
+	1	all
+	2	calculate_contamination
+	1	check_all_intervals
+	2	funcotate
+	2	localize_with_name
+	2	merge_m2
+	5	scatter_m2
+	15
+
+[Mon Dec  2 01:57:09 2019]
+Job 20: THCA_BJ-A2N8 - tumor is being localized and annotated with file name
+
+Submitted job 20 with external jobid 'Submitted batch job 66737'.
+
+[Mon Dec  2 01:57:09 2019]
+Job 21: THCA_BJ-A2N8 - normal is being localized and annotated with file name
+
+Submitted job 21 with external jobid 'Submitted batch job 66738'.
+[Mon Dec  2 01:57:09 2019]
+
+group job merge (jobs in lexicogr. order):
+
+    [Mon Dec  2 01:57:09 2019]
+    Job 10: THCA_BJ-A2N9 is being estimated for contamination level
+
+
+    [Mon Dec  2 01:57:09 2019]
+    Job 1: THCA_BJ-A2N9 is being annotated ....
+
+
+    [Mon Dec  2 01:57:09 2019]
+    Job 3: THCA_BJ-A2N9 calls are being merged and filtered
+
+Submitted group job a7659714-f3f3-5ccb-93ef-5392ac22493a with external jobid 'Submitted batch job 66739'.
+[Mon Dec  2 01:57:19 2019]
+Error in rule localize_with_name:
+    jobid: 20
+    output: THCA_BJ-A2N8/tumor.bam, THCA_BJ-A2N8/tumor.bai, THCA_BJ-A2N8/tumor_name.txt
+    log: logs/localize/THCA_BJ-A2N8_tumor.log (check log file(s) for error message)
+    shell:
+        
+        cat THCA_BJ-A2N8/tumor_url.txt &> logs/localize/THCA_BJ-A2N8_tumor.log
+	echo --------------
+        wget "$(cat THCA_BJ-A2N8/tumor_url.txt)" -O THCA_BJ-A2N8/tumor.bam &>> logs/localize/THCA_BJ-A2N8_tumor.log
+        gatk BuildBamIndex -I THCA_BJ-A2N8/tumor.bam -O THCA_BJ-A2N8/tumor.bai &>> logs/localize/THCA_BJ-A2N8_tumor.log
+        
+        # [ gsutil -q stat gs://legacy_indices/THCA_BJ-A2N8_tumor.bai ] || gsutil cp THCA_BJ-A2N8/tumor.bai gs://legacy_indices/THCA_BJ-A2N8_tumor.bai &>> logs/localize/THCA_BJ-A2N8_tumor.log
+        
+        gatk GetSampleName -R gs://gatk-best-practices/somatic-b37/Homo_sapiens_assembly19.fasta -I THCA_BJ-A2N8/tumor.bam -O THCA_BJ-A2N8/tumor_name.txt &>> logs/localize/THCA_BJ-A2N8_tumor.log
+        cat THCA_BJ-A2N8/tumor_name.txt &>> logs/localize/THCA_BJ-A2N8_tumor.log
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+    cluster_jobid: Submitted batch job 66737
+
+Error executing rule localize_with_name on cluster (jobid: 20, external: Submitted batch job 66737, jobscript: /demo-mount/smk-m2/res/.snakemake/tmp.51krvzln/snakejob.localize_with_name.20.sh). For error details see the cluster log and the log files of the involved rule(s).
+[Mon Dec  2 01:57:19 2019]
+Error in rule localize_with_name:
+    jobid: 21
+    output: THCA_BJ-A2N8/normal.bam, THCA_BJ-A2N8/normal.bai, THCA_BJ-A2N8/normal_name.txt
+    log: logs/localize/THCA_BJ-A2N8_normal.log (check log file(s) for error message)
+    shell:
+        
+        cat THCA_BJ-A2N8/normal_url.txt &> logs/localize/THCA_BJ-A2N8_normal.log
+	echo --------------
+        wget "$(cat THCA_BJ-A2N8/normal_url.txt)" -O THCA_BJ-A2N8/normal.bam &>> logs/localize/THCA_BJ-A2N8_normal.log
+        gatk BuildBamIndex -I THCA_BJ-A2N8/normal.bam -O THCA_BJ-A2N8/normal.bai &>> logs/localize/THCA_BJ-A2N8_normal.log
+        
+        # [ gsutil -q stat gs://legacy_indices/THCA_BJ-A2N8_normal.bai ] || gsutil cp THCA_BJ-A2N8/normal.bai gs://legacy_indices/THCA_BJ-A2N8_normal.bai &>> logs/localize/THCA_BJ-A2N8_normal.log
+        
+        gatk GetSampleName -R gs://gatk-best-practices/somatic-b37/Homo_sapiens_assembly19.fasta -I THCA_BJ-A2N8/normal.bam -O THCA_BJ-A2N8/normal_name.txt &>> logs/localize/THCA_BJ-A2N8_normal.log
+        cat THCA_BJ-A2N8/normal_name.txt &>> logs/localize/THCA_BJ-A2N8_normal.log
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+    cluster_jobid: Submitted batch job 66738
+
+Error executing rule localize_with_name on cluster (jobid: 21, external: Submitted batch job 66738, jobscript: /demo-mount/smk-m2/res/.snakemake/tmp.51krvzln/snakejob.localize_with_name.21.sh). For error details see the cluster log and the log files of the involved rule(s).
+Terminating processes on user request, this might take some time.
+Will exit after finishing currently running jobs.
+Cancelling snakemake on user request.
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cluster nodes: 100
+Job counts:
+	count	jobs
+	1	all
+	2	calculate_contamination
+	2	check_all_intervals
+	2	funcotate
+	2	get_url
+	4	localize_with_name
+	2	merge_m2
+	10	scatter_m2
+	1	split_intervals
+	26
+
+[Mon Dec  2 02:00:19 2019]
+rule split_intervals:
+    output: subintervals
+    log: logs/split_interval/log
+    jobid: 25
+
+Submitted job 25 with external jobid 'Submitted batch job 66740'.
+[Mon Dec  2 02:00:49 2019]
+Finished job 25.
+1 of 26 steps (4%) done
+
+[Mon Dec  2 02:00:49 2019]
+rule get_url:
+    input: subintervals
+    output: THCA_BJ-A2N8/tumor_url.txt, THCA_BJ-A2N8/normal_url.txt
+    log: logs/get_url/THCA_BJ-A2N8.log
+    jobid: 24
+    wildcards: pid=THCA_BJ-A2N8
+
+Submitted job 24 with external jobid 'Submitted batch job 66741'.
+
+[Mon Dec  2 02:00:49 2019]
+rule get_url:
+    input: subintervals
+    output: THCA_BJ-A2N9/tumor_url.txt, THCA_BJ-A2N9/normal_url.txt
+    log: logs/get_url/THCA_BJ-A2N9.log
+    jobid: 23
+    wildcards: pid=THCA_BJ-A2N9
+
+Submitted job 23 with external jobid 'Submitted batch job 66742'.
+Waiting at most 5 seconds for missing files.
+MissingOutputException in line 71 of /demo-mount/smk-m2/Snakefile:
+Missing files after 5 seconds:
+THCA_BJ-A2N8/tumor_url.txt
+THCA_BJ-A2N8/normal_url.txt
+This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait.
+Waiting at most 5 seconds for missing files.
+MissingOutputException in line 71 of /demo-mount/smk-m2/Snakefile:
+Missing files after 5 seconds:
+THCA_BJ-A2N9/tumor_url.txt
+THCA_BJ-A2N9/normal_url.txt
+This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait.
+Shutting down, this might take some time.
+Terminating processes on user request, this might take some time.
+Will exit after finishing currently running jobs.
+Complete log: /demo-mount/smk-m2/.snakemake/log/2019-12-02T020018.970379.snakemake.log
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cluster nodes: 100
+Job counts:
+	count	jobs
+	1	all
+	2	calculate_contamination
+	2	check_all_intervals
+	2	funcotate
+	2	get_url
+	4	localize_with_name
+	2	merge_m2
+	10	scatter_m2
+	1	split_intervals
+	26
+
+[Mon Dec  2 02:01:38 2019]
+rule split_intervals:
+    output: subintervals
+    log: logs/split_interval/log
+    jobid: 25
+
+Submitted job 25 with external jobid 'Submitted batch job 66743'.
+[Mon Dec  2 02:02:08 2019]
+Finished job 25.
+1 of 26 steps (4%) done
+
+[Mon Dec  2 02:02:08 2019]
+rule get_url:
+    input: subintervals
+    output: THCA_BJ-A2N9/tumor_url.txt, THCA_BJ-A2N9/normal_url.txt
+    log: logs/get_url/THCA_BJ-A2N9.log
+    jobid: 23
+    wildcards: pid=THCA_BJ-A2N9
+
+Submitted job 23 with external jobid 'Submitted batch job 66744'.
+
+[Mon Dec  2 02:02:08 2019]
+rule get_url:
+    input: subintervals
+    output: THCA_BJ-A2N8/tumor_url.txt, THCA_BJ-A2N8/normal_url.txt
+    log: logs/get_url/THCA_BJ-A2N8.log
+    jobid: 24
+    wildcards: pid=THCA_BJ-A2N8
+
+Submitted job 24 with external jobid 'Submitted batch job 66745'.
+Waiting at most 100 seconds for missing files.
+[Mon Dec  2 02:02:38 2019]
+Finished job 23.
+2 of 26 steps (8%) done
+
+[Mon Dec  2 02:02:38 2019]
+Job 17: THCA_BJ-A2N9 - tumor is being localized and annotated with file name
+
+[Mon Dec  2 02:02:38 2019]
+Finished job 24.
+3 of 26 steps (12%) done
+Submitted job 17 with external jobid 'Submitted batch job 66746'.
+
+[Mon Dec  2 02:02:38 2019]
+Job 18: THCA_BJ-A2N9 - normal is being localized and annotated with file name
+
+Submitted job 18 with external jobid 'Submitted batch job 66747'.
+
+[Mon Dec  2 02:02:38 2019]
+Job 20: THCA_BJ-A2N8 - tumor is being localized and annotated with file name
+
+Submitted job 20 with external jobid 'Submitted batch job 66748'.
+
+[Mon Dec  2 02:02:38 2019]
+Job 21: THCA_BJ-A2N8 - normal is being localized and annotated with file name
+
+Submitted job 21 with external jobid 'Submitted batch job 66749'.
+[Mon Dec  2 02:12:13 2019]
+Finished job 18.
+4 of 26 steps (15%) done
+[Mon Dec  2 02:12:13 2019]
+Finished job 21.
+5 of 26 steps (19%) done
+[Mon Dec  2 02:12:23 2019]
+Finished job 20.
+6 of 26 steps (23%) done
+
+[Mon Dec  2 02:12:23 2019]
+rule scatter_m2:
+    input: THCA_BJ-A2N8/tumor.bam, THCA_BJ-A2N8/normal.bam
+    output: THCA_BJ-A2N8/tpile_dir/0000-tpile.table, THCA_BJ-A2N8/npile_dir/0000-npile.table, THCA_BJ-A2N8/f1r2/0000-f1r2.tar.gz, THCA_BJ-A2N8/subvcfs/0000.vcf, THCA_BJ-A2N8/subvcfs/0000.vcf.stats
+    log: logs/scatter/THCA_BJ-A2N8_0000.log
+    jobid: 11
+    wildcards: pid=THCA_BJ-A2N8, chr=0000
+    priority: 100
+
+Submitted job 11 with external jobid 'Submitted batch job 66750'.
+
+[Mon Dec  2 02:12:23 2019]
+rule scatter_m2:
+    input: THCA_BJ-A2N8/tumor.bam, THCA_BJ-A2N8/normal.bam
+    output: THCA_BJ-A2N8/tpile_dir/0001-tpile.table, THCA_BJ-A2N8/npile_dir/0001-npile.table, THCA_BJ-A2N8/f1r2/0001-f1r2.tar.gz, THCA_BJ-A2N8/subvcfs/0001.vcf, THCA_BJ-A2N8/subvcfs/0001.vcf.stats
+    log: logs/scatter/THCA_BJ-A2N8_0001.log
+    jobid: 12
+    wildcards: pid=THCA_BJ-A2N8, chr=0001
+    priority: 100
+
+Submitted job 12 with external jobid 'Submitted batch job 66751'.
+
+[Mon Dec  2 02:12:23 2019]
+rule scatter_m2:
+    input: THCA_BJ-A2N8/tumor.bam, THCA_BJ-A2N8/normal.bam
+    output: THCA_BJ-A2N8/tpile_dir/0002-tpile.table, THCA_BJ-A2N8/npile_dir/0002-npile.table, THCA_BJ-A2N8/f1r2/0002-f1r2.tar.gz, THCA_BJ-A2N8/subvcfs/0002.vcf, THCA_BJ-A2N8/subvcfs/0002.vcf.stats
+    log: logs/scatter/THCA_BJ-A2N8_0002.log
+    jobid: 13
+    wildcards: pid=THCA_BJ-A2N8, chr=0002
+    priority: 100
+
+Submitted job 13 with external jobid 'Submitted batch job 66752'.
+
+[Mon Dec  2 02:12:23 2019]
+rule scatter_m2:
+    input: THCA_BJ-A2N8/tumor.bam, THCA_BJ-A2N8/normal.bam
+    output: THCA_BJ-A2N8/tpile_dir/0003-tpile.table, THCA_BJ-A2N8/npile_dir/0003-npile.table, THCA_BJ-A2N8/f1r2/0003-f1r2.tar.gz, THCA_BJ-A2N8/subvcfs/0003.vcf, THCA_BJ-A2N8/subvcfs/0003.vcf.stats
+    log: logs/scatter/THCA_BJ-A2N8_0003.log
+    jobid: 14
+    wildcards: pid=THCA_BJ-A2N8, chr=0003
+    priority: 100
+
+Submitted job 14 with external jobid 'Submitted batch job 66753'.
+
+[Mon Dec  2 02:12:23 2019]
+rule scatter_m2:
+    input: THCA_BJ-A2N8/tumor.bam, THCA_BJ-A2N8/normal.bam
+    output: THCA_BJ-A2N8/tpile_dir/0004-tpile.table, THCA_BJ-A2N8/npile_dir/0004-npile.table, THCA_BJ-A2N8/f1r2/0004-f1r2.tar.gz, THCA_BJ-A2N8/subvcfs/0004.vcf, THCA_BJ-A2N8/subvcfs/0004.vcf.stats
+    log: logs/scatter/THCA_BJ-A2N8_0004.log
+    jobid: 15
+    wildcards: pid=THCA_BJ-A2N8, chr=0004
+    priority: 100
+
+Submitted job 15 with external jobid 'Submitted batch job 66754'.
+[Mon Dec  2 02:13:03 2019]
+Finished job 17.
+7 of 26 steps (27%) done
+
+[Mon Dec  2 02:13:03 2019]
+rule scatter_m2:
+    input: THCA_BJ-A2N9/tumor.bam, THCA_BJ-A2N9/normal.bam
+    output: THCA_BJ-A2N9/tpile_dir/0003-tpile.table, THCA_BJ-A2N9/npile_dir/0003-npile.table, THCA_BJ-A2N9/f1r2/0003-f1r2.tar.gz, THCA_BJ-A2N9/subvcfs/0003.vcf, THCA_BJ-A2N9/subvcfs/0003.vcf.stats
+    log: logs/scatter/THCA_BJ-A2N9_0003.log
+    jobid: 8
+    wildcards: pid=THCA_BJ-A2N9, chr=0003
+    priority: 100
+
+Submitted job 8 with external jobid 'Submitted batch job 66755'.
+
+[Mon Dec  2 02:13:03 2019]
+rule scatter_m2:
+    input: THCA_BJ-A2N9/tumor.bam, THCA_BJ-A2N9/normal.bam
+    output: THCA_BJ-A2N9/tpile_dir/0000-tpile.table, THCA_BJ-A2N9/npile_dir/0000-npile.table, THCA_BJ-A2N9/f1r2/0000-f1r2.tar.gz, THCA_BJ-A2N9/subvcfs/0000.vcf, THCA_BJ-A2N9/subvcfs/0000.vcf.stats
+    log: logs/scatter/THCA_BJ-A2N9_0000.log
+    jobid: 5
+    wildcards: pid=THCA_BJ-A2N9, chr=0000
+    priority: 100
+
+Submitted job 5 with external jobid 'Submitted batch job 66756'.
+
+[Mon Dec  2 02:13:03 2019]
+rule scatter_m2:
+    input: THCA_BJ-A2N9/tumor.bam, THCA_BJ-A2N9/normal.bam
+    output: THCA_BJ-A2N9/tpile_dir/0001-tpile.table, THCA_BJ-A2N9/npile_dir/0001-npile.table, THCA_BJ-A2N9/f1r2/0001-f1r2.tar.gz, THCA_BJ-A2N9/subvcfs/0001.vcf, THCA_BJ-A2N9/subvcfs/0001.vcf.stats
+    log: logs/scatter/THCA_BJ-A2N9_0001.log
+    jobid: 6
+    wildcards: pid=THCA_BJ-A2N9, chr=0001
+    priority: 100
+
+Submitted job 6 with external jobid 'Submitted batch job 66757'.
+
+[Mon Dec  2 02:13:03 2019]
+rule scatter_m2:
+    input: THCA_BJ-A2N9/tumor.bam, THCA_BJ-A2N9/normal.bam
+    output: THCA_BJ-A2N9/tpile_dir/0002-tpile.table, THCA_BJ-A2N9/npile_dir/0002-npile.table, THCA_BJ-A2N9/f1r2/0002-f1r2.tar.gz, THCA_BJ-A2N9/subvcfs/0002.vcf, THCA_BJ-A2N9/subvcfs/0002.vcf.stats
+    log: logs/scatter/THCA_BJ-A2N9_0002.log
+    jobid: 7
+    wildcards: pid=THCA_BJ-A2N9, chr=0002
+    priority: 100
+
+Submitted job 7 with external jobid 'Submitted batch job 66758'.
+
+[Mon Dec  2 02:13:03 2019]
+rule scatter_m2:
+    input: THCA_BJ-A2N9/tumor.bam, THCA_BJ-A2N9/normal.bam
+    output: THCA_BJ-A2N9/tpile_dir/0004-tpile.table, THCA_BJ-A2N9/npile_dir/0004-npile.table, THCA_BJ-A2N9/f1r2/0004-f1r2.tar.gz, THCA_BJ-A2N9/subvcfs/0004.vcf, THCA_BJ-A2N9/subvcfs/0004.vcf.stats
+    log: logs/scatter/THCA_BJ-A2N9_0004.log
+    jobid: 9
+    wildcards: pid=THCA_BJ-A2N9, chr=0004
+    priority: 100
+
+Submitted job 9 with external jobid 'Submitted batch job 66759'.
+[Mon Dec  2 02:36:43 2019]
+Finished job 15.
+8 of 26 steps (31%) done
+[Mon Dec  2 02:38:24 2019]
+Finished job 14.
+9 of 26 steps (35%) done
+[Mon Dec  2 02:38:24 2019]
+Finished job 8.
+10 of 26 steps (38%) done
+[Mon Dec  2 02:38:24 2019]
+Finished job 5.
+11 of 26 steps (42%) done
+[Mon Dec  2 02:38:24 2019]
+Finished job 9.
+12 of 26 steps (46%) done
+[Mon Dec  2 02:41:04 2019]
+Finished job 11.
+13 of 26 steps (50%) done
+[Mon Dec  2 02:41:04 2019]
+Finished job 7.
+14 of 26 steps (54%) done
+[Mon Dec  2 02:41:44 2019]
+Finished job 13.
+15 of 26 steps (58%) done
+Removing temporary output file THCA_BJ-A2N8/tumor.bam.
+Removing temporary output file THCA_BJ-A2N8/normal.bam.
+[Mon Dec  2 02:44:25 2019]
+Finished job 12.
+16 of 26 steps (62%) done
+
+[Mon Dec  2 02:44:25 2019]
+rule check_all_intervals:
+    input: THCA_BJ-A2N8/tpile_dir/0000-tpile.table, THCA_BJ-A2N8/tpile_dir/0001-tpile.table, THCA_BJ-A2N8/tpile_dir/0002-tpile.table, THCA_BJ-A2N8/tpile_dir/0003-tpile.table, THCA_BJ-A2N8/tpile_dir/0004-tpile.table, THCA_BJ-A2N8/npile_dir/0000-npile.table, THCA_BJ-A2N8/npile_dir/0001-npile.table, THCA_BJ-A2N8/npile_dir/0002-npile.table, THCA_BJ-A2N8/npile_dir/0003-npile.table, THCA_BJ-A2N8/npile_dir/0004-npile.table, THCA_BJ-A2N8/f1r2/0000-f1r2.tar.gz, THCA_BJ-A2N8/f1r2/0001-f1r2.tar.gz, THCA_BJ-A2N8/f1r2/0002-f1r2.tar.gz, THCA_BJ-A2N8/f1r2/0003-f1r2.tar.gz, THCA_BJ-A2N8/f1r2/0004-f1r2.tar.gz, THCA_BJ-A2N8/subvcfs/0000.vcf, THCA_BJ-A2N8/subvcfs/0001.vcf, THCA_BJ-A2N8/subvcfs/0002.vcf, THCA_BJ-A2N8/subvcfs/0003.vcf, THCA_BJ-A2N8/subvcfs/0004.vcf, THCA_BJ-A2N8/subvcfs/0000.vcf.stats, THCA_BJ-A2N8/subvcfs/0001.vcf.stats, THCA_BJ-A2N8/subvcfs/0002.vcf.stats, THCA_BJ-A2N8/subvcfs/0003.vcf.stats, THCA_BJ-A2N8/subvcfs/0004.vcf.stats
+    output: THCA_BJ-A2N8/flag
+    jobid: 22
+    wildcards: pid=THCA_BJ-A2N8
+
+Submitted job 22 with external jobid 'Submitted batch job 66760'.
+Waiting at most 100 seconds for missing files.
+[Mon Dec  2 02:44:55 2019]
+Finished job 22.
+17 of 26 steps (65%) done
+[Mon Dec  2 02:44:55 2019]
+
+group job merge (jobs in lexicogr. order):
+
+    [Mon Dec  2 02:44:55 2019]
+    Job 16: THCA_BJ-A2N8 is being estimated for contamination level
+
+
+    [Mon Dec  2 02:44:55 2019]
+    Job 2: THCA_BJ-A2N8 is being annotated ....
+
+
+    [Mon Dec  2 02:44:55 2019]
+    Job 4: THCA_BJ-A2N8 calls are being merged and filtered
+
+Submitted group job 5701dc7b-0cad-5a9d-9d7a-3b60fcf711cd with external jobid 'Submitted batch job 66761'.
+Removing temporary output file THCA_BJ-A2N9/tumor.bam.
+Removing temporary output file THCA_BJ-A2N9/normal.bam.
+[Mon Dec  2 02:45:06 2019]
+Finished job 6.
+18 of 26 steps (69%) done
+
+[Mon Dec  2 02:45:06 2019]
+rule check_all_intervals:
+    input: THCA_BJ-A2N9/tpile_dir/0000-tpile.table, THCA_BJ-A2N9/tpile_dir/0001-tpile.table, THCA_BJ-A2N9/tpile_dir/0002-tpile.table, THCA_BJ-A2N9/tpile_dir/0003-tpile.table, THCA_BJ-A2N9/tpile_dir/0004-tpile.table, THCA_BJ-A2N9/npile_dir/0000-npile.table, THCA_BJ-A2N9/npile_dir/0001-npile.table, THCA_BJ-A2N9/npile_dir/0002-npile.table, THCA_BJ-A2N9/npile_dir/0003-npile.table, THCA_BJ-A2N9/npile_dir/0004-npile.table, THCA_BJ-A2N9/f1r2/0000-f1r2.tar.gz, THCA_BJ-A2N9/f1r2/0001-f1r2.tar.gz, THCA_BJ-A2N9/f1r2/0002-f1r2.tar.gz, THCA_BJ-A2N9/f1r2/0003-f1r2.tar.gz, THCA_BJ-A2N9/f1r2/0004-f1r2.tar.gz, THCA_BJ-A2N9/subvcfs/0000.vcf, THCA_BJ-A2N9/subvcfs/0001.vcf, THCA_BJ-A2N9/subvcfs/0002.vcf, THCA_BJ-A2N9/subvcfs/0003.vcf, THCA_BJ-A2N9/subvcfs/0004.vcf, THCA_BJ-A2N9/subvcfs/0000.vcf.stats, THCA_BJ-A2N9/subvcfs/0001.vcf.stats, THCA_BJ-A2N9/subvcfs/0002.vcf.stats, THCA_BJ-A2N9/subvcfs/0003.vcf.stats, THCA_BJ-A2N9/subvcfs/0004.vcf.stats
+    output: THCA_BJ-A2N9/flag
+    jobid: 19
+    wildcards: pid=THCA_BJ-A2N9
+
+Submitted job 19 with external jobid 'Submitted batch job 66762'.
+Waiting at most 100 seconds for missing files.
+[Mon Dec  2 02:45:25 2019]
+Finished job 19.
+19 of 26 steps (73%) done
+[Mon Dec  2 02:45:25 2019]
+
+group job merge (jobs in lexicogr. order):
+
+    [Mon Dec  2 02:45:25 2019]
+    Job 10: THCA_BJ-A2N9 is being estimated for contamination level
+
+
+    [Mon Dec  2 02:45:25 2019]
+    Job 1: THCA_BJ-A2N9 is being annotated ....
+
+
+    [Mon Dec  2 02:45:25 2019]
+    Job 3: THCA_BJ-A2N9 calls are being merged and filtered
+
+Submitted group job 44fcf488-28d5-5aa1-a381-4af185da87bf with external jobid 'Submitted batch job 66763'.
+[Mon Dec  2 03:01:06 2019]
+Finished job 3.
+[Mon Dec  2 03:01:06 2019]
+Finished job 1.
+[Mon Dec  2 03:01:06 2019]
+Finished job 10.
+22 of 26 steps (85%) done
+[Mon Dec  2 03:12:47 2019]
+Finished job 4.
+[Mon Dec  2 03:12:47 2019]
+Finished job 2.
+[Mon Dec  2 03:12:47 2019]
+Finished job 16.
+25 of 26 steps (96%) done
+
+[Mon Dec  2 03:12:47 2019]
+localrule all:
+    input: THCA_BJ-A2N9/funco_flag, THCA_BJ-A2N8/funco_flag, THCA_BJ-A2N9/annot_merged_filtered.vcf, THCA_BJ-A2N8/annot_merged_filtered.vcf, THCA_BJ-A2N9/merged_filtered.vcf, THCA_BJ-A2N8/merged_filtered.vcf
+    jobid: 0
+
+[Mon Dec  2 03:12:47 2019]
+Finished job 0.
+26 of 26 steps (100%) done
+Complete log: /demo-mount/smk-m2/.snakemake/log/2019-12-02T020137.955642.snakemake.log
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cluster nodes: 50
+Job counts:
+	count	jobs
+	1	all
+	497	calculate_contamination
+	497	check_all_intervals
+	499	funcotate
+	497	get_url
+	994	localize_with_name
+	499	merge_m2
+	2485	scatter_m2
+	5969
+
+[Mon Dec  2 05:58:19 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_FS-A4F5/tumor_url.txt, SKCM_FS-A4F5/normal_url.txt
+    log: logs/get_url/SKCM_FS-A4F5.log
+    jobid: 5877
+    wildcards: pid=SKCM_FS-A4F5
+
+Submitted job 5877 with external jobid 'Submitted batch job 66764'.
+
+[Mon Dec  2 05:58:19 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_D3-A2JN/tumor_url.txt, SKCM_D3-A2JN/normal_url.txt
+    log: logs/get_url/SKCM_D3-A2JN.log
+    jobid: 5969
+    wildcards: pid=SKCM_D3-A2JN
+
+Submitted job 5969 with external jobid 'Submitted batch job 66765'.
+
+[Mon Dec  2 05:58:19 2019]
+rule get_url:
+    input: subintervals
+    output: THCA_L6-A4EQ/tumor_url.txt, THCA_L6-A4EQ/normal_url.txt
+    log: logs/get_url/THCA_L6-A4EQ.log
+    jobid: 5541
+    wildcards: pid=THCA_L6-A4EQ
+
+Submitted job 5541 with external jobid 'Submitted batch job 66766'.
+
+[Mon Dec  2 05:58:19 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_EE-A29C/tumor_url.txt, SKCM_EE-A29C/normal_url.txt
+    log: logs/get_url/SKCM_EE-A29C.log
+    jobid: 5924
+    wildcards: pid=SKCM_EE-A29C
+
+Submitted job 5924 with external jobid 'Submitted batch job 66767'.
+
+[Mon Dec  2 05:58:19 2019]
+rule get_url:
+    input: subintervals
+    output: THCA_BJ-A45K/tumor_url.txt, THCA_BJ-A45K/normal_url.txt
+    log: logs/get_url/THCA_BJ-A45K.log
+    jobid: 5500
+    wildcards: pid=THCA_BJ-A45K
+
+Submitted job 5500 with external jobid 'Submitted batch job 66768'.
+
+[Mon Dec  2 05:58:19 2019]
+rule get_url:
+    input: subintervals
+    output: BLCA_FD-A43U/tumor_url.txt, BLCA_FD-A43U/normal_url.txt
+    log: logs/get_url/BLCA_FD-A43U.log
+    jobid: 5644
+    wildcards: pid=BLCA_FD-A43U
+
+Submitted job 5644 with external jobid 'Submitted batch job 66769'.
+
+[Mon Dec  2 05:58:19 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_ER-A199/tumor_url.txt, SKCM_ER-A199/normal_url.txt
+    log: logs/get_url/SKCM_ER-A199.log
+    jobid: 5918
+    wildcards: pid=SKCM_ER-A199
+
+Submitted job 5918 with external jobid 'Submitted batch job 66770'.
+
+[Mon Dec  2 05:58:19 2019]
+rule get_url:
+    input: subintervals
+    output: LAML_AB-2817/tumor_url.txt, LAML_AB-2817/normal_url.txt
+    log: logs/get_url/LAML_AB-2817.log
+    jobid: 5724
+    wildcards: pid=LAML_AB-2817
+
+Submitted job 5724 with external jobid 'Submitted batch job 66771'.
+
+[Mon Dec  2 05:58:19 2019]
+rule get_url:
+    input: subintervals
+    output: LAML_AB-2933/tumor_url.txt, LAML_AB-2933/normal_url.txt
+    log: logs/get_url/LAML_AB-2933.log
+    jobid: 5684
+    wildcards: pid=LAML_AB-2933
+
+Submitted job 5684 with external jobid 'Submitted batch job 66772'.
+
+[Mon Dec  2 05:58:19 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_EB-A44Q/tumor_url.txt, SKCM_EB-A44Q/normal_url.txt
+    log: logs/get_url/SKCM_EB-A44Q.log
+    jobid: 5911
+    wildcards: pid=SKCM_EB-A44Q
+
+Submitted job 5911 with external jobid 'Submitted batch job 66773'.
+
+[Mon Dec  2 05:58:20 2019]
+rule get_url:
+    input: subintervals
+    output: LAML_AB-2877/tumor_url.txt, LAML_AB-2877/normal_url.txt
+    log: logs/get_url/LAML_AB-2877.log
+    jobid: 5758
+    wildcards: pid=LAML_AB-2877
+
+Submitted job 5758 with external jobid 'Submitted batch job 66774'.
+
+[Mon Dec  2 05:58:20 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_ER-A196/tumor_url.txt, SKCM_ER-A196/normal_url.txt
+    log: logs/get_url/SKCM_ER-A196.log
+    jobid: 5837
+    wildcards: pid=SKCM_ER-A196
+
+Submitted job 5837 with external jobid 'Submitted batch job 66775'.
+
+[Mon Dec  2 05:58:20 2019]
+rule get_url:
+    input: subintervals
+    output: THCA_GE-A2C6/tumor_url.txt, THCA_GE-A2C6/normal_url.txt
+    log: logs/get_url/THCA_GE-A2C6.log
+    jobid: 5525
+    wildcards: pid=THCA_GE-A2C6
+
+Submitted job 5525 with external jobid 'Submitted batch job 66776'.
+
+[Mon Dec  2 05:58:20 2019]
+rule get_url:
+    input: subintervals
+    output: KIRC_AS-3778/tumor_url.txt, KIRC_AS-3778/normal_url.txt
+    log: logs/get_url/KIRC_AS-3778.log
+    jobid: 5570
+    wildcards: pid=KIRC_AS-3778
+
+Submitted job 5570 with external jobid 'Submitted batch job 66777'.
+
+[Mon Dec  2 05:58:20 2019]
+rule get_url:
+    input: subintervals
+    output: LAML_AB-2939/tumor_url.txt, LAML_AB-2939/normal_url.txt
+    log: logs/get_url/LAML_AB-2939.log
+    jobid: 5677
+    wildcards: pid=LAML_AB-2939
+
+Submitted job 5677 with external jobid 'Submitted batch job 66778'.
+
+[Mon Dec  2 05:58:20 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_EE-A2GP/tumor_url.txt, SKCM_EE-A2GP/normal_url.txt
+    log: logs/get_url/SKCM_EE-A2GP.log
+    jobid: 5853
+    wildcards: pid=SKCM_EE-A2GP
+
+Submitted job 5853 with external jobid 'Submitted batch job 66779'.
+
+[Mon Dec  2 05:58:20 2019]
+rule get_url:
+    input: subintervals
+    output: LAML_AB-2848/tumor_url.txt, LAML_AB-2848/normal_url.txt
+    log: logs/get_url/LAML_AB-2848.log
+    jobid: 5669
+    wildcards: pid=LAML_AB-2848
+
+Submitted job 5669 with external jobid 'Submitted batch job 66780'.
+
+[Mon Dec  2 05:58:20 2019]
+rule get_url:
+    input: subintervals
+    output: THCA_BJ-A28T/tumor_url.txt, THCA_BJ-A28T/normal_url.txt
+    log: logs/get_url/THCA_BJ-A28T.log
+    jobid: 5532
+    wildcards: pid=THCA_BJ-A28T
+
+Submitted job 5532 with external jobid 'Submitted batch job 66781'.
+
+[Mon Dec  2 05:58:20 2019]
+rule get_url:
+    input: subintervals
+    output: THCA_DJ-A4UQ/tumor_url.txt, THCA_DJ-A4UQ/normal_url.txt
+    log: logs/get_url/THCA_DJ-A4UQ.log
+    jobid: 5521
+    wildcards: pid=THCA_DJ-A4UQ
+
+Submitted job 5521 with external jobid 'Submitted batch job 66782'.
+
+[Mon Dec  2 05:58:20 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_EE-A29H/tumor_url.txt, SKCM_EE-A29H/normal_url.txt
+    log: logs/get_url/SKCM_EE-A29H.log
+    jobid: 5928
+    wildcards: pid=SKCM_EE-A29H
+
+Submitted job 5928 with external jobid 'Submitted batch job 66783'.
+
+[Mon Dec  2 05:58:21 2019]
+rule get_url:
+    input: subintervals
+    output: BLCA_CF-A3MF/tumor_url.txt, BLCA_CF-A3MF/normal_url.txt
+    log: logs/get_url/BLCA_CF-A3MF.log
+    jobid: 5612
+    wildcards: pid=BLCA_CF-A3MF
+
+Submitted job 5612 with external jobid 'Submitted batch job 66784'.
+
+[Mon Dec  2 05:58:21 2019]
+rule get_url:
+    input: subintervals
+    output: BLCA_GD-A3OP/tumor_url.txt, BLCA_GD-A3OP/normal_url.txt
+    log: logs/get_url/BLCA_GD-A3OP.log
+    jobid: 5589
+    wildcards: pid=BLCA_GD-A3OP
+
+Submitted job 5589 with external jobid 'Submitted batch job 66785'.
+
+[Mon Dec  2 05:58:21 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_ER-A19L/tumor_url.txt, SKCM_ER-A19L/normal_url.txt
+    log: logs/get_url/SKCM_ER-A19L.log
+    jobid: 5831
+    wildcards: pid=SKCM_ER-A19L
+
+Submitted job 5831 with external jobid 'Submitted batch job 66786'.
+
+[Mon Dec  2 05:58:21 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_DA-A1I7/tumor_url.txt, SKCM_DA-A1I7/normal_url.txt
+    log: logs/get_url/SKCM_DA-A1I7.log
+    jobid: 5792
+    wildcards: pid=SKCM_DA-A1I7
+
+Submitted job 5792 with external jobid 'Submitted batch job 66787'.
+
+[Mon Dec  2 05:58:21 2019]
+rule get_url:
+    input: subintervals
+    output: THCA_DE-A4MC/tumor_url.txt, THCA_DE-A4MC/normal_url.txt
+    log: logs/get_url/THCA_DE-A4MC.log
+    jobid: 5544
+    wildcards: pid=THCA_DE-A4MC
+
+Submitted job 5544 with external jobid 'Submitted batch job 66788'.
+
+[Mon Dec  2 05:58:21 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_ER-A19E/tumor_url.txt, SKCM_ER-A19E/normal_url.txt
+    log: logs/get_url/SKCM_ER-A19E.log
+    jobid: 5816
+    wildcards: pid=SKCM_ER-A19E
+
+Submitted job 5816 with external jobid 'Submitted batch job 66789'.
+
+[Mon Dec  2 05:58:21 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_EE-A2GE/tumor_url.txt, SKCM_EE-A2GE/normal_url.txt
+    log: logs/get_url/SKCM_EE-A2GE.log
+    jobid: 5863
+    wildcards: pid=SKCM_EE-A2GE
+
+Submitted job 5863 with external jobid 'Submitted batch job 66790'.
+
+[Mon Dec  2 05:58:21 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_DA-A1HY/tumor_url.txt, SKCM_DA-A1HY/normal_url.txt
+    log: logs/get_url/SKCM_DA-A1HY.log
+    jobid: 5872
+    wildcards: pid=SKCM_DA-A1HY
+
+Submitted job 5872 with external jobid 'Submitted batch job 66791'.
+
+[Mon Dec  2 05:58:21 2019]
+rule get_url:
+    input: subintervals
+    output: THCA_FK-A4UB/tumor_url.txt, THCA_FK-A4UB/normal_url.txt
+    log: logs/get_url/THCA_FK-A4UB.log
+    jobid: 5519
+    wildcards: pid=THCA_FK-A4UB
+
+Submitted job 5519 with external jobid 'Submitted batch job 66792'.
+
+[Mon Dec  2 05:58:21 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_EE-A2GD/tumor_url.txt, SKCM_EE-A2GD/normal_url.txt
+    log: logs/get_url/SKCM_EE-A2GD.log
+    jobid: 5862
+    wildcards: pid=SKCM_EE-A2GD
+
+Submitted job 5862 with external jobid 'Submitted batch job 66793'.
+
+[Mon Dec  2 05:58:22 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_EB-A4IS/tumor_url.txt, SKCM_EB-A4IS/normal_url.txt
+    log: logs/get_url/SKCM_EB-A4IS.log
+    jobid: 5805
+    wildcards: pid=SKCM_EB-A4IS
+
+Submitted job 5805 with external jobid 'Submitted batch job 66794'.
+
+[Mon Dec  2 05:58:22 2019]
+rule get_url:
+    input: subintervals
+    output: LAML_AB-2861/tumor_url.txt, LAML_AB-2861/normal_url.txt
+    log: logs/get_url/LAML_AB-2861.log
+    jobid: 5763
+    wildcards: pid=LAML_AB-2861
+
+Submitted job 5763 with external jobid 'Submitted batch job 66795'.
+
+[Mon Dec  2 05:58:22 2019]
+rule get_url:
+    input: subintervals
+    output: LAML_AB-2894/tumor_url.txt, LAML_AB-2894/normal_url.txt
+    log: logs/get_url/LAML_AB-2894.log
+    jobid: 5736
+    wildcards: pid=LAML_AB-2894
+
+Submitted job 5736 with external jobid 'Submitted batch job 66796'.
+
+[Mon Dec  2 05:58:22 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_DA-A1I8/tumor_url.txt, SKCM_DA-A1I8/normal_url.txt
+    log: logs/get_url/SKCM_DA-A1I8.log
+    jobid: 5796
+    wildcards: pid=SKCM_DA-A1I8
+
+Submitted job 5796 with external jobid 'Submitted batch job 66797'.
+
+[Mon Dec  2 05:58:22 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_D3-A1Q6/tumor_url.txt, SKCM_D3-A1Q6/normal_url.txt
+    log: logs/get_url/SKCM_D3-A1Q6.log
+    jobid: 5806
+    wildcards: pid=SKCM_D3-A1Q6
+
+Submitted job 5806 with external jobid 'Submitted batch job 66798'.
+
+[Mon Dec  2 05:58:22 2019]
+rule get_url:
+    input: subintervals
+    output: LAML_AB-2880/tumor_url.txt, LAML_AB-2880/normal_url.txt
+    log: logs/get_url/LAML_AB-2880.log
+    jobid: 5747
+    wildcards: pid=LAML_AB-2880
+
+Submitted job 5747 with external jobid 'Submitted batch job 66799'.
+
+[Mon Dec  2 05:58:22 2019]
+rule get_url:
+    input: subintervals
+    output: LAML_AB-2827/tumor_url.txt, LAML_AB-2827/normal_url.txt
+    log: logs/get_url/LAML_AB-2827.log
+    jobid: 5703
+    wildcards: pid=LAML_AB-2827
+
+Submitted job 5703 with external jobid 'Submitted batch job 66800'.
+
+[Mon Dec  2 05:58:22 2019]
+rule get_url:
+    input: subintervals
+    output: BLCA_GD-A2C5/tumor_url.txt, BLCA_GD-A2C5/normal_url.txt
+    log: logs/get_url/BLCA_GD-A2C5.log
+    jobid: 5602
+    wildcards: pid=BLCA_GD-A2C5
+
+Submitted job 5602 with external jobid 'Submitted batch job 66801'.
+
+[Mon Dec  2 05:58:22 2019]
+rule get_url:
+    input: subintervals
+    output: THCA_BJ-A45E/tumor_url.txt, THCA_BJ-A45E/normal_url.txt
+    log: logs/get_url/THCA_BJ-A45E.log
+    jobid: 5498
+    wildcards: pid=THCA_BJ-A45E
+
+Submitted job 5498 with external jobid 'Submitted batch job 66802'.
+
+[Mon Dec  2 05:58:22 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_D3-A51T/tumor_url.txt, SKCM_D3-A51T/normal_url.txt
+    log: logs/get_url/SKCM_D3-A51T.log
+    jobid: 5782
+    wildcards: pid=SKCM_D3-A51T
+
+Submitted job 5782 with external jobid 'Submitted batch job 66803'.
+
+[Mon Dec  2 05:58:23 2019]
+rule get_url:
+    input: subintervals
+    output: THCA_IM-A4EB/tumor_url.txt, THCA_IM-A4EB/normal_url.txt
+    log: logs/get_url/THCA_IM-A4EB.log
+    jobid: 5542
+    wildcards: pid=THCA_IM-A4EB
+
+Submitted job 5542 with external jobid 'Submitted batch job 66804'.
+
+[Mon Dec  2 05:58:23 2019]
+rule get_url:
+    input: subintervals
+    output: LAML_AB-2935/tumor_url.txt, LAML_AB-2935/normal_url.txt
+    log: logs/get_url/LAML_AB-2935.log
+    jobid: 5679
+    wildcards: pid=LAML_AB-2935
+
+Submitted job 5679 with external jobid 'Submitted batch job 66805'.
+
+[Mon Dec  2 05:58:23 2019]
+rule get_url:
+    input: subintervals
+    output: BLCA_CF-A47S/tumor_url.txt, BLCA_CF-A47S/normal_url.txt
+    log: logs/get_url/BLCA_CF-A47S.log
+    jobid: 5633
+    wildcards: pid=BLCA_CF-A47S
+
+Submitted job 5633 with external jobid 'Submitted batch job 66806'.
+
+[Mon Dec  2 05:58:23 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_EE-A3AA/tumor_url.txt, SKCM_EE-A3AA/normal_url.txt
+    log: logs/get_url/SKCM_EE-A3AA.log
+    jobid: 5896
+    wildcards: pid=SKCM_EE-A3AA
+
+Submitted job 5896 with external jobid 'Submitted batch job 66807'.
+
+[Mon Dec  2 05:58:23 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_FS-A1ZB/tumor_url.txt, SKCM_FS-A1ZB/normal_url.txt
+    log: logs/get_url/SKCM_FS-A1ZB.log
+    jobid: 5939
+    wildcards: pid=SKCM_FS-A1ZB
+
+Submitted job 5939 with external jobid 'Submitted batch job 66808'.
+
+[Mon Dec  2 05:58:23 2019]
+rule get_url:
+    input: subintervals
+    output: BLCA_DK-A3IK/tumor_url.txt, BLCA_DK-A3IK/normal_url.txt
+    log: logs/get_url/BLCA_DK-A3IK.log
+    jobid: 5593
+    wildcards: pid=BLCA_DK-A3IK
+
+Submitted job 5593 with external jobid 'Submitted batch job 66809'.
+
+[Mon Dec  2 05:58:23 2019]
+rule get_url:
+    input: subintervals
+    output: BLCA_GC-A3BM/tumor_url.txt, BLCA_GC-A3BM/normal_url.txt
+    log: logs/get_url/BLCA_GC-A3BM.log
+    jobid: 5616
+    wildcards: pid=BLCA_GC-A3BM
+
+Submitted job 5616 with external jobid 'Submitted batch job 66810'.
+
+[Mon Dec  2 05:58:23 2019]
+rule get_url:
+    input: subintervals
+    output: SKCM_GN-A26C/tumor_url.txt, SKCM_GN-A26C/normal_url.txt
+    log: logs/get_url/SKCM_GN-A26C.log
+    jobid: 5835
+    wildcards: pid=SKCM_GN-A26C
+
+Submitted job 5835 with external jobid 'Submitted batch job 66811'.
+[Mon Dec  2 05:58:23 2019]
+
+group job merge (jobs in lexicogr. order):
+
+    [Mon Dec  2 05:58:23 2019]
+    Job 1: THCA_BJ-A2N9 is being annotated ....
+
+
+    [Mon Dec  2 05:58:23 2019]
+    Job 500: THCA_BJ-A2N9 calls are being merged and filtered
+
+Submitted group job 99439685-932b-505c-a7a6-57b854230978 with external jobid 'Submitted batch job 66812'.
+[Mon Dec  2 05:58:23 2019]
+
+group job merge (jobs in lexicogr. order):
+
+    [Mon Dec  2 05:58:23 2019]
+    Job 2: THCA_BJ-A2N8 is being annotated ....
+
+
+    [Mon Dec  2 05:58:23 2019]
+    Job 501: THCA_BJ-A2N8 calls are being merged and filtered
+
+Submitted group job a1b7517c-38c1-5248-abb3-36c2817630d2 with external jobid 'Submitted batch job 66813'.
+Waiting at most 150 seconds for missing files.
+[Mon Dec  2 05:59:11 2019]
+Finished job 5877.
+1 of 5969 steps (0.02%) done
+[Mon Dec  2 05:59:11 2019]
+Finished job 5969.
+2 of 5969 steps (0.03%) done
+[Mon Dec  2 05:59:11 2019]
+Finished job 5541.
+3 of 5969 steps (0.05%) done
+[Mon Dec  2 05:59:11 2019]
+Finished job 5924.
+4 of 5969 steps (0.07%) done
+[Mon Dec  2 05:59:11 2019]
+Finished job 5500.
+5 of 5969 steps (0.08%) done
+[Mon Dec  2 05:59:11 2019]
+Finished job 5644.
+6 of 5969 steps (0.10%) done
+[Mon Dec  2 05:59:11 2019]
+Finished job 5918.
+7 of 5969 steps (0.12%) done
+[Mon Dec  2 05:59:11 2019]
+Finished job 5724.
+8 of 5969 steps (0.13%) done
+[Mon Dec  2 05:59:11 2019]
+Finished job 5684.
+9 of 5969 steps (0.15%) done
+[Mon Dec  2 05:59:11 2019]
+Finished job 5911.
+10 of 5969 steps (0.17%) done
+
+[Mon Dec  2 05:59:11 2019]
+Job 5155: SKCM_FS-A4F5 - normal is being localized and annotated with file name
+
+Submitted job 5155 with external jobid 'Submitted batch job 66814'.
+
+[Mon Dec  2 05:59:11 2019]
+Job 4147: THCA_L6-A4EQ - normal is being localized and annotated with file name
+
+Submitted job 4147 with external jobid 'Submitted batch job 66815'.
+
+[Mon Dec  2 05:59:11 2019]
+Job 4456: BLCA_FD-A43U - normal is being localized and annotated with file name
+
+Submitted job 4456 with external jobid 'Submitted batch job 66816'.
+
+[Mon Dec  2 05:59:11 2019]
+Job 5257: SKCM_EB-A44Q - normal is being localized and annotated with file name
+
+Submitted job 5257 with external jobid 'Submitted batch job 66817'.
+
+[Mon Dec  2 05:59:11 2019]
+Job 4576: LAML_AB-2933 - normal is being localized and annotated with file name
+
+Submitted job 4576 with external jobid 'Submitted batch job 66818'.
+
+[Mon Dec  2 05:59:11 2019]
+Job 4455: BLCA_FD-A43U - tumor is being localized and annotated with file name
+
+Submitted job 4455 with external jobid 'Submitted batch job 66819'.
+
+[Mon Dec  2 05:59:11 2019]
+Job 4695: LAML_AB-2817 - tumor is being localized and annotated with file name
+
+Submitted job 4695 with external jobid 'Submitted batch job 66820'.
+
+[Mon Dec  2 05:59:11 2019]
+Job 5277: SKCM_ER-A199 - tumor is being localized and annotated with file name
+
+[Mon Dec  2 05:59:12 2019]
+Finished job 5758.
+11 of 5969 steps (0.18%) done
+Submitted job 5277 with external jobid 'Submitted batch job 66821'.
+
+[Mon Dec  2 05:59:12 2019]
+Job 5295: SKCM_EE-A29C - tumor is being localized and annotated with file name
+
+[Mon Dec  2 05:59:12 2019]
+Finished job 5837.
+12 of 5969 steps (0.20%) done
+Submitted job 5295 with external jobid 'Submitted batch job 66822'.
+[Mon Dec  2 05:59:12 2019]
+Finished job 5525.
+13 of 5969 steps (0.22%) done
+
+[Mon Dec  2 05:59:12 2019]
+Job 4575: LAML_AB-2933 - tumor is being localized and annotated with file name
+
+Submitted job 4575 with external jobid 'Submitted batch job 66823'.
+[Mon Dec  2 05:59:12 2019]
+Finished job 5570.
+14 of 5969 steps (0.23%) done
+[Mon Dec  2 05:59:12 2019]
+Finished job 5677.
+15 of 5969 steps (0.25%) done
+[Mon Dec  2 05:59:12 2019]
+Finished job 5853.
+16 of 5969 steps (0.27%) done
+[Mon Dec  2 05:59:12 2019]
+Finished job 5669.
+17 of 5969 steps (0.28%) done
+[Mon Dec  2 05:59:12 2019]
+Finished job 5532.
+18 of 5969 steps (0.30%) done
+[Mon Dec  2 05:59:12 2019]
+Finished job 5521.
+19 of 5969 steps (0.32%) done
+[Mon Dec  2 05:59:12 2019]
+Finished job 5928.
+20 of 5969 steps (0.34%) done
+
+[Mon Dec  2 05:59:12 2019]
+Job 4798: LAML_AB-2877 - normal is being localized and annotated with file name
+
+Submitted job 4798 with external jobid 'Submitted batch job 66824'.
+
+[Mon Dec  2 05:59:12 2019]
+Job 4234: KIRC_AS-3778 - normal is being localized and annotated with file name
+
+Submitted job 4234 with external jobid 'Submitted batch job 66825'.
+
+[Mon Dec  2 05:59:12 2019]
+Job 4555: LAML_AB-2939 - normal is being localized and annotated with file name
+
+Submitted job 4555 with external jobid 'Submitted batch job 66826'.
+
+[Mon Dec  2 05:59:12 2019]
+Job 4098: THCA_GE-A2C6 - tumor is being localized and annotated with file name
+
+Submitted job 4098 with external jobid 'Submitted batch job 66827'.
+
+[Mon Dec  2 05:59:12 2019]
+Job 4554: LAML_AB-2939 - tumor is being localized and annotated with file name
+
+Submitted job 4554 with external jobid 'Submitted batch job 66828'.
+
+[Mon Dec  2 05:59:13 2019]
+Job 4086: THCA_DJ-A4UQ - tumor is being localized and annotated with file name
+
+Submitted job 4086 with external jobid 'Submitted batch job 66829'.
+
+[Mon Dec  2 05:59:13 2019]
+Job 4119: THCA_BJ-A28T - tumor is being localized and annotated with file name
+
+Submitted job 4119 with external jobid 'Submitted batch job 66830'.
+
+[Mon Dec  2 05:59:13 2019]
+Job 4530: LAML_AB-2848 - tumor is being localized and annotated with file name
+
+[Mon Dec  2 05:59:13 2019]
+Finished job 5612.
+21 of 5969 steps (0.35%) done
+Submitted job 4530 with external jobid 'Submitted batch job 66831'.
+[Mon Dec  2 05:59:13 2019]
+Finished job 5589.
+22 of 5969 steps (0.37%) done
+
+[Mon Dec  2 05:59:13 2019]
+Job 5307: SKCM_EE-A29H - tumor is being localized and annotated with file name
+
+Submitted job 5307 with external jobid 'Submitted batch job 66832'.
+[Mon Dec  2 05:59:13 2019]
+Finished job 5831.
+23 of 5969 steps (0.39%) done
+
+[Mon Dec  2 05:59:13 2019]
+Job 4531: LAML_AB-2848 - normal is being localized and annotated with file name
+
+[Mon Dec  2 05:59:13 2019]
+Finished job 5792.
+24 of 5969 steps (0.40%) done
+Submitted job 4531 with external jobid 'Submitted batch job 66833'.
+[Mon Dec  2 05:59:13 2019]
+Finished job 5544.
+25 of 5969 steps (0.42%) done
+[Mon Dec  2 05:59:13 2019]
+Finished job 5816.
+26 of 5969 steps (0.44%) done
+[Mon Dec  2 05:59:13 2019]
+Finished job 5863.
+27 of 5969 steps (0.45%) done
+[Mon Dec  2 05:59:13 2019]
+Finished job 5872.
+28 of 5969 steps (0.47%) done
+[Mon Dec  2 05:59:13 2019]
+Finished job 5519.
+29 of 5969 steps (0.49%) done
+[Mon Dec  2 05:59:13 2019]
+Finished job 5862.
+30 of 5969 steps (0.50%) done
+
+[Mon Dec  2 05:59:13 2019]
+Job 5016: SKCM_ER-A19L - tumor is being localized and annotated with file name
+
+Submitted job 5016 with external jobid 'Submitted batch job 66834'.
+
+[Mon Dec  2 05:59:13 2019]
+Job 4290: BLCA_GD-A3OP - tumor is being localized and annotated with file name
+
+Submitted job 4290 with external jobid 'Submitted batch job 66835'.
+
+[Mon Dec  2 05:59:14 2019]
+Job 4155: THCA_DE-A4MC - tumor is being localized and annotated with file name
+
+Submitted job 4155 with external jobid 'Submitted batch job 66836'.
+
+[Mon Dec  2 05:59:14 2019]
+Job 4360: BLCA_CF-A3MF - normal is being localized and annotated with file name
+
+Submitted job 4360 with external jobid 'Submitted batch job 66837'.
+
+[Mon Dec  2 05:59:14 2019]
+Job 4900: SKCM_DA-A1I7 - normal is being localized and annotated with file name
+
+Submitted job 4900 with external jobid 'Submitted batch job 66838'.
+
+[Mon Dec  2 05:59:14 2019]
+Job 4972: SKCM_ER-A19E - normal is being localized and annotated with file name
+
+Submitted job 4972 with external jobid 'Submitted batch job 66839'.
+
+[Mon Dec  2 05:59:14 2019]
+Job 4080: THCA_FK-A4UB - tumor is being localized and annotated with file name
+
+Submitted job 4080 with external jobid 'Submitted batch job 66840'.
+
+[Mon Dec  2 05:59:14 2019]
+Job 5112: SKCM_EE-A2GE - tumor is being localized and annotated with file name
+
+Submitted job 5112 with external jobid 'Submitted batch job 66841'.
+[Mon Dec  2 05:59:14 2019]
+Finished job 5805.
+31 of 5969 steps (0.52%) done
+[Mon Dec  2 05:59:14 2019]
+Finished job 5763.
+32 of 5969 steps (0.54%) done
+
+[Mon Dec  2 05:59:14 2019]
+Job 4797: LAML_AB-2877 - tumor is being localized and annotated with file name
+
+Submitted job 4797 with external jobid 'Submitted batch job 66842'.
+[Mon Dec  2 05:59:14 2019]
+Finished job 5736.
+33 of 5969 steps (0.55%) done
+[Mon Dec  2 05:59:14 2019]
+Finished job 5796.
+34 of 5969 steps (0.57%) done
+
+[Mon Dec  2 05:59:14 2019]
+Job 5140: SKCM_DA-A1HY - normal is being localized and annotated with file name
+
+Submitted job 5140 with external jobid 'Submitted batch job 66843'.
+[Mon Dec  2 05:59:14 2019]
+Finished job 5806.
+35 of 5969 steps (0.59%) done
+[Mon Dec  2 05:59:14 2019]
+Finished job 5747.
+36 of 5969 steps (0.60%) done
+[Mon Dec  2 05:59:14 2019]
+Finished job 5703.
+37 of 5969 steps (0.62%) done
+[Mon Dec  2 05:59:14 2019]
+Finished job 5602.
+38 of 5969 steps (0.64%) done
+[Mon Dec  2 05:59:14 2019]
+Finished job 5498.
+39 of 5969 steps (0.65%) done
+[Mon Dec  2 05:59:14 2019]
+Finished job 5782.
+40 of 5969 steps (0.67%) done
+
+[Mon Dec  2 05:59:15 2019]
+Job 4912: SKCM_DA-A1I8 - normal is being localized and annotated with file name
+
+Submitted job 4912 with external jobid 'Submitted batch job 66844'.
+
+[Mon Dec  2 05:59:15 2019]
+Job 4813: LAML_AB-2861 - normal is being localized and annotated with file name
+
+Submitted job 4813 with external jobid 'Submitted batch job 66845'.
+
+[Mon Dec  2 05:59:15 2019]
+Job 4732: LAML_AB-2894 - normal is being localized and annotated with file name
+
+Submitted job 4732 with external jobid 'Submitted batch job 66846'.
+
+[Mon Dec  2 05:59:15 2019]
+Job 4731: LAML_AB-2894 - tumor is being localized and annotated with file name
+
+Submitted job 4731 with external jobid 'Submitted batch job 66847'.
+
+[Mon Dec  2 05:59:15 2019]
+Job 4812: LAML_AB-2861 - tumor is being localized and annotated with file name
+
+Submitted job 4812 with external jobid 'Submitted batch job 66848'.
+
+[Mon Dec  2 05:59:15 2019]
+Job 4911: SKCM_DA-A1I8 - tumor is being localized and annotated with file name
+
+Submitted job 4911 with external jobid 'Submitted batch job 66849'.
+
+[Mon Dec  2 05:59:15 2019]
+Job 4939: SKCM_EB-A4IS - normal is being localized and annotated with file name
+
+Submitted job 4939 with external jobid 'Submitted batch job 66850'.
+
+[Mon Dec  2 05:59:15 2019]
+Job 4330: BLCA_GD-A2C5 - normal is being localized and annotated with file name
+
+Submitted job 4330 with external jobid 'Submitted batch job 66851'.
+[Mon Dec  2 05:59:15 2019]
+Finished job 5542.
+41 of 5969 steps (0.69%) done
+[Mon Dec  2 05:59:15 2019]
+Finished job 5679.
+42 of 5969 steps (0.70%) done
+
+[Mon Dec  2 05:59:15 2019]
+Job 4017: THCA_BJ-A45E - tumor is being localized and annotated with file name
+
+Submitted job 4017 with external jobid 'Submitted batch job 66852'.
+[Mon Dec  2 05:59:15 2019]
+Finished job 5633.
+43 of 5969 steps (0.72%) done
+[Mon Dec  2 05:59:15 2019]
+Finished job 5896.
+44 of 5969 steps (0.74%) done
+
+[Mon Dec  2 05:59:15 2019]
+Job 4764: LAML_AB-2880 - tumor is being localized and annotated with file name
+
+Submitted job 4764 with external jobid 'Submitted batch job 66853'.
+[Mon Dec  2 05:59:15 2019]
+Finished job 5939.
+45 of 5969 steps (0.75%) done
+[Mon Dec  2 05:59:15 2019]
+Finished job 5593.
+46 of 5969 steps (0.77%) done
+[Mon Dec  2 05:59:15 2019]
+Finished job 5616.
+47 of 5969 steps (0.79%) done
+[Mon Dec  2 05:59:15 2019]
+Finished job 5835.
+48 of 5969 steps (0.80%) done
+
+[Mon Dec  2 05:59:16 2019]
+Job 5256: SKCM_EB-A44Q - tumor is being localized and annotated with file name
+
+Submitted job 5256 with external jobid 'Submitted batch job 66854'.
+
+[Mon Dec  2 05:59:16 2019]
+Job 4942: SKCM_D3-A1Q6 - normal is being localized and annotated with file name
+
+Submitted job 4942 with external jobid 'Submitted batch job 66855'.
+
+[Mon Dec  2 05:59:16 2019]
+Job 5341: SKCM_FS-A1ZB - normal is being localized and annotated with file name
+
+Submitted job 5341 with external jobid 'Submitted batch job 66856'.
+
+[Mon Dec  2 05:59:16 2019]
+Job 4422: BLCA_CF-A47S - tumor is being localized and annotated with file name
+
+Submitted job 4422 with external jobid 'Submitted batch job 66857'.
+
+[Mon Dec  2 05:59:16 2019]
+Job 4560: LAML_AB-2935 - tumor is being localized and annotated with file name
+
+Submitted job 4560 with external jobid 'Submitted batch job 66858'.
+
+[Mon Dec  2 05:59:16 2019]
+Job 4149: THCA_IM-A4EB - tumor is being localized and annotated with file name
+
+Submitted job 4149 with external jobid 'Submitted batch job 66859'.
+
+[Mon Dec  2 05:59:16 2019]
+Job 5212: SKCM_EE-A3AA - normal is being localized and annotated with file name
+
+Submitted job 5212 with external jobid 'Submitted batch job 66860'.
+
+[Mon Dec  2 05:59:16 2019]
+Job 4150: THCA_IM-A4EB - normal is being localized and annotated with file name
+
+Submitted job 4150 with external jobid 'Submitted batch job 66861'.
+[Mon Dec  2 06:20:24 2019]
+Finished job 1.
+[Mon Dec  2 06:20:25 2019]
+Finished job 500.
+50 of 5969 steps (0.84%) done
+
+[Mon Dec  2 06:20:33 2019]
+Job 4303: BLCA_DK-A3IK - normal is being localized and annotated with file name
+
+Submitted job 4303 with external jobid 'Submitted batch job 66862'.
+[Mon Dec  2 06:34:42 2019]
+Finished job 2.
+[Mon Dec  2 06:34:43 2019]
+Finished job 501.
+52 of 5969 steps (0.87%) done
+
+[Mon Dec  2 06:34:48 2019]
+Job 4633: LAML_AB-2827 - normal is being localized and annotated with file name
+
+Submitted job 4633 with external jobid 'Submitted batch job 66863'.
+[Mon Dec  2 06:35:50 2019]
+Finished job 5155.
+53 of 5969 steps (0.89%) done
+
+[Mon Dec  2 06:36:00 2019]
+Job 4696: LAML_AB-2817 - normal is being localized and annotated with file name
+
+Submitted job 4696 with external jobid 'Submitted batch job 66864'.
+[Mon Dec  2 06:39:33 2019]
+Finished job 4422.
+54 of 5969 steps (0.90%) done
+
+[Mon Dec  2 06:39:41 2019]
+Job 4765: LAML_AB-2880 - normal is being localized and annotated with file name
+
+Submitted job 4765 with external jobid 'Submitted batch job 66865'.
+[Mon Dec  2 06:40:33 2019]
+Finished job 5257.
+55 of 5969 steps (0.92%) done
+
+[Mon Dec  2 06:40:39 2019]
+Job 4561: LAML_AB-2935 - normal is being localized and annotated with file name
+
+Submitted job 4561 with external jobid 'Submitted batch job 66866'.
+[Mon Dec  2 06:42:15 2019]
+Finished job 4939.
+56 of 5969 steps (0.94%) done
+
+[Mon Dec  2 06:42:25 2019]
+Job 4632: LAML_AB-2827 - tumor is being localized and annotated with file name
+
+Submitted job 4632 with external jobid 'Submitted batch job 66867'.
+[Mon Dec  2 06:43:59 2019]
+Error in rule localize_with_name:
+    jobid: 4155
+    output: THCA_DE-A4MC/tumor.bam, THCA_DE-A4MC/tumor.bai, THCA_DE-A4MC/tumor_name.txt
+    log: logs/localize/THCA_DE-A4MC_tumor.log (check log file(s) for error message)
+    shell:
+        
+        cat THCA_DE-A4MC/tumor_url.txt &> logs/localize/THCA_DE-A4MC_tumor.log
+	echo --------------
+        wget "$(cat THCA_DE-A4MC/tumor_url.txt)" -O THCA_DE-A4MC/tumor.bam &>> logs/localize/THCA_DE-A4MC_tumor.log
+        gatk BuildBamIndex -I THCA_DE-A4MC/tumor.bam -O THCA_DE-A4MC/tumor.bai &>> logs/localize/THCA_DE-A4MC_tumor.log
+        
+        # [ gsutil -q stat gs://legacy_indices/THCA_DE-A4MC_tumor.bai ] || gsutil cp THCA_DE-A4MC/tumor.bai gs://legacy_indices/THCA_DE-A4MC_tumor.bai &>> logs/localize/THCA_DE-A4MC_tumor.log
+        
+        gatk GetSampleName -R gs://gatk-best-practices/somatic-b37/Homo_sapiens_assembly19.fasta -I THCA_DE-A4MC/tumor.bam -O THCA_DE-A4MC/tumor_name.txt &>> logs/localize/THCA_DE-A4MC_tumor.log
+        cat THCA_DE-A4MC/tumor_name.txt &>> logs/localize/THCA_DE-A4MC_tumor.log
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+    cluster_jobid: Submitted batch job 66836
+
+Error executing rule localize_with_name on cluster (jobid: 4155, external: Submitted batch job 66836, jobscript: /demo-mount/smk-m2/res/.snakemake/tmp.jnf_i3jq/snakejob.localize_with_name.4155.sh). For error details see the cluster log and the log files of the involved rule(s).
+[Mon Dec  2 06:44:57 2019]
+Finished job 5256.
+57 of 5969 steps (0.95%) done
+[Mon Dec  2 06:46:59 2019]
+Finished job 4017.
+58 of 5969 steps (0.97%) done
+[Mon Dec  2 06:47:29 2019]
+Finished job 4150.
+59 of 5969 steps (0.99%) done
+[Mon Dec  2 06:48:17 2019]
+Finished job 5277.
+60 of 5969 steps (1%) done
+[Mon Dec  2 06:48:44 2019]
+Finished job 4098.
+61 of 5969 steps (1%) done
+[Mon Dec  2 06:49:23 2019]
+Finished job 5112.
+62 of 5969 steps (1%) done
+[Mon Dec  2 06:50:01 2019]
+Finished job 4942.
+63 of 5969 steps (1%) done
+[Mon Dec  2 06:51:28 2019]
+Finished job 4080.
+64 of 5969 steps (1%) done
+[Mon Dec  2 06:52:59 2019]
+Finished job 4456.
+65 of 5969 steps (1%) done
+[Mon Dec  2 06:56:26 2019]
+Finished job 4086.
+66 of 5969 steps (1%) done
+[Mon Dec  2 06:59:22 2019]
+Finished job 4147.
+67 of 5969 steps (1%) done
+[Mon Dec  2 06:59:32 2019]
+Error in rule localize_with_name:
+    jobid: 4798
+    output: LAML_AB-2877/normal.bam, LAML_AB-2877/normal.bai, LAML_AB-2877/normal_name.txt
+    log: logs/localize/LAML_AB-2877_normal.log (check log file(s) for error message)
+    shell:
+        
+        cat LAML_AB-2877/normal_url.txt &> logs/localize/LAML_AB-2877_normal.log
+	echo --------------
+        wget "$(cat LAML_AB-2877/normal_url.txt)" -O LAML_AB-2877/normal.bam &>> logs/localize/LAML_AB-2877_normal.log
+        gatk BuildBamIndex -I LAML_AB-2877/normal.bam -O LAML_AB-2877/normal.bai &>> logs/localize/LAML_AB-2877_normal.log
+        
+        # [ gsutil -q stat gs://legacy_indices/LAML_AB-2877_normal.bai ] || gsutil cp LAML_AB-2877/normal.bai gs://legacy_indices/LAML_AB-2877_normal.bai &>> logs/localize/LAML_AB-2877_normal.log
+        
+        gatk GetSampleName -R gs://gatk-best-practices/somatic-b37/Homo_sapiens_assembly19.fasta -I LAML_AB-2877/normal.bam -O LAML_AB-2877/normal_name.txt &>> logs/localize/LAML_AB-2877_normal.log
+        cat LAML_AB-2877/normal_name.txt &>> logs/localize/LAML_AB-2877_normal.log
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+    cluster_jobid: Submitted batch job 66824
+
+Error executing rule localize_with_name on cluster (jobid: 4798, external: Submitted batch job 66824, jobscript: /demo-mount/smk-m2/res/.snakemake/tmp.jnf_i3jq/snakejob.localize_with_name.4798.sh). For error details see the cluster log and the log files of the involved rule(s).
+[Mon Dec  2 06:59:57 2019]
+Finished job 5307.
+68 of 5969 steps (1%) done
+[Mon Dec  2 07:00:18 2019]
+Finished job 4972.
+69 of 5969 steps (1%) done
+[Mon Dec  2 07:01:44 2019]
+Error in rule localize_with_name:
+    jobid: 4695
+    output: LAML_AB-2817/tumor.bam, LAML_AB-2817/tumor.bai, LAML_AB-2817/tumor_name.txt
+    log: logs/localize/LAML_AB-2817_tumor.log (check log file(s) for error message)
+    shell:
+        
+        cat LAML_AB-2817/tumor_url.txt &> logs/localize/LAML_AB-2817_tumor.log
+	echo --------------
+        wget "$(cat LAML_AB-2817/tumor_url.txt)" -O LAML_AB-2817/tumor.bam &>> logs/localize/LAML_AB-2817_tumor.log
+        gatk BuildBamIndex -I LAML_AB-2817/tumor.bam -O LAML_AB-2817/tumor.bai &>> logs/localize/LAML_AB-2817_tumor.log
+        
+        # [ gsutil -q stat gs://legacy_indices/LAML_AB-2817_tumor.bai ] || gsutil cp LAML_AB-2817/tumor.bai gs://legacy_indices/LAML_AB-2817_tumor.bai &>> logs/localize/LAML_AB-2817_tumor.log
+        
+        gatk GetSampleName -R gs://gatk-best-practices/somatic-b37/Homo_sapiens_assembly19.fasta -I LAML_AB-2817/tumor.bam -O LAML_AB-2817/tumor_name.txt &>> logs/localize/LAML_AB-2817_tumor.log
+        cat LAML_AB-2817/tumor_name.txt &>> logs/localize/LAML_AB-2817_tumor.log
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+    cluster_jobid: Submitted batch job 66820
+
+Error executing rule localize_with_name on cluster (jobid: 4695, external: Submitted batch job 66820, jobscript: /demo-mount/smk-m2/res/.snakemake/tmp.jnf_i3jq/snakejob.localize_with_name.4695.sh). For error details see the cluster log and the log files of the involved rule(s).
+[Mon Dec  2 07:02:14 2019]
+Finished job 5140.
+70 of 5969 steps (1%) done
+[Mon Dec  2 07:03:36 2019]
+Finished job 5295.
+71 of 5969 steps (1%) done
+[Mon Dec  2 07:03:58 2019]
+Finished job 4912.
+72 of 5969 steps (1%) done
+[Mon Dec  2 07:04:30 2019]
+Error in rule localize_with_name:
+    jobid: 4554
+    output: LAML_AB-2939/tumor.bam, LAML_AB-2939/tumor.bai, LAML_AB-2939/tumor_name.txt
+    log: logs/localize/LAML_AB-2939_tumor.log (check log file(s) for error message)
+    shell:
+        
+        cat LAML_AB-2939/tumor_url.txt &> logs/localize/LAML_AB-2939_tumor.log
+	echo --------------
+        wget "$(cat LAML_AB-2939/tumor_url.txt)" -O LAML_AB-2939/tumor.bam &>> logs/localize/LAML_AB-2939_tumor.log
+        gatk BuildBamIndex -I LAML_AB-2939/tumor.bam -O LAML_AB-2939/tumor.bai &>> logs/localize/LAML_AB-2939_tumor.log
+        
+        # [ gsutil -q stat gs://legacy_indices/LAML_AB-2939_tumor.bai ] || gsutil cp LAML_AB-2939/tumor.bai gs://legacy_indices/LAML_AB-2939_tumor.bai &>> logs/localize/LAML_AB-2939_tumor.log
+        
+        gatk GetSampleName -R gs://gatk-best-practices/somatic-b37/Homo_sapiens_assembly19.fasta -I LAML_AB-2939/tumor.bam -O LAML_AB-2939/tumor_name.txt &>> logs/localize/LAML_AB-2939_tumor.log
+        cat LAML_AB-2939/tumor_name.txt &>> logs/localize/LAML_AB-2939_tumor.log
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+    cluster_jobid: Submitted batch job 66828
+
+Error executing rule localize_with_name on cluster (jobid: 4554, external: Submitted batch job 66828, jobscript: /demo-mount/smk-m2/res/.snakemake/tmp.jnf_i3jq/snakejob.localize_with_name.4554.sh). For error details see the cluster log and the log files of the involved rule(s).
+[Mon Dec  2 07:04:54 2019]
+Finished job 4911.
+73 of 5969 steps (1%) done
+[Mon Dec  2 07:05:27 2019]
+Finished job 4455.
+74 of 5969 steps (1%) done
+[Mon Dec  2 07:07:43 2019]
+Finished job 5016.
+75 of 5969 steps (1%) done
+[Mon Dec  2 07:07:52 2019]
+Finished job 4360.
+76 of 5969 steps (1%) done
+[Mon Dec  2 07:08:47 2019]
+Finished job 5341.
+77 of 5969 steps (1%) done
+[Mon Dec  2 07:08:59 2019]
+Finished job 4149.
+78 of 5969 steps (1%) done
+[Mon Dec  2 07:09:31 2019]
+Finished job 4900.
+79 of 5969 steps (1%) done
+[Mon Dec  2 07:09:42 2019]
+Error in rule localize_with_name:
+    jobid: 4303
+    output: BLCA_DK-A3IK/normal.bam, BLCA_DK-A3IK/normal.bai, BLCA_DK-A3IK/normal_name.txt
+    log: logs/localize/BLCA_DK-A3IK_normal.log (check log file(s) for error message)
+    shell:
+        
+        cat BLCA_DK-A3IK/normal_url.txt &> logs/localize/BLCA_DK-A3IK_normal.log
+	echo --------------
+        wget "$(cat BLCA_DK-A3IK/normal_url.txt)" -O BLCA_DK-A3IK/normal.bam &>> logs/localize/BLCA_DK-A3IK_normal.log
+        gatk BuildBamIndex -I BLCA_DK-A3IK/normal.bam -O BLCA_DK-A3IK/normal.bai &>> logs/localize/BLCA_DK-A3IK_normal.log
+        
+        # [ gsutil -q stat gs://legacy_indices/BLCA_DK-A3IK_normal.bai ] || gsutil cp BLCA_DK-A3IK/normal.bai gs://legacy_indices/BLCA_DK-A3IK_normal.bai &>> logs/localize/BLCA_DK-A3IK_normal.log
+        
+        gatk GetSampleName -R gs://gatk-best-practices/somatic-b37/Homo_sapiens_assembly19.fasta -I BLCA_DK-A3IK/normal.bam -O BLCA_DK-A3IK/normal_name.txt &>> logs/localize/BLCA_DK-A3IK_normal.log
+        cat BLCA_DK-A3IK/normal_name.txt &>> logs/localize/BLCA_DK-A3IK_normal.log
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+    cluster_jobid: Submitted batch job 66862
+
+Error executing rule localize_with_name on cluster (jobid: 4303, external: Submitted batch job 66862, jobscript: /demo-mount/smk-m2/res/.snakemake/tmp.jnf_i3jq/snakejob.localize_with_name.4303.sh). For error details see the cluster log and the log files of the involved rule(s).
+[Mon Dec  2 07:11:06 2019]
+Finished job 5212.
+80 of 5969 steps (1%) done
+[Mon Dec  2 07:19:05 2019]
+Error in rule localize_with_name:
+    jobid: 4561
+    output: LAML_AB-2935/normal.bam, LAML_AB-2935/normal.bai, LAML_AB-2935/normal_name.txt
+    log: logs/localize/LAML_AB-2935_normal.log (check log file(s) for error message)
+    shell:
+        
+        cat LAML_AB-2935/normal_url.txt &> logs/localize/LAML_AB-2935_normal.log
+	echo --------------
+        wget "$(cat LAML_AB-2935/normal_url.txt)" -O LAML_AB-2935/normal.bam &>> logs/localize/LAML_AB-2935_normal.log
+        gatk BuildBamIndex -I LAML_AB-2935/normal.bam -O LAML_AB-2935/normal.bai &>> logs/localize/LAML_AB-2935_normal.log
+        
+        # [ gsutil -q stat gs://legacy_indices/LAML_AB-2935_normal.bai ] || gsutil cp LAML_AB-2935/normal.bai gs://legacy_indices/LAML_AB-2935_normal.bai &>> logs/localize/LAML_AB-2935_normal.log
+        
+        gatk GetSampleName -R gs://gatk-best-practices/somatic-b37/Homo_sapiens_assembly19.fasta -I LAML_AB-2935/normal.bam -O LAML_AB-2935/normal_name.txt &>> logs/localize/LAML_AB-2935_normal.log
+        cat LAML_AB-2935/normal_name.txt &>> logs/localize/LAML_AB-2935_normal.log
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+    cluster_jobid: Submitted batch job 66866
+
+Error executing rule localize_with_name on cluster (jobid: 4561, external: Submitted batch job 66866, jobscript: /demo-mount/smk-m2/res/.snakemake/tmp.jnf_i3jq/snakejob.localize_with_name.4561.sh). For error details see the cluster log and the log files of the involved rule(s).
+[Mon Dec  2 07:50:39 2019]
+Finished job 4290.
+81 of 5969 steps (1%) done
+[Mon Dec  2 08:10:50 2019]
+Finished job 4119.
+82 of 5969 steps (1%) done
+[Mon Dec  2 08:11:03 2019]
+Finished job 4764.
+83 of 5969 steps (1%) done
+[Mon Dec  2 08:20:50 2019]
+Finished job 4234.
+84 of 5969 steps (1%) done
+[Mon Dec  2 08:23:00 2019]
+Finished job 4731.
+85 of 5969 steps (1%) done
+[Mon Dec  2 08:26:12 2019]
+Finished job 4330.
+86 of 5969 steps (1%) done
+[Mon Dec  2 08:26:33 2019]
+Finished job 4576.
+87 of 5969 steps (1%) done
+[Mon Dec  2 08:28:41 2019]
+Finished job 4696.
+88 of 5969 steps (1%) done
+[Mon Dec  2 08:29:23 2019]
+Finished job 4575.
+89 of 5969 steps (1%) done
+[Mon Dec  2 08:33:37 2019]
+Finished job 4765.
+90 of 5969 steps (2%) done
+[Mon Dec  2 08:34:29 2019]
+Finished job 4530.
+91 of 5969 steps (2%) done
+[Mon Dec  2 08:34:46 2019]
+Finished job 4732.
+92 of 5969 steps (2%) done
+[Mon Dec  2 08:35:33 2019]
+Finished job 4531.
+93 of 5969 steps (2%) done
+[Mon Dec  2 08:36:22 2019]
+Finished job 4797.
+94 of 5969 steps (2%) done
+[Mon Dec  2 08:42:05 2019]
+Finished job 4813.
+95 of 5969 steps (2%) done
+[Mon Dec  2 08:42:05 2019]
+Finished job 4812.
+96 of 5969 steps (2%) done
+[Mon Dec  2 08:42:15 2019]
+Finished job 4560.
+97 of 5969 steps (2%) done
+[Mon Dec  2 08:50:56 2019]
+Finished job 4633.
+98 of 5969 steps (2%) done
+[Mon Dec  2 08:51:06 2019]
+Finished job 4632.
+99 of 5969 steps (2%) done
+[Mon Dec  2 09:05:47 2019]
+Finished job 4555.
+100 of 5969 steps (2%) done
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /demo-mount/smk-m2/.snakemake/log/2019-12-02T055810.001818.snakemake.log
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cluster nodes: 50
+Job counts:
+	count	jobs
+	1	all
+	499	calculate_contamination
+	499	check_all_intervals
+	499	funcotate
+	951	localize
+	499	merge_m2
+	2495	scatter_m2
+	5443
+
+[Tue Dec  3 02:55:24 2019]
+rule localize:
+    output: LAML_AB-2891/normal_url.txt, LAML_AB-2891/normal.bam, LAML_AB-2891/normal.bai, LAML_AB-2891/normal_name.txt
+    log: logs/localize/LAML_AB-2891_normal.log
+    jobid: 4723
+    wildcards: pid=LAML_AB-2891, type=normal
+
+Submitted job 4723 with external jobid 'Submitted batch job 67228'.
+
+[Tue Dec  3 02:55:24 2019]
+rule localize:
+    output: LAML_AB-2908/normal_url.txt, LAML_AB-2908/normal.bam, LAML_AB-2908/normal.bai, LAML_AB-2908/normal_name.txt
+    log: logs/localize/LAML_AB-2908_normal.log
+    jobid: 4840
+    wildcards: pid=LAML_AB-2908, type=normal
+
+Submitted job 4840 with external jobid 'Submitted batch job 67229'.
+
+[Tue Dec  3 02:55:24 2019]
+rule localize:
+    output: LAML_AB-2850/normal_url.txt, LAML_AB-2850/normal.bam, LAML_AB-2850/normal.bai, LAML_AB-2850/normal_name.txt
+    log: logs/localize/LAML_AB-2850_normal.log
+    jobid: 4474
+    wildcards: pid=LAML_AB-2850, type=normal
+
+Submitted job 4474 with external jobid 'Submitted batch job 67230'.
+
+[Tue Dec  3 02:55:24 2019]
+rule localize:
+    output: SKCM_EB-A4P0/tumor_url.txt, SKCM_EB-A4P0/tumor.bam, SKCM_EB-A4P0/tumor.bai, SKCM_EB-A4P0/tumor_name.txt
+    log: logs/localize/SKCM_EB-A4P0_tumor.log
+    jobid: 5145
+    wildcards: pid=SKCM_EB-A4P0, type=tumor
+
+Submitted job 5145 with external jobid 'Submitted batch job 67231'.
+
+[Tue Dec  3 02:55:24 2019]
+rule localize:
+    output: LAML_AB-2884/normal_url.txt, LAML_AB-2884/normal.bam, LAML_AB-2884/normal.bai, LAML_AB-2884/normal_name.txt
+    log: logs/localize/LAML_AB-2884_normal.log
+    jobid: 4753
+    wildcards: pid=LAML_AB-2884, type=normal
+
+Submitted job 4753 with external jobid 'Submitted batch job 67232'.
+
+[Tue Dec  3 02:55:24 2019]
+rule localize:
+    output: LAML_AB-2835/normal_url.txt, LAML_AB-2835/normal.bam, LAML_AB-2835/normal.bai, LAML_AB-2835/normal_name.txt
+    log: logs/localize/LAML_AB-2835_normal.log
+    jobid: 4585
+    wildcards: pid=LAML_AB-2835, type=normal
+
+Submitted job 4585 with external jobid 'Submitted batch job 67233'.
+
+[Tue Dec  3 02:55:24 2019]
+rule localize:
+    output: SKCM_ER-A197/normal_url.txt, SKCM_ER-A197/normal.bam, SKCM_ER-A197/normal.bai, SKCM_ER-A197/normal_name.txt
+    log: logs/localize/SKCM_ER-A197_normal.log
+    jobid: 5038
+    wildcards: pid=SKCM_ER-A197, type=normal
+
+Submitted job 5038 with external jobid 'Submitted batch job 67234'.
+
+[Tue Dec  3 02:55:24 2019]
+rule localize:
+    output: THCA_BJ-A45G/tumor_url.txt, THCA_BJ-A45G/tumor.bam, THCA_BJ-A45G/tumor.bai, THCA_BJ-A45G/tumor_name.txt
+    log: logs/localize/THCA_BJ-A45G_tumor.log
+    jobid: 4011
+    wildcards: pid=THCA_BJ-A45G, type=tumor
+
+Submitted job 4011 with external jobid 'Submitted batch job 67235'.
+
+[Tue Dec  3 02:55:24 2019]
+rule localize:
+    output: SKCM_EE-A29P/normal_url.txt, SKCM_EE-A29P/normal.bam, SKCM_EE-A29P/normal.bai, SKCM_EE-A29P/normal_name.txt
+    log: logs/localize/SKCM_EE-A29P_normal.log
+    jobid: 5320
+    wildcards: pid=SKCM_EE-A29P, type=normal
+
+Submitted job 5320 with external jobid 'Submitted batch job 67236'.
+
+[Tue Dec  3 02:55:24 2019]
+rule localize:
+    output: SKCM_ER-A196/normal_url.txt, SKCM_ER-A196/normal.bam, SKCM_ER-A196/normal.bai, SKCM_ER-A196/normal_name.txt
+    log: logs/localize/SKCM_ER-A196_normal.log
+    jobid: 5035
+    wildcards: pid=SKCM_ER-A196, type=normal
+
+Submitted job 5035 with external jobid 'Submitted batch job 67237'.
+
+[Tue Dec  3 02:55:25 2019]
+rule localize:
+    output: SKCM_EE-A17X/tumor_url.txt, SKCM_EE-A17X/tumor.bam, SKCM_EE-A17X/tumor.bai, SKCM_EE-A17X/tumor_name.txt
+    log: logs/localize/SKCM_EE-A17X_tumor.log
+    jobid: 5127
+    wildcards: pid=SKCM_EE-A17X, type=tumor
+
+Submitted job 5127 with external jobid 'Submitted batch job 67238'.
+
+[Tue Dec  3 02:55:25 2019]
+rule localize:
+    output: LAML_AB-2893/normal_url.txt, LAML_AB-2893/normal.bam, LAML_AB-2893/normal.bai, LAML_AB-2893/normal_name.txt
+    log: logs/localize/LAML_AB-2893_normal.log
+    jobid: 4717
+    wildcards: pid=LAML_AB-2893, type=normal
+
+Submitted job 4717 with external jobid 'Submitted batch job 67239'.
+
+[Tue Dec  3 02:55:25 2019]
+rule localize:
+    output: SKCM_EE-A29S/tumor_url.txt, SKCM_EE-A29S/tumor.bam, SKCM_EE-A29S/tumor.bai, SKCM_EE-A29S/tumor_name.txt
+    log: logs/localize/SKCM_EE-A29S_tumor.log
+    jobid: 5328
+    wildcards: pid=SKCM_EE-A29S, type=tumor
+
+Submitted job 5328 with external jobid 'Submitted batch job 67240'.
+
+[Tue Dec  3 02:55:25 2019]
+rule localize:
+    output: KIRC_A3-3382/normal_url.txt, KIRC_A3-3382/normal.bam, KIRC_A3-3382/normal.bai, KIRC_A3-3382/normal_name.txt
+    log: logs/localize/KIRC_A3-3382_normal.log
+    jobid: 4270
+    wildcards: pid=KIRC_A3-3382, type=normal
+
+Submitted job 4270 with external jobid 'Submitted batch job 67241'.
+
+[Tue Dec  3 02:55:25 2019]
+rule localize:
+    output: LAML_AB-2938/normal_url.txt, LAML_AB-2938/normal.bam, LAML_AB-2938/normal.bai, LAML_AB-2938/normal_name.txt
+    log: logs/localize/LAML_AB-2938_normal.log
+    jobid: 4558
+    wildcards: pid=LAML_AB-2938, type=normal
+
+Submitted job 4558 with external jobid 'Submitted batch job 67242'.
+
+[Tue Dec  3 02:55:25 2019]
+rule localize:
+    output: SKCM_ER-A19D/tumor_url.txt, SKCM_ER-A19D/tumor.bam, SKCM_ER-A19D/tumor.bai, SKCM_ER-A19D/tumor_name.txt
+    log: logs/localize/SKCM_ER-A19D_tumor.log
+    jobid: 4968
+    wildcards: pid=SKCM_ER-A19D, type=tumor
+
+Submitted job 4968 with external jobid 'Submitted batch job 67243'.
+
+[Tue Dec  3 02:55:25 2019]
+rule localize:
+    output: SKCM_EE-A2A6/tumor_url.txt, SKCM_EE-A2A6/tumor.bam, SKCM_EE-A2A6/tumor.bai, SKCM_EE-A2A6/tumor_name.txt
+    log: logs/localize/SKCM_EE-A2A6_tumor.log
+    jobid: 5454
+    wildcards: pid=SKCM_EE-A2A6, type=tumor
+
+Submitted job 5454 with external jobid 'Submitted batch job 67244'.
+
+[Tue Dec  3 02:55:25 2019]
+rule localize:
+    output: THCA_FY-A3TY/tumor_url.txt, THCA_FY-A3TY/tumor.bam, THCA_FY-A3TY/tumor.bai, THCA_FY-A3TY/tumor_name.txt
+    log: logs/localize/THCA_FY-A3TY_tumor.log
+    jobid: 4128
+    wildcards: pid=THCA_FY-A3TY, type=tumor
+
+Submitted job 4128 with external jobid 'Submitted batch job 67245'.
+
+[Tue Dec  3 02:55:25 2019]
+rule localize:
+    output: SKCM_EE-A2GJ/tumor_url.txt, SKCM_EE-A2GJ/tumor.bam, SKCM_EE-A2GJ/tumor.bai, SKCM_EE-A2GJ/tumor_name.txt
+    log: logs/localize/SKCM_EE-A2GJ_tumor.log
+    jobid: 5097
+    wildcards: pid=SKCM_EE-A2GJ, type=tumor
+
+Submitted job 5097 with external jobid 'Submitted batch job 67246'.
+
+[Tue Dec  3 02:55:25 2019]
+rule localize:
+    output: BLCA_DK-A3X2/tumor_url.txt, BLCA_DK-A3X2/tumor.bam, BLCA_DK-A3X2/tumor.bai, BLCA_DK-A3X2/tumor_name.txt
+    log: logs/localize/BLCA_DK-A3X2_tumor.log
+    jobid: 4419
+    wildcards: pid=BLCA_DK-A3X2, type=tumor
+
+Submitted job 4419 with external jobid 'Submitted batch job 67247'.
+
+[Tue Dec  3 02:55:26 2019]
+rule localize:
+    output: SKCM_D9-A1JX/normal_url.txt, SKCM_D9-A1JX/normal.bam, SKCM_D9-A1JX/normal.bai, SKCM_D9-A1JX/normal_name.txt
+    log: logs/localize/SKCM_D9-A1JX_normal.log
+    jobid: 5065
+    wildcards: pid=SKCM_D9-A1JX, type=normal
+
+Submitted job 5065 with external jobid 'Submitted batch job 67248'.
+
+[Tue Dec  3 02:55:26 2019]
+rule localize:
+    output: SKCM_EE-A2GO/tumor_url.txt, SKCM_EE-A2GO/tumor.bam, SKCM_EE-A2GO/tumor.bai, SKCM_EE-A2GO/tumor_name.txt
+    log: logs/localize/SKCM_EE-A2GO_tumor.log
+    jobid: 5088
+    wildcards: pid=SKCM_EE-A2GO, type=tumor
+
+Submitted job 5088 with external jobid 'Submitted batch job 67249'.
+
+[Tue Dec  3 02:55:26 2019]
+rule localize:
+    output: BLCA_CU-A0YO/normal_url.txt, BLCA_CU-A0YO/normal.bam, BLCA_CU-A0YO/normal.bai, BLCA_CU-A0YO/normal_name.txt
+    log: logs/localize/BLCA_CU-A0YO_normal.log
+    jobid: 4369
+    wildcards: pid=BLCA_CU-A0YO, type=normal
+
+Submitted job 4369 with external jobid 'Submitted batch job 67250'.
+
+[Tue Dec  3 02:55:26 2019]
+rule localize:
+    output: LAML_AB-2805/normal_url.txt, LAML_AB-2805/normal.bam, LAML_AB-2805/normal.bai, LAML_AB-2805/normal_name.txt
+    log: logs/localize/LAML_AB-2805_normal.log
+    jobid: 4738
+    wildcards: pid=LAML_AB-2805, type=normal
+
+Submitted job 4738 with external jobid 'Submitted batch job 67251'.
+
+[Tue Dec  3 02:55:26 2019]
+rule localize:
+    output: SKCM_DA-A1IC/normal_url.txt, SKCM_DA-A1IC/normal.bam, SKCM_DA-A1IC/normal.bai, SKCM_DA-A1IC/normal_name.txt
+    log: logs/localize/SKCM_DA-A1IC_normal.log
+    jobid: 4921
+    wildcards: pid=SKCM_DA-A1IC, type=normal
+
+Submitted job 4921 with external jobid 'Submitted batch job 67252'.
+
+[Tue Dec  3 02:55:26 2019]
+rule localize:
+    output: SKCM_EE-A29B/tumor_url.txt, SKCM_EE-A29B/tumor.bam, SKCM_EE-A29B/tumor.bai, SKCM_EE-A29B/tumor_name.txt
+    log: logs/localize/SKCM_EE-A29B_tumor.log
+    jobid: 5292
+    wildcards: pid=SKCM_EE-A29B, type=tumor
+
+Submitted job 5292 with external jobid 'Submitted batch job 67253'.
+
+[Tue Dec  3 02:55:26 2019]
+rule localize:
+    output: THCA_BJ-A3PU/tumor_url.txt, THCA_BJ-A3PU/tumor.bam, THCA_BJ-A3PU/tumor.bai, THCA_BJ-A3PU/tumor_name.txt
+    log: logs/localize/THCA_BJ-A3PU_tumor.log
+    jobid: 4071
+    wildcards: pid=THCA_BJ-A3PU, type=tumor
+
+Submitted job 4071 with external jobid 'Submitted batch job 67254'.
+
+[Tue Dec  3 02:55:26 2019]
+rule localize:
+    output: SKCM_ER-A19K/normal_url.txt, SKCM_ER-A19K/normal.bam, SKCM_ER-A19K/normal.bai, SKCM_ER-A19K/normal_name.txt
+    log: logs/localize/SKCM_ER-A19K_normal.log
+    jobid: 5032
+    wildcards: pid=SKCM_ER-A19K, type=normal
+
+Submitted job 5032 with external jobid 'Submitted batch job 67255'.
+
+[Tue Dec  3 02:55:26 2019]
+rule localize:
+    output: LAML_AB-2816/normal_url.txt, LAML_AB-2816/normal.bam, LAML_AB-2816/normal.bai, LAML_AB-2816/normal_name.txt
+    log: logs/localize/LAML_AB-2816_normal.log
+    jobid: 4693
+    wildcards: pid=LAML_AB-2816, type=normal
+
+Submitted job 4693 with external jobid 'Submitted batch job 67256'.
+
+[Tue Dec  3 02:55:26 2019]
+rule localize:
+    output: THCA_KS-A4I3/tumor_url.txt, THCA_KS-A4I3/tumor.bam, THCA_KS-A4I3/tumor.bai, THCA_KS-A4I3/tumor_name.txt
+    log: logs/localize/THCA_KS-A4I3_tumor.log
+    jobid: 4068
+    wildcards: pid=THCA_KS-A4I3, type=tumor
+
+Submitted job 4068 with external jobid 'Submitted batch job 67257'.
+
+[Tue Dec  3 02:55:27 2019]
+rule localize:
+    output: BLCA_FD-A3N6/tumor_url.txt, BLCA_FD-A3N6/tumor.bam, BLCA_FD-A3N6/tumor.bai, BLCA_FD-A3N6/tumor_name.txt
+    log: logs/localize/BLCA_FD-A3N6_tumor.log
+    jobid: 4413
+    wildcards: pid=BLCA_FD-A3N6, type=tumor
+
+Submitted job 4413 with external jobid 'Submitted batch job 67258'.
+
+[Tue Dec  3 02:55:27 2019]
+rule localize:
+    output: BLCA_FJ-A3Z9/normal_url.txt, BLCA_FJ-A3Z9/normal.bam, BLCA_FJ-A3Z9/normal.bai, BLCA_FJ-A3Z9/normal_name.txt
+    log: logs/localize/BLCA_FJ-A3Z9_normal.log
+    jobid: 4447
+    wildcards: pid=BLCA_FJ-A3Z9, type=normal
+
+Submitted job 4447 with external jobid 'Submitted batch job 67259'.
+
+[Tue Dec  3 02:55:27 2019]
+rule localize:
+    output: SKCM_FS-A1ZY/normal_url.txt, SKCM_FS-A1ZY/normal.bam, SKCM_FS-A1ZY/normal.bai, SKCM_FS-A1ZY/normal_name.txt
+    log: logs/localize/SKCM_FS-A1ZY_normal.log
+    jobid: 5395
+    wildcards: pid=SKCM_FS-A1ZY, type=normal
+
+Submitted job 5395 with external jobid 'Submitted batch job 67260'.
+
+[Tue Dec  3 02:55:27 2019]
+rule localize:
+    output: SKCM_ER-A19L/tumor_url.txt, SKCM_ER-A19L/tumor.bam, SKCM_ER-A19L/tumor.bai, SKCM_ER-A19L/tumor_name.txt
+    log: logs/localize/SKCM_ER-A19L_tumor.log
+    jobid: 5016
+    wildcards: pid=SKCM_ER-A19L, type=tumor
+
+Submitted job 5016 with external jobid 'Submitted batch job 67261'.
+
+[Tue Dec  3 02:55:27 2019]
+rule localize:
+    output: LAML_AB-2914/normal_url.txt, LAML_AB-2914/normal.bam, LAML_AB-2914/normal.bai, LAML_AB-2914/normal_name.txt
+    log: logs/localize/LAML_AB-2914_normal.log
+    jobid: 4492
+    wildcards: pid=LAML_AB-2914, type=normal
+
+Submitted job 4492 with external jobid 'Submitted batch job 67262'.
+
+[Tue Dec  3 02:55:27 2019]
+rule localize:
+    output: BLCA_BT-A2LB/tumor_url.txt, BLCA_BT-A2LB/tumor.bam, BLCA_BT-A2LB/tumor.bai, BLCA_BT-A2LB/tumor_name.txt
+    log: logs/localize/BLCA_BT-A2LB_tumor.log
+    jobid: 4344
+    wildcards: pid=BLCA_BT-A2LB, type=tumor
+
+Submitted job 4344 with external jobid 'Submitted batch job 67263'.
+
+[Tue Dec  3 02:55:27 2019]
+rule localize:
+    output: PCPG_RW-A686/tumor_url.txt, PCPG_RW-A686/tumor.bam, PCPG_RW-A686/tumor.bai, PCPG_RW-A686/tumor_name.txt
+    log: logs/localize/PCPG_RW-A686_tumor.log
+    jobid: 4173
+    wildcards: pid=PCPG_RW-A686, type=tumor
+
+Submitted job 4173 with external jobid 'Submitted batch job 67264'.
+
+[Tue Dec  3 02:55:27 2019]
+rule localize:
+    output: LAML_AB-2916/tumor_url.txt, LAML_AB-2916/tumor.bam, LAML_AB-2916/tumor.bai, LAML_AB-2916/tumor_name.txt
+    log: logs/localize/LAML_AB-2916_tumor.log
+    jobid: 4485
+    wildcards: pid=LAML_AB-2916, type=tumor
+
+Submitted job 4485 with external jobid 'Submitted batch job 67265'.
+
+[Tue Dec  3 02:55:27 2019]
+rule localize:
+    output: BLCA_BL-A3JM/normal_url.txt, BLCA_BL-A3JM/normal.bam, BLCA_BL-A3JM/normal.bai, BLCA_BL-A3JM/normal_name.txt
+    log: logs/localize/BLCA_BL-A3JM_normal.log
+    jobid: 4417
+    wildcards: pid=BLCA_BL-A3JM, type=normal
+
+Submitted job 4417 with external jobid 'Submitted batch job 67266'.
+
+[Tue Dec  3 02:55:27 2019]
+rule localize:
+    output: SKCM_GN-A263/normal_url.txt, SKCM_GN-A263/normal.bam, SKCM_GN-A263/normal.bai, SKCM_GN-A263/normal_name.txt
+    log: logs/localize/SKCM_GN-A263_normal.log
+    jobid: 5185
+    wildcards: pid=SKCM_GN-A263, type=normal
+
+Submitted job 5185 with external jobid 'Submitted batch job 67267'.
+
+[Tue Dec  3 02:55:28 2019]
+rule localize:
+    output: SKCM_EE-A29A/normal_url.txt, SKCM_EE-A29A/normal.bam, SKCM_EE-A29A/normal.bai, SKCM_EE-A29A/normal_name.txt
+    log: logs/localize/SKCM_EE-A29A_normal.log
+    jobid: 5290
+    wildcards: pid=SKCM_EE-A29A, type=normal
+
+Submitted job 5290 with external jobid 'Submitted batch job 67268'.
+
+[Tue Dec  3 02:55:28 2019]
+rule localize:
+    output: SKCM_EE-A29W/normal_url.txt, SKCM_EE-A29W/normal.bam, SKCM_EE-A29W/normal.bai, SKCM_EE-A29W/normal_name.txt
+    log: logs/localize/SKCM_EE-A29W_normal.log
+    jobid: 5317
+    wildcards: pid=SKCM_EE-A29W, type=normal
+
+Submitted job 5317 with external jobid 'Submitted batch job 67269'.
+
+[Tue Dec  3 02:55:28 2019]
+rule localize:
+    output: THCA_BJ-A2N7/normal_url.txt, THCA_BJ-A2N7/normal.bam, THCA_BJ-A2N7/normal.bai, THCA_BJ-A2N7/normal_name.txt
+    log: logs/localize/THCA_BJ-A2N7_normal.log
+    jobid: 4000
+    wildcards: pid=THCA_BJ-A2N7, type=normal
+
+Submitted job 4000 with external jobid 'Submitted batch job 67270'.
+
+[Tue Dec  3 02:55:28 2019]
+rule localize:
+    output: THCA_DE-A4MD/tumor_url.txt, THCA_DE-A4MD/tumor.bam, THCA_DE-A4MD/tumor.bai, THCA_DE-A4MD/tumor_name.txt
+    log: logs/localize/THCA_DE-A4MD_tumor.log
+    jobid: 4161
+    wildcards: pid=THCA_DE-A4MD, type=tumor
+
+Submitted job 4161 with external jobid 'Submitted batch job 67271'.
+
+[Tue Dec  3 02:55:28 2019]
+rule localize:
+    output: LAML_AB-2950/normal_url.txt, LAML_AB-2950/normal.bam, LAML_AB-2950/normal.bai, LAML_AB-2950/normal_name.txt
+    log: logs/localize/LAML_AB-2950_normal.log
+    jobid: 4666
+    wildcards: pid=LAML_AB-2950, type=normal
+
+Submitted job 4666 with external jobid 'Submitted batch job 67272'.
+
+[Tue Dec  3 02:55:28 2019]
+rule localize:
+    output: SKCM_D3-A1Q6/normal_url.txt, SKCM_D3-A1Q6/normal.bam, SKCM_D3-A1Q6/normal.bai, SKCM_D3-A1Q6/normal_name.txt
+    log: logs/localize/SKCM_D3-A1Q6_normal.log
+    jobid: 4942
+    wildcards: pid=SKCM_D3-A1Q6, type=normal
+
+Submitted job 4942 with external jobid 'Submitted batch job 67273'.
+
+[Tue Dec  3 02:55:28 2019]
+rule localize:
+    output: LAML_AB-2952/normal_url.txt, LAML_AB-2952/normal.bam, LAML_AB-2952/normal.bai, LAML_AB-2952/normal_name.txt
+    log: logs/localize/LAML_AB-2952_normal.log
+    jobid: 4663
+    wildcards: pid=LAML_AB-2952, type=normal
+
+Submitted job 4663 with external jobid 'Submitted batch job 67274'.
+
+[Tue Dec  3 02:55:28 2019]
+rule localize:
+    output: LAML_AB-2915/tumor_url.txt, LAML_AB-2915/tumor.bam, LAML_AB-2915/tumor.bai, LAML_AB-2915/tumor_name.txt
+    log: logs/localize/LAML_AB-2915_tumor.log
+    jobid: 4488
+    wildcards: pid=LAML_AB-2915, type=tumor
+
+Submitted job 4488 with external jobid 'Submitted batch job 67275'.
+
+[Tue Dec  3 02:55:28 2019]
+rule localize:
+    output: KIRC_AS-3778/tumor_url.txt, KIRC_AS-3778/tumor.bam, KIRC_AS-3778/tumor.bai, KIRC_AS-3778/tumor_name.txt
+    log: logs/localize/KIRC_AS-3778_tumor.log
+    jobid: 4233
+    wildcards: pid=KIRC_AS-3778, type=tumor
+
+Submitted job 4233 with external jobid 'Submitted batch job 67276'.
+
+[Tue Dec  3 02:55:28 2019]
+rule localize:
+    output: BLCA_G2-A2EC/tumor_url.txt, BLCA_G2-A2EC/tumor.bam, BLCA_G2-A2EC/tumor.bai, BLCA_G2-A2EC/tumor_name.txt
+    log: logs/localize/BLCA_G2-A2EC_tumor.log
+    jobid: 4389
+    wildcards: pid=BLCA_G2-A2EC, type=tumor
+
+Submitted job 4389 with external jobid 'Submitted batch job 67277'.
+Terminating processes on user request, this might take some time.
+Will exit after finishing currently running jobs.
+Cancelling snakemake on user request.
+Traceback (most recent call last):
+  File "/usr/local/bin/snakemake", line 10, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python3.7/site-packages/snakemake/__init__.py", line 1989, in main
+    show_failed_logs=args.show_failed_logs,
+  File "/usr/local/lib/python3.7/site-packages/snakemake/__init__.py", line 635, in snakemake
+    workflow.persistence.unlock()
+  File "/usr/local/lib/python3.7/site-packages/snakemake/persistence.py", line 123, in unlock
+    os.remove(lockfile)
+KeyboardInterrupt
+Will exit after finishing currently running jobs.
+Will exit after finishing currently running jobs.
