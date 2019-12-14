@@ -1,10 +1,11 @@
 # smk-m2
 
-Use snakemake to reproduce gatk-best-practice paired SNV calling [v2.6](https://github.com/gatk-workflows/gatk4-somatic-snvs-indels/tree/2.4.0). Due to TCGA legacy accession issue, we will first localize bams with signed URL from NCI Data Commons. The UUID are queryed from GDC api.
+Use snakemake to reproduce gatk-best-practice paired SNV calling [v2.6](https://github.com/gatk-workflows/gatk4-somatic-snvs-indels/tree/2.4.0). 
 
-Before using this, please 
-* change the NCI credential path. To download, please login to https://nci-crdc.datacommons.io/ with your NIH login. Click on the "Profile" section in the upper right corner, then click "Create API key", in the window with your key click "Download json" to save your key.
-* please change your config and adapt any local file paths.
+* If Terra's google bucket for legacy files are accessible, please use branch:`from_gs` which does not need additional localization step
+* If not,  please use `from_signed_url` branch, where we will first localize bams using signed URL from NCI Data Commons. To do this, please generate a API key from https://nci-crdc.datacommons.io/ with your NIH account. Click on the "Profile" section in the upper right corner, then click "Create API key", in the window with your key click "Download json" to save your key to `credentials/credentials.json` .
+
+There are configs that points to my local directories, please also change those accordingly.
 
 
 ## Directory structure

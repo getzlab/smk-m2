@@ -8,7 +8,7 @@ shell.suffix("; exitstat=$?; echo END at $(date); echo exit status was $exitstat
 
 ####################### external configs ############
 configfile: "config.yaml"
-workdir: "/demo-mount/smk-m2/res/"
+workdir: "res/"
 # for a local test, will be deleted for cloud mode
 # localrules: all
 
@@ -71,45 +71,30 @@ rule split_intervals:
         """
 
 
-# get signed url from nci-data-commons
-rule localize:
+rule get_file_name:
     params:
-        uuid_tumor=lambda wildcards: melted_df.loc[(melted_df["pid"] == wildcards.pid) & (melted_df["variable"] == "tumor"), "value"].item(),
-        uuid_normal=lambda wildcards: melted_df.loc[(melted_df["pid"] == wildcards.pid) & (melted_df["variable"] == "normal"), "value"].item(),
-        credential = config["credential"],
-        ref=config["ref"]
+        ref=config["ref"],
+        gs_normal = lambda wildcards: df.loc[df['pid'] == wildcards.pid,"normal"].item(),
+        gs_tumor = lambda wildcards: df.loc[df['pid'] == wildcards.pid,"tumor"].item()
     output:
-        tumor_url="{pid}/tumor_url.txt",
-        normal_url="{pid}/normal_url.txt",
-    	bam=temp(expand("{{pid}}/{type}.bam", type=TYPES)),
-        bai=expand("{{pid}}/{type}.bai",type=TYPES),
-        sample_name=expand("{{pid}}/{type}_name.txt",type=TYPES)
-    log:
-        "logs/localize/{pid}.log"
+        tumor_name = "{pid}/tumor_name.txt",
+        normal_name = "{pid}/normal_name.txt"
     shell:
         """
-        echo "----------localize normal-------------"
-        /usr/local/bin/python3 ../scripts/localize_from_nci.py {params.credential} {params.uuid_normal} {wildcards.pid} normal
-        wget "$(cat {output.normal_url})" -O {wildcards.pid}/normal.bam &>> {log}
-        wget "$(cat {wildcards.pid}/normal_index_url.txt)" -O {wildcards.pid}/normal.bai &>> {log}
-
-        echo "----------localize tumor -------------"
-        /usr/local/bin/python3 ../scripts/localize_from_nci.py {params.credential} {params.uuid_tumor} {wildcards.pid} tumor
-        wget "$(cat {output.tumor_url})" -O {wildcards.pid}/tumor.bam &>> {log}
-        wget "$(cat {wildcards.pid}/tumor_index_url.txt)" -O {wildcards.pid}/tumor.bai &>> {log}
-        echo "---- get sample name -----"
-        gatk GetSampleName -R {params.ref} -I {wildcards.pid}/tumor.bam -O {wildcards.pid}/tumor_name.txt &>> {log}
-        gatk GetSampleName -R {params.ref} -I {wildcards.pid}/normal.bam -O {wildcards.pid}/normal_name.txt &>> {log}
+        gatk GetSampleName -R {params.ref} -I ${params.gs_normal} -O {output.normal_name}
+        gatk GetSampleName -R {params.ref} -I ${params.gs_tumor} -O {output.tumor_name}
         """
+
 
 # run M2 on tumor-normal pairs for 
 rule scatter_m2:
     input:
-        expand("{{pid}}/{type}.bam", type=TYPES),
-        config["subint_dir"]
+        config["subint_dir"],
+        expand("{{pid}}/{type}_name.txt", type=TYPES)
     priority: 100
     params:
-	#pid=lambda wildcards: wildcards.pid ,
+        gs_normal = lambda wildcards: df.loc[df['pid'] == wildcards.pid,"normal"].item(),
+        gs_tumor = lambda wildcards: df.loc[df['pid'] == wildcards.pid,"tumor"].item(),
         subint_dir=config["subint_dir"],
         ref=config["ref"],
         vfc=config["vfc"],
@@ -122,20 +107,22 @@ rule scatter_m2:
         out_npile=temp("{pid}/npile_dir/{chr}-npile.table"),
         out_f1r2=temp("{pid}/f1r2/{chr}-f1r2.tar.gz"),
         out_vcf=temp("{pid}/subvcfs/{chr}.vcf"),
-        out_stats=temp("{pid}/subvcfs/{chr}.vcf.stats")
+        out_stats=temp("{pid}/subvcfs/{chr}.vcf.stats"),
+        
         
     shell:
         """
         gatkm="gatk --java-options -Xmx2g"
-
-        tumor="{wildcards.pid}/tumor.bam"
-        normal="{wildcards.pid}/normal.bam"
         tumor_name="{wildcards.pid}/tumor_name.txt"
         normal_name="{wildcards.pid}/normal_name.txt"
+
+        $gatkm GetSampleName -R {params.ref} -I ${params.gs_normal} -O $normal_name
+        $gatkm GetSampleName -R {params.ref} -I ${params.gs_tumor} -O $tumor_name
+
         interval_file="{params.subint_dir}/{wildcards.chr}-scattered.interval_list"
 
-        normal_command_line="-I ${{normal}} -normal `cat ${{normal_name}}`"
-        tumor_command_line="-I ${{tumor}} -tumor `cat ${{tumor_name}}`"
+        normal_command_line="-I ${{gs_normal}} -normal `cat ${{normal_name}}`"
+        tumor_command_line="-I ${{gs_tumor}} -tumor `cat ${{tumor_name}}`"
 
         $gatkm Mutect2 \
             -R {params.ref} \
@@ -150,7 +137,7 @@ rule scatter_m2:
         echo finish Mutect2 --------------------
 
         $gatkm GetPileupSummaries \
-            -R {params.ref} -I $tumor \
+            -R {params.ref} -I ${params.gs_tumor} \
             --interval-set-rule INTERSECTION \
             -L $interval_file \
             -V {params.vfc} \
@@ -159,7 +146,7 @@ rule scatter_m2:
         echo Getpiles tumor --------------------
 
         $gatkm GetPileupSummaries \
-            -R {params.ref} -I $normal \
+            -R {params.ref} -I ${params.gs_normal} \
             --interval-set-rule INTERSECTION \
             -L $interval_file \
             -V {params.vfc} \

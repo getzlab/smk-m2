@@ -3,5 +3,8 @@ res/
 credentials/*
 *.out
 paired_uuid.tsv
+*.tsv
+*swp
 test_samples.txt
 remove*
+*.csv

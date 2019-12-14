@@ -1,14 +1,12 @@
-# NCI data commons credentials (path)
-credential: "credentials/credentials.json"
-
-# the job index
-JobIndex: 0
+# # NCI data commons credentials (path)
+# credential: "credentials/credentials.json"
 
 # path or URL to sample sheet (TSV format, columns: sample, condition, ...)
-samples: "../test_samples.txt"
+samples: "../test_samples.txt" # contains 10 samples
+all_samples: "../mpaires_update.tsv"
 
 # split intervals into {pieces} and stored at {subintervals}
-pieces: 5
+pieces: 10
 subint_dir: "subintervals"
 
 # reference genome
