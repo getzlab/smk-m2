@@ -15,10 +15,9 @@ result = parser.parse_args()
 
 # get the uuid for indices
 def get_bai_uuid(uuid="736a8e90-85ec-4007-b34a-1bf823eec6fc", id="normal"):
-    file_endpt = 'https://api.gdc.cancer.gov/files/'
-    file_uuid = 'd853e541-f16a-4345-9f00-88e03c2dc0bc'
+    file_endpt = 'https://api.gdc.cancer.gov/legacy/files/'
     file_with_indice = '?expand=index_files'
-    response = requests.get(file_endpt + file_uuid + file_with_indice)
+    response = requests.get(file_endpt + uuid + file_with_indice)
     res = response.json()
     #return(res)
     bai_uuid = res['data']['index_files'][0]['file_id']

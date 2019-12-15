@@ -2,6 +2,7 @@ res/
 .snakemake/
 credentials/*
 *.out
+batch*
 paired_uuid.tsv
 test_samples.txt
 remove*

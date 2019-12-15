@@ -5,7 +5,7 @@ credential: "credentials/credentials.json"
 JobIndex: 0
 
 # path or URL to sample sheet (TSV format, columns: sample, condition, ...)
-samples: "../batch2.tsv"
+samples: "../batch_2/BLCA2.tsv"
 all_pairs: "../paired_uuid.tsv"
 
 # split intervals into {pieces} and stored at {subintervals}
