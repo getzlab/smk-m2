@@ -74,6 +74,7 @@ rule split_intervals:
 rule get_file_name:
     params:
         ref=config["ref"],
+        user_proj=config["user_project"],
         gs_normal = lambda wildcards: df.loc[df['pid'] == wildcards.pid,"normal"].item(),
         gs_tumor = lambda wildcards: df.loc[df['pid'] == wildcards.pid,"tumor"].item()
     output:
@@ -81,8 +82,8 @@ rule get_file_name:
         normal_name = "{pid}/normal_name.txt"
     shell:
         """
-        gatk GetSampleName -R {params.ref} -I ${params.gs_normal} -O {output.normal_name}
-        gatk GetSampleName -R {params.ref} -I ${params.gs_tumor} -O {output.tumor_name}
+        gatk GetSampleName -R {params.ref} -I {params.gs_normal} -O {output.normal_name} --gcs-project-for-requester-pays {params.user_proj}
+        gatk GetSampleName -R {params.ref} -I {params.gs_tumor} -O {output.tumor_name} --gcs-project-for-requester-pays {params.user_proj}
         """
 
 
@@ -99,7 +100,8 @@ rule scatter_m2:
         ref=config["ref"],
         vfc=config["vfc"],
         gnomad=config["gnomad"],
-        default_pon=config["default_pon"]
+        default_pon=config["default_pon"],
+        user_proj=config["user_project"]
     log:
         "logs/scatter/{pid}_{chr}.log"
     output:
@@ -107,7 +109,7 @@ rule scatter_m2:
         out_npile=temp("{pid}/npile_dir/{chr}-npile.table"),
         out_f1r2=temp("{pid}/f1r2/{chr}-f1r2.tar.gz"),
         out_vcf=temp("{pid}/subvcfs/{chr}.vcf"),
-        out_stats=temp("{pid}/subvcfs/{chr}.vcf.stats"),
+        out_stats=temp("{pid}/subvcfs/{chr}.vcf.stats")
         
         
     shell:
@@ -116,13 +118,10 @@ rule scatter_m2:
         tumor_name="{wildcards.pid}/tumor_name.txt"
         normal_name="{wildcards.pid}/normal_name.txt"
 
-        $gatkm GetSampleName -R {params.ref} -I ${params.gs_normal} -O $normal_name
-        $gatkm GetSampleName -R {params.ref} -I ${params.gs_tumor} -O $tumor_name
-
         interval_file="{params.subint_dir}/{wildcards.chr}-scattered.interval_list"
 
-        normal_command_line="-I ${{gs_normal}} -normal `cat ${{normal_name}}`"
-        tumor_command_line="-I ${{gs_tumor}} -tumor `cat ${{tumor_name}}`"
+        normal_command_line="-I {params.gs_normal} -normal `cat ${{normal_name}}`"
+        tumor_command_line="-I {params.gs_tumor} -tumor `cat ${{tumor_name}}`"
 
         $gatkm Mutect2 \
             -R {params.ref} \
@@ -132,7 +131,8 @@ rule scatter_m2:
             -pon {params.default_pon} \
             -L  $interval_file \
             -O {output.out_vcf} \
-            --f1r2-tar-gz {output.out_f1r2}
+            --f1r2-tar-gz {output.out_f1r2} \
+            --gcs-project-for-requester-pays {params.user_proj}
         
         echo finish Mutect2 --------------------
 
@@ -142,7 +142,9 @@ rule scatter_m2:
             -L $interval_file \
             -V {params.vfc} \
             -L {params.vfc} \
-            -O {output.out_tpile}
+            -O {output.out_tpile} \
+            --gcs-project-for-requester-pays {params.user_proj}
+
         echo Getpiles tumor --------------------
 
         $gatkm GetPileupSummaries \
@@ -151,7 +153,9 @@ rule scatter_m2:
             -L $interval_file \
             -V {params.vfc} \
             -L {params.vfc} \
-            -O {output.out_npile} 
+            -O {output.out_npile} \
+            --gcs-project-for-requester-pays {params.user_proj}
+
         echo Getpiles normal ------------------
 
         """

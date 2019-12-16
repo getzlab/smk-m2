@@ -1,5 +1,6 @@
 # # NCI data commons credentials (path)
 # credential: "credentials/credentials.json"
+user_project: "broad-cga-qing-gdac"
 
 # path or URL to sample sheet (TSV format, columns: sample, condition, ...)
 samples: "../test_samples.txt" # contains 10 samples
@@ -10,18 +11,18 @@ pieces: 10
 subint_dir: "subintervals"
 
 # reference genome
-ref: "gs://gatk-best-practices/somatic-b37/Homo_sapiens_assembly19.fasta"
-ref_dict: "gs://gatk-best-practices/somatic-b37/Homo_sapiens_assembly19.dict"
+ref: "/demo-mount/M2_refs/Homo_sapiens_assembly19.fasta"
+ref_dict: "/demo-mount/M2_refs/Homo_sapiens_assembly19.dict"
 
 
 # defaults params from best-practice
-default_pon: "gs://gatk-best-practices/somatic-b37/Mutect2-exome-panel.vcf"
-gnomad: "gs://gatk-best-practices/somatic-b37/af-only-gnomad.raw.sites.vcf"
-vfc: "gs://gatk-best-practices/somatic-b37/small_exac_common_3.vcf"
-wes_interval_list: "gs://gatk-best-practices/somatic-b37/whole_exome_agilent_1.1_refseq_plus_3_boosters.Homo_sapiens_assembly19.baits.interval_list"
+default_pon: "/demo-mount/M2_refs/Mutect2-exome-panel.vcf"
+gnomad: "/demo-mount/M2_refs/af-only-gnomad.raw.sites.vcf"
+vfc: "/demo-mount/M2_refs/small_exac_common_3.vcf"
+wes_interval_list: "/demo-mount/M2_refs/whole_exome_agilent_1.1_refseq_plus_3_boosters.Homo_sapiens_assembly19.baits.interval_list"
 
 # where I stored the data files for funcotator
-onco_folder: "/demo-mount/refs/funco_slim"
+onco_folder: "/demo-mount/M2_refs/funco_slim"
 
 
 # will be in [CLUSTER soon]
