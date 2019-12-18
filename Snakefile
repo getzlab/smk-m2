@@ -137,7 +137,7 @@ rule scatter_m2:
         echo finish Mutect2 --------------------
 
         $gatkm GetPileupSummaries \
-            -R {params.ref} -I ${params.gs_tumor} \
+            -R {params.ref} -I {params.gs_tumor} \
             --interval-set-rule INTERSECTION \
             -L $interval_file \
             -V {params.vfc} \
@@ -148,7 +148,7 @@ rule scatter_m2:
         echo Getpiles tumor --------------------
 
         $gatkm GetPileupSummaries \
-            -R {params.ref} -I ${params.gs_normal} \
+            -R {params.ref} -I {params.gs_normal} \
             --interval-set-rule INTERSECTION \
             -L $interval_file \
             -V {params.vfc} \
@@ -198,13 +198,13 @@ rule calculate_contamination:
         echo "-----------------------gather pile up summaries-----------------------"
         $gatkm GatherPileupSummaries \
             -I {params.all_normal_piles_input} \
-            --sequence-dictionary "/demo-mount/refs/Homo_sapiens_assembly19.dict" \
+            --sequence-dictionary "/demo-mount/M2_refs/Homo_sapiens_assembly19.dict" \
             -O {output.normal_pile_table} &> {log}
 
         echo "-----------------------gather tumor piles-----------------------"
         $gatkm GatherPileupSummaries \
             -I {params.all_tumor_piles_input} \
-            --sequence-dictionary "/demo-mount/refs/Homo_sapiens_assembly19.dict" \
+            --sequence-dictionary "/demo-mount/M2_refs/Homo_sapiens_assembly19.dict" \
             -O {output.tumor_pile_table} &>> {log}
 
         echo "-----------------------calc contamination-----------------------"
