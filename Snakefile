@@ -39,7 +39,6 @@ rule all:
 
 # set uo the file structure
 rule fs_setup:
-    input: "{pid}/tumor.bam", "{pid}/normal.bam"
     output:
         touch("{pid}/fs_flag")
     shell:
@@ -71,7 +70,48 @@ rule split_intervals:
         """
 
 
+
+import requests
+import subprocess
+
+
+def get_gs_url(pid, type_):
+    url =  df.loc[df['pid'] == pid, type_].item()
+    if url[0:2] == "gs":
+        gs_url =  url
+    elif url[0:3] == "drs":
+        token = subprocess.check_output('gcloud auth print-access-token', shell=True) 
+        headers = {
+            'authorization': 'bearer {}'.format(token.decode().strip()) ,
+            'content-type': 'application/json'
+        }
+        data = '{ "url": "'+ url + '" }'
+        response = requests.post('https://us-central1-broad-dsde-prod.cloudfunctions.net/martha_v2', headers=headers, data=data).json()
+        # [f(x) for x in sequence if condition]
+        gs_url = [u_["url"] for u_ in response["dos"]["data_object"]["urls"] if u_["url"][0:2] == "gs" ][0]
+    
+    # write to file
+    filename = "{}/{}_url.txt".format(pid, type_)
+    file1 = open(filename,"w")
+    file1.write(gs_url)
+    file1.close() 
+    return gs_url
+
+rule retrieve_gs_path:
+    input: "{pid}/fs_flag"
+    output:
+        tumor_gs = "{pid}/tumor_url.txt",
+        normal_gs = "{pid}/normal_url.txt"
+    run:
+        """
+        get_gs_url(wildcards.pid, "normal")
+        get_gs_url(wildcards.pid, "tumor")
+        """
+
 rule get_file_name:
+    input:
+        tumor_gs = "{pid}/tumor_url.txt",
+        normal_gs = "{pid}/normal_url.txt"
     params:
         ref=config["ref"],
         user_proj=config["user_project"],
@@ -82,20 +122,21 @@ rule get_file_name:
         normal_name = "{pid}/normal_name.txt"
     shell:
         """
-        gatk GetSampleName -R {params.ref} -I {params.gs_normal} -O {output.normal_name} --gcs-project-for-requester-pays {params.user_proj}
-        gatk GetSampleName -R {params.ref} -I {params.gs_tumor} -O {output.tumor_name} --gcs-project-for-requester-pays {params.user_proj}
+        gatk GetSampleName -R {params.ref} -I `cat {input.normal_gs}` -O {output.normal_name} --gcs-project-for-requester-pays {params.user_proj}
+        gatk GetSampleName -R {params.ref} -I `cat {input.tumor_gs}` -O {output.tumor_name} --gcs-project-for-requester-pays {params.user_proj}
         """
+
 
 
 # run M2 on tumor-normal pairs for 
 rule scatter_m2:
     input:
-        config["subint_dir"],
-        expand("{{pid}}/{type}_name.txt", type=TYPES)
+        tumor_gs = "{pid}/tumor_name.txt",
+        normal_gs = "{pid}/normal_name.txt",
+        subint_dir = config["subint_dir"],
+        name_files = expand("{{pid}}/{type}_name.txt", type=TYPES)
     priority: 100
     params:
-        gs_normal = lambda wildcards: df.loc[df['pid'] == wildcards.pid,"normal"].item(),
-        gs_tumor = lambda wildcards: df.loc[df['pid'] == wildcards.pid,"tumor"].item(),
         subint_dir=config["subint_dir"],
         ref=config["ref"],
         vfc=config["vfc"],
@@ -114,14 +155,14 @@ rule scatter_m2:
         
     shell:
         """
-        gatkm="gatk --java-options -Xmx2g"
+        gatkm="gatk --java-options -Xmx4g"
         tumor_name="{wildcards.pid}/tumor_name.txt"
         normal_name="{wildcards.pid}/normal_name.txt"
 
         interval_file="{params.subint_dir}/{wildcards.chr}-scattered.interval_list"
 
-        normal_command_line="-I {params.gs_normal} -normal `cat ${{normal_name}}`"
-        tumor_command_line="-I {params.gs_tumor} -tumor `cat ${{tumor_name}}`"
+        normal_command_line="-I `cat {input.normal_gs}` -normal `cat ${{normal_name}}`"
+        tumor_command_line="-I `cat {input.tumor_gs}` -tumor `cat ${{tumor_name}}`"
 
         $gatkm Mutect2 \
             -R {params.ref} \
@@ -132,12 +173,13 @@ rule scatter_m2:
             -L  $interval_file \
             -O {output.out_vcf} \
             --f1r2-tar-gz {output.out_f1r2} \
-            --gcs-project-for-requester-pays {params.user_proj}
+            --gcs-project-for-requester-pays {params.user_proj}\
+            --independent-mates
         
         echo finish Mutect2 --------------------
 
         $gatkm GetPileupSummaries \
-            -R {params.ref} -I {params.gs_tumor} \
+            -R {params.ref} -I `cat {input.tumor_gs}` \
             --interval-set-rule INTERSECTION \
             -L $interval_file \
             -V {params.vfc} \
@@ -148,7 +190,7 @@ rule scatter_m2:
         echo Getpiles tumor --------------------
 
         $gatkm GetPileupSummaries \
-            -R {params.ref} -I {params.gs_normal} \
+            -R {params.ref} -I `cat {input.normal_gs}` \
             --interval-set-rule INTERSECTION \
             -L $interval_file \
             -V {params.vfc} \

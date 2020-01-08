@@ -1,12 +1,18 @@
 # smk-m2
 
-Use snakemake to reproduce gatk-best-practice paired SNV calling [v2.6](https://github.com/gatk-workflows/gatk4-somatic-snvs-indels/tree/2.4.0). 
+Use snakemake to reproduce gatk-best-practice paired SNV calling [v2.6](https://github.com/gatk-workflows/gatk4-somatic-snvs-indels/tree/2.6.0). 
 
 * If Terra's google bucket for legacy files are accessible, please use branch:`from_gs` which does not need additional localization step
 * If not,  please use `from_signed_url` branch, where we will first localize bams using signed URL from NCI Data Commons. To do this, please generate a API key from https://nci-crdc.datacommons.io/ with your NIH account. Click on the "Profile" section in the upper right corner, then click "Create API key", in the window with your key click "Download json" to save your key to `credentials/credentials.json` .
 
-There are configs that points to my local directories, please also change those accordingly.
+## News
 
+- added support for drs url conversion
+- switched `from_gs` branch to default master branch
+
+## Caveats
+
+- `independent-mate` option is not included in best practice.
 
 ## Directory structure
 
