@@ -3,7 +3,7 @@
 user_project: "broad-cga-qing-gdac"
 
 # path or URL to sample sheet (TSV format, columns: sample, condition, ...)
-samples: "../test_paths.tsv" # contains 10 samples
+samples: "../../remain_paths.tsv" # contains 10 samples
 all_samples: "/demo-mount/M2_refs/mpaires_update.tsv"
 
 # split intervals into {pieces} and stored at {subintervals}

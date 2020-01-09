@@ -18,8 +18,6 @@ workdir: "res/"
 df = pd.read_csv(config["samples"], sep = "\t")
 df = df.dropna() # remove all possible NAs
 
-PID = (df.cohort + "_" + df.patient).tolist()
-df["pid"] = PID
 TYPES=["tumor", "normal"]
 melted_df = pd.melt(df, id_vars=['pid'], value_vars=["tumor","normal"])
 
@@ -32,22 +30,10 @@ INTERVALS = ["{}/{}-scattered.interval_list".format(config["subint_dir"],int1) f
 # all the target files
 rule all:
     input: 
-        expand("{pid}/funco_flag", pid=PID),
-        annot_merged_filtered_maf=expand("{pid}/annot_merged_filtered.vcf", pid=PID),
-        merged_filtered_vcf=expand("{pid}/merged_filtered.vcf", pid=PID)
+        expand("{pid}/funco_flag", pid=df["pid"]),
+        annot_merged_filtered_maf=expand("{pid}/annot_merged_filtered.vcf", pid=df["pid"]),
+        merged_filtered_vcf=expand("{pid}/merged_filtered.vcf", pid=df["pid"])
 
-
-# set uo the file structure
-rule fs_setup:
-    output:
-        touch("{pid}/fs_flag")
-    shell:
-        """
-        mkdir -p {wildcards.pid}/subvcfs
-        mkdir -p {wildcards.pid}/tpile_dir
-        mkdir -p {wildcards.pid}/npile_dir
-        mkdir -p {wildcards.pid}/f1r2
-	"""
 ######################## preparation #######################
 
 # split intervals for scattering jobs
@@ -71,42 +57,15 @@ rule split_intervals:
 
 
 
-import requests
-import subprocess
-
-
-def get_gs_url(pid, type_):
-    url =  df.loc[df['pid'] == pid, type_].item()
-    if url[0:2] == "gs":
-        gs_url =  url
-    elif url[0:3] == "drs":
-        token = subprocess.check_output('gcloud auth print-access-token', shell=True) 
-        headers = {
-            'authorization': 'bearer {}'.format(token.decode().strip()) ,
-            'content-type': 'application/json'
-        }
-        data = '{ "url": "'+ url + '" }'
-        response = requests.post('https://us-central1-broad-dsde-prod.cloudfunctions.net/martha_v2', headers=headers, data=data).json()
-        # [f(x) for x in sequence if condition]
-        gs_url = [u_["url"] for u_ in response["dos"]["data_object"]["urls"] if u_["url"][0:2] == "gs" ][0]
-    
-    # write to file
-    filename = "{}/{}_url.txt".format(pid, type_)
-    file1 = open(filename,"w")
-    file1.write(gs_url)
-    file1.close() 
-    return gs_url
-
 rule retrieve_gs_path:
-    input: "{pid}/fs_flag"
+    log: "logs/retrieve/{pid}"
+    params:
+        tumor=lambda wildcards: df.loc[df["pid"] == wildcards.pid, "tumor"].item(),
+        normal=lambda wildcards: df.loc[df["pid"] == wildcards.pid,"normal"].item()
     output:
-        tumor_gs = "{pid}/tumor_url.txt",
-        normal_gs = "{pid}/normal_url.txt"
-    run:
-        """
-        get_gs_url(wildcards.pid, "normal")
-        get_gs_url(wildcards.pid, "tumor")
-        """
+        expand("{{pid}}/{type}_url.txt", type = ["tumor", "normal"])
+    script:
+        "drs-translator.py"
 
 rule get_file_name:
     input:
@@ -131,8 +90,8 @@ rule get_file_name:
 # run M2 on tumor-normal pairs for 
 rule scatter_m2:
     input:
-        tumor_gs = "{pid}/tumor_name.txt",
-        normal_gs = "{pid}/normal_name.txt",
+        tumor_gs = "{pid}/tumor_url.txt",
+        normal_gs = "{pid}/normal_url.txt",
         subint_dir = config["subint_dir"],
         name_files = expand("{{pid}}/{type}_name.txt", type=TYPES)
     priority: 100
