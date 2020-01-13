@@ -3,10 +3,12 @@
 import requests
 import subprocess
 
-
 def get_gs_url(pid="STAD_BR-8592", type_="normal", url=""):
     if url[0:2] == "gs":
         gs_url =  url
+        f_check = open("{}/gs_done.txt".format(pid), "w+")
+        f_check.write("ok")
+        f_check.close()
     elif url[0:3] == "drs":
         token = subprocess.check_output('gcloud auth print-access-token', shell=True) 
         headers = {

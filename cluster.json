@@ -2,18 +2,17 @@
     "__default__" :
     {
         "nodes": 1,
-        "tasks_per_node": 1,
+        "tasks_per_node": 2,
         "mem": "4G",
+        "tmp": "100G",
         "cpus_per_task": 1
     },
-
-    "scatter" :
+    "localize_gs":
     {
-        "time" : "0:5:0",
-	"cpus_per_task": 2
+        "tmp" : "400G"
     },
-    "localize_with_name":
+    "scatter_m2":
     {
-        "mem": "5G"
+        "cpus_per_task": 2
     }
 }

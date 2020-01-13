@@ -5,6 +5,7 @@ credentials/*
 paired_uuid.tsv
 *.tsv
 *swp
+.nfs*
 test_samples.txt
 remove*
 *.csv

@@ -41,7 +41,9 @@ rule split_intervals:
     priority: 3000
     params:
         ref=config["ref"],
+        tumor = df.tumor.values[0],
         pieces=config["pieces"],
+        auth = config["gs_keys"],
         wes=config["wes_interval_list"]
     output:
         directory(config["subint_dir"])
@@ -53,36 +55,55 @@ rule split_intervals:
             -R {params.ref} -L {params.wes} \
             --scatter-count {params.pieces} \
             -O {output[0]} &> {log}
+        ../auth.sh {params.tumor} {params.auth}
         """
-
-
 
 rule retrieve_gs_path:
     log: "logs/retrieve/{pid}"
+    priority: 5000 # vm starts with user auth
     params:
-        tumor=lambda wildcards: df.loc[df["pid"] == wildcards.pid, "tumor"].item(),
-        normal=lambda wildcards: df.loc[df["pid"] == wildcards.pid,"normal"].item()
+        tumor=lambda wildcards: df.loc[df["pid"] == wildcards.pid, "tumor"].iloc[0],
+        normal=lambda wildcards: df.loc[df["pid"] == wildcards.pid,"normal"].iloc[0]
     output:
-        expand("{{pid}}/{type}_url.txt", type = ["tumor", "normal"])
+        expand("{{pid}}/{type}_url.txt", type = TYPES)
     script:
         "drs-translator.py"
 
+rule localize_gs:
+    log: "logs/localize_gs/{pid}"
+    input: expand("{{pid}}/{type}_url.txt", type = TYPES)
+    params: 
+        auth = config["gs_keys"],
+        tumor=lambda wildcards: df.loc[df["pid"] == wildcards.pid, "tumor"].iloc[0]
+    output:
+        tumor_bam = temp("{pid}/tumor.bam"),
+        normal_bam = temp("{pid}/normal.bam"),
+        tumor_bai = temp("{pid}/tumor.bai"),
+        normal_bai = temp("{pid}/normal.bai")
+    shell:
+        """
+        ../auth.sh {params.tumor} {params.auth}
+        gcloud auth activate-service-account --key-file={params.auth}
+        gsutil cp `cat {wildcards.pid}/normal_url.txt` {output.normal_bam}
+        gsutil cp `cat {wildcards.pid}/normal_url.txt`.bai {output.normal_bai}
+        gsutil cp `cat {wildcards.pid}/tumor_url.txt` {output.tumor_bam}
+        gsutil cp `cat {wildcards.pid}/tumor_url.txt`.bai {output.tumor_bai}
+        """
+
 rule get_file_name:
     input:
-        tumor_gs = "{pid}/tumor_url.txt",
-        normal_gs = "{pid}/normal_url.txt"
-    params:
-        ref=config["ref"],
-        user_proj=config["user_project"],
-        gs_normal = lambda wildcards: df.loc[df['pid'] == wildcards.pid,"normal"].item(),
-        gs_tumor = lambda wildcards: df.loc[df['pid'] == wildcards.pid,"tumor"].item()
+        tumor_bam = "{pid}/tumor.bam",
+        normal_bam = "{pid}/normal.bam",
+        tumor_bai = "{pid}/tumor.bai",
+        normal_bai = "{pid}/normal.bai"
+    log: "logs/get_name/{pid}.log"
     output:
         tumor_name = "{pid}/tumor_name.txt",
         normal_name = "{pid}/normal_name.txt"
     shell:
         """
-        gatk GetSampleName -R {params.ref} -I `cat {input.normal_gs}` -O {output.normal_name} --gcs-project-for-requester-pays {params.user_proj}
-        gatk GetSampleName -R {params.ref} -I `cat {input.tumor_gs}` -O {output.tumor_name} --gcs-project-for-requester-pays {params.user_proj}
+        gatk GetSampleName -I {input.normal_bam} -O {output.normal_name} 
+        gatk GetSampleName -I {input.tumor_bam} -O {output.tumor_name} 
         """
 
 
@@ -90,10 +111,12 @@ rule get_file_name:
 # run M2 on tumor-normal pairs for 
 rule scatter_m2:
     input:
-        tumor_gs = "{pid}/tumor_url.txt",
-        normal_gs = "{pid}/normal_url.txt",
         subint_dir = config["subint_dir"],
-        name_files = expand("{{pid}}/{type}_name.txt", type=TYPES)
+        name_files = expand("{{pid}}/{type}_name.txt", type=TYPES),
+        tumor_bam = "{pid}/tumor.bam",
+        normal_bam = "{pid}/normal.bam",
+        tumor_bai = "{pid}/tumor.bai",
+        normal_bai = "{pid}/normal.bai"
     priority: 100
     params:
         subint_dir=config["subint_dir"],
@@ -110,8 +133,6 @@ rule scatter_m2:
         out_f1r2=temp("{pid}/f1r2/{chr}-f1r2.tar.gz"),
         out_vcf=temp("{pid}/subvcfs/{chr}.vcf"),
         out_stats=temp("{pid}/subvcfs/{chr}.vcf.stats")
-        
-        
     shell:
         """
         gatkm="gatk --java-options -Xmx4g"
@@ -120,8 +141,8 @@ rule scatter_m2:
 
         interval_file="{params.subint_dir}/{wildcards.chr}-scattered.interval_list"
 
-        normal_command_line="-I `cat {input.normal_gs}` -normal `cat ${{normal_name}}`"
-        tumor_command_line="-I `cat {input.tumor_gs}` -tumor `cat ${{tumor_name}}`"
+        normal_command_line="-I {input.normal_bam} -normal `cat ${{normal_name}}`"
+        tumor_command_line="-I {input.tumor_bam} -tumor `cat ${{tumor_name}}`"
 
         $gatkm Mutect2 \
             -R {params.ref} \
@@ -138,24 +159,22 @@ rule scatter_m2:
         echo finish Mutect2 --------------------
 
         $gatkm GetPileupSummaries \
-            -R {params.ref} -I `cat {input.tumor_gs}` \
+            -R {params.ref} -I {input.tumor_bam} \
             --interval-set-rule INTERSECTION \
             -L $interval_file \
             -V {params.vfc} \
             -L {params.vfc} \
-            -O {output.out_tpile} \
-            --gcs-project-for-requester-pays {params.user_proj}
+            -O {output.out_tpile} 
 
         echo Getpiles tumor --------------------
 
         $gatkm GetPileupSummaries \
-            -R {params.ref} -I `cat {input.normal_gs}` \
+            -R {params.ref} -I {input.normal_bam} \
             --interval-set-rule INTERSECTION \
             -L $interval_file \
             -V {params.vfc} \
             -L {params.vfc} \
-            -O {output.out_npile} \
-            --gcs-project-for-requester-pays {params.user_proj}
+            -O {output.out_npile} 
 
         echo Getpiles normal ------------------
 
@@ -284,7 +303,8 @@ rule funcotate:
         data_source_folder=config["onco_folder"],
         ref=config["ref"],
         interval_list=config["wes_interval_list"],
-        heap_mem=10
+        heap_mem=6
+    group: "merge"
     output:
         touch("{pid}/funco_flag"),
         annot_merged_filtered_maf="{pid}/annot_merged_filtered.vcf"
@@ -292,11 +312,10 @@ rule funcotate:
         "{wildcards.pid} is being annotated ...."
     log:
         "logs/funcotate/{pid}.log"
-    group: "merge"
     shell:
         """
         gatkm="gatk --java-options -Xmx{params.heap_mem}g"
-        echo "-----------------------annotate-----------------------"
+        echo "-----------------------annotate-----------------------" &> {log}
         $gatkm Funcotator \
             --data-sources-path {params.data_source_folder} \
             --ref-version hg19 \
@@ -305,5 +324,6 @@ rule funcotate:
             -V {input.merged_filtered_vcf} \
             -O {output.annot_merged_filtered_maf} \
             -L {params.interval_list} \
-            --remove-filtered-variants true &> {log}
+            --remove-filtered-variants true \
+            --disable-sequence-dictionary-validation &> {log}
         """
