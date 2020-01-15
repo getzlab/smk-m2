@@ -43,7 +43,6 @@ rule split_intervals:
         ref=config["ref"],
         tumor = df.tumor.values[0],
         pieces=config["pieces"],
-        auth = config["gs_keys"],
         wes=config["wes_interval_list"]
     output:
         directory(config["subint_dir"])
@@ -55,7 +54,7 @@ rule split_intervals:
             -R {params.ref} -L {params.wes} \
             --scatter-count {params.pieces} \
             -O {output[0]} &> {log}
-        ../auth.sh {params.tumor} {params.auth}
+        ../auth.sh {params.tumor}
         """
 
 rule retrieve_gs_path:
@@ -73,25 +72,31 @@ rule localize_gs:
     log: "logs/localize_gs/{pid}"
     input: expand("{{pid}}/{type}_url.txt", type = TYPES)
     params: 
-        auth = config["gs_keys"],
         tumor=lambda wildcards: df.loc[df["pid"] == wildcards.pid, "tumor"].iloc[0]
     output:
         tumor_bam = temp("{pid}/tumor.bam"),
         normal_bam = temp("{pid}/normal.bam"),
         tumor_bai = temp("{pid}/tumor.bai"),
-        normal_bai = temp("{pid}/normal.bai")
+        normal_bai = temp("{pid}/normal.bai"),
+        check = "{pid}/loc.fin"
     shell:
         """
-        ../auth.sh {params.tumor} {params.auth}
-        gcloud auth activate-service-account --key-file={params.auth}
-        gsutil cp `cat {wildcards.pid}/normal_url.txt` {output.normal_bam}
-        gsutil cp `cat {wildcards.pid}/normal_url.txt`.bai {output.normal_bai}
-        gsutil cp `cat {wildcards.pid}/tumor_url.txt` {output.tumor_bam}
-        gsutil cp `cat {wildcards.pid}/tumor_url.txt`.bai {output.tumor_bai}
+        sleep $[ ( $RANDOM % 1000 )  + 1 ]s
+        fallocate -l 20G BAM_HOLDER
+        ../auth.sh {params.tumor}
+        gcloud auth activate-service-account --key-file=$HOME/auth.json
+        [ -f {output.normal_bam} ] || gsutil cp `cat {wildcards.pid}/normal_url.txt` {output.normal_bam}
+        [ -f {output.normal_bai} ] || gsutil cp `cat {wildcards.pid}/normal_url.txt`.bai {output.normal_bai}
+        rm BAM_HOLDER
+        # 
+        [ -f {output.tumor_bam} ] || gsutil cp `cat {wildcards.pid}/tumor_url.txt` {output.tumor_bam}
+        [ -f {output.tumor_bai} ] || gsutil cp `cat {wildcards.pid}/tumor_url.txt`.bai {output.tumor_bai}
+        touch {wildcards.pid}/loc.fin
         """
 
 rule get_file_name:
     input:
+        check = "{pid}/loc.fin",
         tumor_bam = "{pid}/tumor.bam",
         normal_bam = "{pid}/normal.bam",
         tumor_bai = "{pid}/tumor.bai",
@@ -304,7 +309,6 @@ rule funcotate:
         ref=config["ref"],
         interval_list=config["wes_interval_list"],
         heap_mem=6
-    group: "merge"
     output:
         touch("{pid}/funco_flag"),
         annot_merged_filtered_maf="{pid}/annot_merged_filtered.vcf"

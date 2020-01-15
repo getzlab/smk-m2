@@ -1,15 +1,15 @@
 {
-    "__default__" :
+    "__default__":
     {
         "nodes": 1,
         "tasks_per_node": 2,
         "mem": "4G",
-        "tmp": "100G",
+        "tmp": "2G",
         "cpus_per_task": 1
     },
     "localize_gs":
     {
-        "tmp" : "400G"
+        "tmp": "200G"
     },
     "scatter_m2":
     {
