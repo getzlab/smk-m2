@@ -9,8 +9,7 @@ shell.suffix("; exitstat=$?; echo END at $(date); echo exit status was $exitstat
 ####################### external configs ############
 configfile: "config.yaml"
 workdir: "res/"
-# for a local test, will be deleted for cloud mode
-# localrules: all
+localrules: all, check_all_intervals, retrieve_gs_path
 
 
 ####################### global parameters ###########
@@ -59,7 +58,6 @@ rule split_intervals:
 
 rule retrieve_gs_path:
     log: "logs/retrieve/{pid}"
-    priority: 5000 # vm starts with user auth
     params:
         tumor=lambda wildcards: df.loc[df["pid"] == wildcards.pid, "tumor"].iloc[0],
         normal=lambda wildcards: df.loc[df["pid"] == wildcards.pid,"normal"].iloc[0]
@@ -68,9 +66,21 @@ rule retrieve_gs_path:
     script:
         "drs-translator.py"
 
+
+rule sleep:
+    log: "logs/sleep/{pid}"
+    input: expand("{{pid}}/{type}_url.txt", type = TYPES)
+    group: "localize"
+    output: touch("{pid}/awake.out")
+    shell:
+        """
+        sleep $[ ( $RANDOM % 1000 )  + 1 ]s
+        """
+
 rule localize_gs:
     log: "logs/localize_gs/{pid}"
-    input: expand("{{pid}}/{type}_url.txt", type = TYPES)
+    group: "localize"
+    input: "{pid}/awake.out"
     params: 
         tumor=lambda wildcards: df.loc[df["pid"] == wildcards.pid, "tumor"].iloc[0]
     output:
@@ -81,14 +91,12 @@ rule localize_gs:
         check = "{pid}/loc.fin"
     shell:
         """
-        sleep $[ ( $RANDOM % 1000 )  + 1 ]s
-        fallocate -l 20G BAM_HOLDER
+        fallocate -l 20G {wildcards.pid}/BAM_HOLDER
         ../auth.sh {params.tumor}
         gcloud auth activate-service-account --key-file=$HOME/auth.json
         [ -f {output.normal_bam} ] || gsutil cp `cat {wildcards.pid}/normal_url.txt` {output.normal_bam}
         [ -f {output.normal_bai} ] || gsutil cp `cat {wildcards.pid}/normal_url.txt`.bai {output.normal_bai}
-        rm BAM_HOLDER
-        # 
+        rm {wildcards.pid}/BAM_HOLDER
         [ -f {output.tumor_bam} ] || gsutil cp `cat {wildcards.pid}/tumor_url.txt` {output.tumor_bam}
         [ -f {output.tumor_bai} ] || gsutil cp `cat {wildcards.pid}/tumor_url.txt`.bai {output.tumor_bai}
         touch {wildcards.pid}/loc.fin
